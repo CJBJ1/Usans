@@ -27,6 +27,14 @@
     <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"分享方式"</string>
     <string msgid="3300176832234831527" name="abc_shareactionprovider_share_with_application">"使用<ns1:g id="APPLICATION_NAME">%s</ns1:g>分享"</string>
     <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"收起"</string>
+    <string name="navermap_compass">指南针</string>
+    <string name="navermap_current_location">当前位置</string>
+    <string name="navermap_legal_notice">法律公告/信息提供方</string>
+    <string name="navermap_legend">图例</string>
+    <string name="navermap_open_source_license">开源许可证</string>
+    <string name="navermap_pathway">连接通道</string>
+    <string name="navermap_zoom_in">放大</string>
+    <string name="navermap_zoom_out">缩小</string>
     <string msgid="146198913615257606" name="search_menu_title">"搜索"</string>
     <string msgid="7988687684186075107" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>

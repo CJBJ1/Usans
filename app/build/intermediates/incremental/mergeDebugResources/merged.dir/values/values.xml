@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="navermap_info_menu">
+        <item>@string/navermap_legend</item>
+        <item>@string/navermap_legal_notice</item>
+        <item>@string/navermap_open_source_license</item>
+    </string-array>
     <attr format="boolean" name="barrierAllowsGoneWidgets"/>
     <attr format="enum" name="barrierDirection">
         <enum name="left" value="0"/>
@@ -176,8 +181,16 @@
     <color name="material_grey_800">#ff424242</color>
     <color name="material_grey_850">#ff303030</color>
     <color name="material_grey_900">#ff212121</color>
+    <color name="navermap_indoor_level_picker_item_background_normal">#FFFFFF</color>
+    <color name="navermap_indoor_level_picker_item_background_pressed">#888888</color>
+    <color name="navermap_indoor_level_picker_item_background_selected">#F2F2F2</color>
+    <color name="navermap_location_button_progress">#3B85F7</color>
+    <color name="navermap_primary">#00C42E</color>
+    <color name="navermap_scale_bar_text_dark">#FFFFFF</color>
+    <color name="navermap_scale_bar_text_light">#444444</color>
     <color name="notification_action_color_filter">#ffffffff</color>
     <color name="notification_icon_bg_color">#ff9e9e9e</color>
+    <color name="notification_material_background_media_default_color">#ff424242</color>
     <color name="primary_dark_material_dark">@android:color/black</color>
     <color name="primary_dark_material_light">@color/material_grey_600</color>
     <color name="primary_material_dark">@color/material_grey_900</color>
@@ -282,6 +295,9 @@
     <dimen name="compat_notification_large_icon_max_width">320dp</dimen>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
+    <dimen name="fastscroll_default_thickness">8dp</dimen>
+    <dimen name="fastscroll_margin">0dp</dimen>
+    <dimen name="fastscroll_minimum_range">50dp</dimen>
     <item format="float" name="highlight_alpha_material_colored" type="dimen">0.26</item>
     <item format="float" name="highlight_alpha_material_dark" type="dimen">0.20</item>
     <item format="float" name="highlight_alpha_material_light" type="dimen">0.12</item>
@@ -289,6 +305,10 @@
     <item format="float" name="hint_alpha_material_light" type="dimen">0.38</item>
     <item format="float" name="hint_pressed_alpha_material_dark" type="dimen">0.70</item>
     <item format="float" name="hint_pressed_alpha_material_light" type="dimen">0.54</item>
+    <dimen name="item_touch_helper_max_drag_scroll_per_frame">20dp</dimen>
+    <dimen name="item_touch_helper_swipe_escape_max_velocity">800dp</dimen>
+    <dimen name="item_touch_helper_swipe_escape_velocity">120dp</dimen>
+    <dimen name="navermap_scale_bar_min_width">80dp</dimen>
     <dimen name="notification_action_icon_size">32dp</dimen>
     <dimen name="notification_action_text_size">13sp</dimen>
     <dimen name="notification_big_circle_margin">12dp</dimen>
@@ -304,6 +324,10 @@
     <dimen name="notification_subtext_size">13sp</dimen>
     <dimen name="notification_top_pad">10dp</dimen>
     <dimen name="notification_top_pad_large_text">5dp</dimen>
+    <dimen name="subtitle_corner_radius">2dp</dimen>
+    <dimen name="subtitle_outline_width">2dp</dimen>
+    <dimen name="subtitle_shadow_offset">2dp</dimen>
+    <dimen name="subtitle_shadow_radius">2dp</dimen>
     <dimen name="tooltip_corner_radius">2dp</dimen>
     <dimen name="tooltip_horizontal_padding">16dp</dimen>
     <dimen name="tooltip_margin">8dp</dimen>
@@ -319,8 +343,10 @@
     <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
     <item name="home" type="id"/>
+    <item name="item_touch_helper_previous_elevation" type="id"/>
     <item name="line1" type="id"/>
     <item name="line3" type="id"/>
+    <item name="navermap_map_view" type="id"/>
     <item name="progress_circular" type="id"/>
     <item name="progress_horizontal" type="id"/>
     <item name="split_action_bar" type="id"/>
@@ -376,6 +402,21 @@
     <string name="abc_shareactionprovider_share_with_application">Share with <ns1:g example="Mail" id="application_name">%s</ns1:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="app_name">usans</string>
+    <string name="navermap_compass">Compass</string>
+    <string name="navermap_copyright" translatable="false">Copyright © 2018-%d NAVER Corp.\nAll rights reserved.</string>
+    <string name="navermap_current_location">Current location</string>
+    <string name="navermap_info_title" translatable="false">NAVER Map Android SDK</string>
+    <string name="navermap_legal_notice">Legal Notice / Info Providers</string>
+    <string name="navermap_legend">Legend</string>
+    <string name="navermap_naver_logo" translatable="false">NAVER</string>
+    <string name="navermap_open_source_license">Open Source Licence</string>
+    <string name="navermap_pathway">Pathway</string>
+    <string name="navermap_scale_km" translatable="false">km</string>
+    <string name="navermap_scale_m" translatable="false">m</string>
+    <string name="navermap_version" translatable="false">Version %1$s</string>
+    <string name="navermap_zero" translatable="false">0</string>
+    <string name="navermap_zoom_in">Zoom in</string>
+    <string name="navermap_zoom_out">Zoom out</string>
     <string name="search_menu_title">Search</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
@@ -1703,12 +1744,17 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
+    <style name="TextAppearance.Compat.Notification.Info.Media"/>
     <style name="TextAppearance.Compat.Notification.Line2" parent="TextAppearance.Compat.Notification.Info"/>
+    <style name="TextAppearance.Compat.Notification.Line2.Media" parent="TextAppearance.Compat.Notification.Info.Media"/>
+    <style name="TextAppearance.Compat.Notification.Media"/>
     <style name="TextAppearance.Compat.Notification.Time">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
+    <style name="TextAppearance.Compat.Notification.Time.Media"/>
     <style name="TextAppearance.Compat.Notification.Title" parent="@android:style/TextAppearance.StatusBar.EventContent.Title"/>
+    <style name="TextAppearance.Compat.Notification.Title.Media"/>
     <style name="TextAppearance.Widget.AppCompat.ExpandedMenu.Item" parent="Base.TextAppearance.Widget.AppCompat.ExpandedMenu.Item">
     </style>
     <style name="TextAppearance.Widget.AppCompat.Toolbar.Subtitle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
@@ -1849,6 +1895,13 @@
     <style name="Widget.Compat.NotificationActionText" parent=""/>
     <style name="Widget.Support.CoordinatorLayout" parent="android:Widget">
         <item name="statusBarBackground">#000000</item>
+    </style>
+    <style name="navermap_app" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="colorPrimary">@color/navermap_primary</item>
+        <item name="colorPrimaryDark">@color/navermap_primary</item>
+        <item name="colorAccent">@color/navermap_primary</item>
     </style>
     <declare-styleable name="ActionBar">
         <!-- The type of navigation to use. -->
@@ -3016,6 +3069,97 @@
         <!-- Drawable for the arrow icon indicating a particular item is a submenu. -->
         <attr format="reference" name="subMenuArrow"/>
     </declare-styleable>
+    <declare-styleable name="NaverMap">
+        <attr format="float" name="navermap_latitude"/>
+        <attr format="float" name="navermap_longitude"/>
+        <attr format="float" name="navermap_zoom"/>
+        <attr format="float" name="navermap_bearing"/>
+        <attr format="float" name="navermap_tilt"/>
+
+        <attr format="string" name="navermap_extent"/>
+
+        <attr format="float" name="navermap_minZoom"/>
+        <attr format="float" name="navermap_maxZoom"/>
+
+        <attr format="dimension" name="navermap_contentPadding"/>
+        <attr format="dimension" name="navermap_contentPaddingLeft"/>
+        <attr format="dimension" name="navermap_contentPaddingTop"/>
+        <attr format="dimension" name="navermap_contentPaddingRight"/>
+        <attr format="dimension" name="navermap_contentPaddingBottom"/>
+
+        <attr format="integer" name="navermap_defaultCameraAnimationDuration"/>
+
+        <attr format="string" name="navermap_mapType"/>
+        <attr format="string" name="navermap_enabledLayerGroups"/>
+
+        <attr format="boolean" name="navermap_liteModeEnabled"/>
+        <attr format="boolean" name="navermap_nightModeEnabled"/>
+
+        <attr format="float" name="navermap_buildingHeight"/>
+        <attr format="float" name="navermap_lightness"/>
+
+        <attr format="float" name="navermap_symbolScale"/>
+        <attr format="float" name="navermap_symbolPerspectiveRatio"/>
+
+        <attr format="boolean" name="navermap_indoorEnabled"/>
+        <attr format="dimension" name="navermap_indoorFocusRadius"/>
+
+        <attr format="reference|color" name="navermap_background"/>
+        <attr format="color" name="navermap_backgroundColor"/>
+        <attr format="reference" name="navermap_backgroundImage"/>
+
+        <attr format="dimension" name="navermap_pickTolerance"/>
+
+        <attr format="boolean" name="navermap_scrollGesturesEnabled"/>
+        <attr format="boolean" name="navermap_zoomGesturesEnabled"/>
+        <attr format="boolean" name="navermap_tiltGesturesEnabled"/>
+        <attr format="boolean" name="navermap_rotateGesturesEnabled"/>
+        <attr format="boolean" name="navermap_stopGesturesEnabled"/>
+
+        <attr format="float" name="navermap_scrollGesturesFriction"/>
+        <attr format="float" name="navermap_zoomGesturesFriction"/>
+        <attr format="float" name="navermap_rotateGesturesFriction"/>
+
+        <attr format="boolean" name="navermap_compassEnabled"/>
+        <attr format="boolean" name="navermap_scaleBarEnabled"/>
+        <attr format="boolean" name="navermap_zoomControlEnabled"/>
+        <attr format="boolean" name="navermap_indoorLevelPickerEnabled"/>
+        <attr format="boolean" name="navermap_locationButtonEnabled"/>
+        <attr format="boolean" name="navermap_logoClickEnabled"/>
+        <attr format="flags" name="navermap_logoGravity">
+            <flag name="top" value="0x30"/>
+            <flag name="bottom" value="0x50"/>
+            <flag name="left" value="0x03"/>
+            <flag name="right" value="0x05"/>
+            <flag name="center_vertical" value="0x10"/>
+            <flag name="fill_vertical" value="0x70"/>
+            <flag name="center_horizontal" value="0x01"/>
+            <flag name="fill_horizontal" value="0x07"/>
+            <flag name="center" value="0x11"/>
+            <flag name="fill" value="0x77"/>
+            <flag name="clip_vertical" value="0x80"/>
+            <flag name="clip_horizontal" value="0x08"/>
+            <flag name="start" value="0x00800003"/>
+            <flag name="end" value="0x00800005"/>
+        </attr>
+        <attr format="dimension" name="navermap_logoMargin"/>
+        <attr format="dimension" name="navermap_logoMarginLeft"/>
+        <attr format="dimension" name="navermap_logoMarginTop"/>
+        <attr format="dimension" name="navermap_logoMarginRight"/>
+        <attr format="dimension" name="navermap_logoMarginBottom"/>
+
+        <attr format="integer" name="navermap_fpsLimit"/>
+        <attr format="boolean" name="navermap_useTextureView"/>
+        <attr format="boolean" name="navermap_translucentTextureSurface"/>
+        <attr format="boolean" name="navermap_zOrderMediaOverlay"/>
+        <attr format="boolean" name="navermap_preserveEGLContextOnPause"/>
+
+        <attr format="string" name="navermap_localTypefaceFactoryClass"/>
+        <attr format="boolean" name="navermap_cjkLocalGlyphRasterizationEnabled"/>
+    </declare-styleable>
+    <declare-styleable name="NaverMapScaleBarView">
+        <attr format="boolean" name="navermap_rtlEnabled"/>
+    </declare-styleable>
     <declare-styleable name="PopupWindow">
         <!-- Whether the popup window should overlap its anchor view. -->
         <attr format="boolean" name="overlapAnchor"/>
@@ -3031,6 +3175,34 @@
         <attr format="dimension" name="paddingBottomNoButtons"/>
         <!-- Top padding to use when no title is present. -->
         <attr format="dimension" name="paddingTopNoTitle"/>
+    </declare-styleable>
+    <declare-styleable name="RecyclerView">
+        <!-- Class name of the Layout Manager to be used.
+        <p/>
+        The class must extandroidx.recyclerview.widget.RecyclerViewView$LayoutManager
+        and have either a default constructor or constructor with the signature
+        (android.content.Context, android.util.AttributeSet, int, int).
+         <p/>
+         If the name starts with a '.', application package is prefixed.
+         Else, if the name contains a '.', the classname is assumed to be a full class name.
+         Else, the recycler view package naandroidx.appcompat.widgetdget) is prefixed. -->
+        <attr format="string" name="layoutManager"/>
+
+        <!-- ============================= -->
+        <!-- Attributes for Layout Manager -->
+        <!-- ============================= -->
+        <eat-comment/>
+
+        <attr name="android:orientation"/>
+        <attr name="android:descendantFocusability"/>
+        <attr format="integer" name="spanCount"/>
+        <attr format="boolean" name="reverseLayout"/>
+        <attr format="boolean" name="stackFromEnd"/>
+        <attr format="boolean" name="fastScrollEnabled"/>
+        <attr format="reference" name="fastScrollVerticalThumbDrawable"/>
+        <attr format="reference" name="fastScrollVerticalTrackDrawable"/>
+        <attr format="reference" name="fastScrollHorizontalThumbDrawable"/>
+        <attr format="reference" name="fastScrollHorizontalTrackDrawable"/>
     </declare-styleable>
     <declare-styleable name="SearchView">
         <!-- The layout to use for the search view. -->

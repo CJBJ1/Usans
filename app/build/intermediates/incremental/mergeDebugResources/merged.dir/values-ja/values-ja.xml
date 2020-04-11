@@ -27,6 +27,14 @@
     <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"共有"</string>
     <string msgid="3300176832234831527" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g>と共有"</string>
     <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"折りたたむ"</string>
+    <string name="navermap_compass">コンパス</string>
+    <string name="navermap_current_location">現位置</string>
+    <string name="navermap_legal_notice">法律上の注意点/情報提供者</string>
+    <string name="navermap_legend">凡例</string>
+    <string name="navermap_open_source_license">オープンソースライセンス</string>
+    <string name="navermap_pathway">連結通路</string>
+    <string name="navermap_zoom_in">拡大</string>
+    <string name="navermap_zoom_out">縮小</string>
     <string msgid="146198913615257606" name="search_menu_title">"検索"</string>
     <string msgid="7988687684186075107" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>

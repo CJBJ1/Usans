@@ -27,6 +27,14 @@
     <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"공유 대상"</string>
     <string msgid="3300176832234831527" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g>와(과) 공유"</string>
     <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"접기"</string>
+    <string name="navermap_compass">나침반</string>
+    <string name="navermap_current_location">현위치</string>
+    <string name="navermap_legal_notice">법적 공지 / 정보 제공처</string>
+    <string name="navermap_legend">범례</string>
+    <string name="navermap_open_source_license">오픈소스 라이선스</string>
+    <string name="navermap_pathway">연결통로</string>
+    <string name="navermap_zoom_in">확대</string>
+    <string name="navermap_zoom_out">축소</string>
     <string msgid="146198913615257606" name="search_menu_title">"검색"</string>
     <string msgid="7988687684186075107" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>
