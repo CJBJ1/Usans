@@ -13,7 +13,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
+        android:text="1"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -23,7 +23,7 @@
         android:layout_width="58dp"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
+        android:text="2"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/regbutton"
@@ -34,7 +34,7 @@
         android:layout_width="58dp"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
+        android:text="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
         android:layout_width="58dp"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
+        android:text="4"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/heartbutton"
@@ -57,10 +57,10 @@
         android:layout_height="43dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Button"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+        android:text="5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
