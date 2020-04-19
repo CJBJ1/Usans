@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import com.example.usans.CustomLayout.CustomActionBar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button homeButton,listButton,regButton,mypageButton;
@@ -40,7 +40,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         regFragment = new RegFragment();
 
         setFrag(0); //프래그먼트 교체
+        setActionBar();
     }
+
+    private void setActionBar() {
+        CustomActionBar ca = new CustomActionBar(this, getSupportActionBar());
+        ca.setActionBar();
+    }
+
     @Override
     public void onClick(View v){
         switch (v.getId()){
