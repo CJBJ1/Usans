@@ -1,4 +1,4 @@
-package com.example.usans;
+package com.example.usans.CustomLayout;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +8,8 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+
+import com.example.usans.R;
 
 public class Info extends Fragment {
     View view;

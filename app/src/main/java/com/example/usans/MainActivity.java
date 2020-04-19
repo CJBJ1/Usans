@@ -7,6 +7,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.usans.CustomLayout.CustomActionBar;
+import com.example.usans.SceneFragment.HomeFragment;
+import com.example.usans.SceneFragment.ListFragment;
+import com.example.usans.SceneFragment.MypageFragment;
+import com.example.usans.SceneFragment.RegFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button homeButton,listButton,regButton,mypageButton;
