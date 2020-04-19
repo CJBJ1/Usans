@@ -20,60 +20,76 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <Button
-            android:id="@+id/homebutton"
-            android:background="@drawable/home_ic"
-            android:layout_marginRight="27dp"
-            android:layout_marginLeft="27dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.2" >
 
-        <Button
-            android:id="@+id/listbutton"
-            android:background="@drawable/list_ic"
-            android:layout_marginRight="27dp"
-            android:layout_marginLeft="27dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2" />
+            <Button
+                android:id="@+id/homebutton"
+                android:background="@drawable/home_ic"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_centerInParent="true"/>
 
-        <Button
-            android:id="@+id/regbutton"
-            android:background="@drawable/pencil_ic"
-            android:layout_marginRight="27dp"
-            android:layout_marginLeft="27dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2" />
+        </RelativeLayout>
 
-        <Button
-            android:id="@+id/mypagebutton"
-            android:background="@drawable/mypage_ic"
-            android:layout_marginRight="27dp"
-            android:layout_marginLeft="27dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2" />
+            android:layout_weight="0.2" >
 
-        <Button
-            android:id="@+id/heartbutton"
-            android:background="@drawable/heart_ic"
-            android:layout_marginRight="27dp"
-            android:layout_marginLeft="27dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            <Button
+                android:id="@+id/listbutton"
+                android:background="@drawable/list_ic"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2" />
+            android:layout_weight="0.2" >
+
+            <Button
+                android:id="@+id/regbutton"
+                android:background="@drawable/pencil_ic"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2" >
+
+            <Button
+                android:id="@+id/mypagebutton"
+                android:background="@drawable/mypage_ic"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2" >
+
+            <Button
+                android:id="@+id/heartbutton"
+                android:background="@drawable/heart_ic"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 
