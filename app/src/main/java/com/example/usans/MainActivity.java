@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.SceneFragment.HomeFragment;
@@ -15,10 +16,13 @@ import com.example.usans.SceneFragment.RegFragment;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button homeButton,listButton,regButton,mypageButton;
     FragmentTransaction tran;
-    HomeFragment homeFragment;
-    ListFragment listFragment;
-    MypageFragment mypageFragment;
-    RegFragment regFragment;
+
+    Fragment homeFragment;
+    Fragment listFragment;
+    Fragment mypageFragment;
+    Fragment regFragment;
+
+    CustomActionBar ca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
+
+        ca = new CustomActionBar(this, getSupportActionBar());
 
         homeButton = (Button)findViewById(R.id.homebutton);
         listButton = (Button)findViewById(R.id.listbutton);
@@ -44,12 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         regFragment = new RegFragment();
 
         setFrag(0); //프래그먼트 교체
-        setActionBar();
-    }
-
-    private void setActionBar() {
-        CustomActionBar ca = new CustomActionBar(this, getSupportActionBar());
-        ca.setActionBar();
+        ca.setActionBar(0);
     }
 
     @Override
@@ -70,19 +71,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     public void setFrag(int n){    //프래그먼트 교체 메소드
-        switch (n){
+        Fragment curFragment = new Fragment();
+        switch (n) {
             case 0:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
+                curFragment = homeFragment;
                 break;
             case 1:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, listFragment).commit();
+                curFragment = listFragment;
                 break;
             case 2:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, regFragment).commit();
+                curFragment = regFragment;
                 break;
             case 3:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mypageFragment).commit();
+                curFragment = mypageFragment;
                 break;
         }
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, curFragment).commit();
+        ca.setActionBar(n);
     }
 }
