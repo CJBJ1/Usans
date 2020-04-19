@@ -1,5 +1,6 @@
 package com.example.usans;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +26,12 @@ import androidx.fragment.app.FragmentTransaction;
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback {
     View view;
+    FragmentManager fm;
+    LatLng infoLatLng;
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
 
         MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment == null) {
@@ -36,6 +39,7 @@ public class HomeFragment extends Fragment
             getChildFragmentManager().beginTransaction().add(R.id.map, mapFragment).commit();
         }
 
+        fm = getFragmentManager();
         mapFragment.getMapAsync(this);
         return view;
     }
@@ -43,22 +47,30 @@ public class HomeFragment extends Fragment
     @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-        Marker marker = new Marker();
+        final Marker marker = new Marker();
+        final Marker marker2 = new Marker();
         marker.setPosition(new LatLng(37.5670135, 126.9783740));
+        marker2.setPosition(new LatLng(37.5640135, 126.9763740));
         marker.setMap(naverMap);
-        marker.setOnClickListener(new Overlay.OnClickListener() {
+        marker2.setMap(naverMap);
+        Overlay.OnClickListener onClickListener = new Overlay.OnClickListener() {
             @Override
             public boolean onClick(@NonNull Overlay overlay) {
-                FragmentManager fm = getChildFragmentManager();
-                Fragment inf = new Info();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
-                transaction.add(R.id.info, inf);
-                transaction.commit();
-                transaction.addToBackStack(null);
+                showInfo(fm);
                 return false;
             }
-        });
+        };
+        marker.setOnClickListener(onClickListener);
+        marker2.setOnClickListener(onClickListener);
     }
 
+    public void showInfo(FragmentManager fm){
+        fm.popBackStack();
+        Fragment inf = new Info();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
+        transaction.add(R.id.info, inf);
+        transaction.commit();
+        transaction.addToBackStack(null);
+    }
 }
