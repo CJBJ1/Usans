@@ -1,6 +1,8 @@
 package com.example.usans;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,10 @@ import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button homeButton,listButton,regButton,mypageButton;
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-    public void setFrag(int n){    //프래그먼트 교체 메소드
+    public void setFrag(int n) {    //프래그먼트 교체 메소드
         Fragment curFragment = new Fragment();
         switch (n) {
             case 0:

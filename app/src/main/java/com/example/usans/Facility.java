@@ -1,5 +1,7 @@
 package com.example.usans;
 
+import com.naver.maps.map.overlay.Marker;
+
 public class Facility {
 
     private String id;
@@ -10,8 +12,9 @@ public class Facility {
     private String lat;
     private String lng;
     private String likes;
+    private Marker marker;
 
-    Facility(String id, String name, String address, String[] photo, String information, String lat, String lng, String likes){
+    /*Facility(String id, String name, String address, String[] photo, String information, String lat, String lng, String likes){
         setId(id);
         setAddress(address);
         setPhoto(photo);
@@ -19,7 +22,7 @@ public class Facility {
         setLat(lat);
         setLng(lng);
         setLikes(likes);
-    }
+    }*/
 
     public String getId() {
         return id;
@@ -83,6 +86,14 @@ public class Facility {
 
     public void setLikes(String likes) {
         this.likes = likes;
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
+    }
+
+    public Marker getMarker() {
+        return marker;
     }
 }
 

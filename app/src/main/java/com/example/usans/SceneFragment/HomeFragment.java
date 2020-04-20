@@ -1,18 +1,29 @@
 package com.example.usans.SceneFragment;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.usans.CustomLayout.Info;
+import com.example.usans.Facility;
+import com.example.usans.FacilityList;
 import com.example.usans.R;
+import com.example.usans.RequestHttpURLConnection;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +37,9 @@ public class HomeFragment extends Fragment
     View view;
     FragmentManager fm;
     LatLng infoLatLng;
+
+    private JSONArray jsArr;
+    private FacilityList facilityList;
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +59,7 @@ public class HomeFragment extends Fragment
     @UiThread
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+
         final Marker marker = new Marker();
         final Marker marker2 = new Marker();
         marker.setPosition(new LatLng(37.5670135, 126.9783740));
@@ -72,4 +87,65 @@ public class HomeFragment extends Fragment
         transaction.addToBackStack(null);
     }
 
+    public void setNetwork(){
+        String url = "http://54.180.83.196:8888/places";
+        NetworkTask networkTask = new NetworkTask(url, null);
+        networkTask.execute();
+    }
+
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String result = "basic";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url,values,0);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                int index=0;
+
+                jsArr = new JSONArray(s);
+                while(index != jsArr.length()){
+                    parseJS(jsArr,index);
+                    index++;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void parseJS(JSONArray jsonArray, int index){
+            Facility facility = new Facility();
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(index);
+                facility.setId(jsonObject.getString("id"));
+                facility.setName(jsonObject.getString("name"));
+                facility.setAddress(jsonObject.getString("address"));
+                facility.setLat(jsonObject.getString("latitude"));
+                facility.setLng(jsonObject.getString("longitude"));
+
+                facilityList.getArrayList().add(facility);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
