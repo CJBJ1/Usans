@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         facilityList = (FacilityList)getActivity().getApplicationContext();
-
+        setMap();
     }
 
 
