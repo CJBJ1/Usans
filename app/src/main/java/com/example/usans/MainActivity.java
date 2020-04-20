@@ -53,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ca.setActionBar(0);
     }
 
+    public void moveToDetail() {
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View v){
         switch (v.getId()){
