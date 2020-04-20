@@ -3,13 +3,22 @@ package com.example.usans;
 import android.content.ContentValues;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Map;
+
 
 public class RequestHttpURLConnection {
     private String accessToken = null;
@@ -17,7 +26,7 @@ public class RequestHttpURLConnection {
     public void setAccessToken(String token){
         this.accessToken = token;
     }
-    public String request(String _url, ContentValues _params, int isPost) {
+    public String request(String _url, ContentValues _params) {
 
         HttpURLConnection urlConn = null;
         StringBuffer sbParams = new StringBuffer();
@@ -48,23 +57,18 @@ public class RequestHttpURLConnection {
             urlConn = (HttpURLConnection) url.openConnection();
             urlConn.setReadTimeout(10000);
             urlConn.setConnectTimeout(15000);
-            if(isPost ==1) {
-                urlConn.setRequestMethod("POST");
-            }
-            else{
-                urlConn.setRequestMethod("GET");
-            }
+            urlConn.setRequestMethod("GET");
             urlConn.setDoInput(true);
             urlConn.setRequestProperty("Accept-Charset", "utf-8");
-            if(accessToken!=null) {
-                Log.d("access",accessToken);
-                urlConn.setRequestProperty("Authorization", "Token "+ accessToken);
-            }
             urlConn.setRequestProperty("Content-Type", "application/json");
+
+            Log.d("응답코드",urlConn.getResponseCode() + "");
+            Log.d("바디",urlConn.getResponseMessage());
 
             if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 return null;
             }
+
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
 

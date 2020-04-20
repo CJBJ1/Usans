@@ -3,6 +3,7 @@
     package="com.example.usans">
 
     <application
+        android:name=".FacilityList"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,8 +21,8 @@
         <activity android:name=".SplashActivity" />
 
         <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="tw8dzx61q9" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI" />
     </application>
 
 </manifest>

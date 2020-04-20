@@ -1,10 +1,12 @@
 package com.example.usans;
 
-import com.naver.maps.map.overlay.Marker;
+import android.app.Application;
+
+import android.app.Application;
 
 import java.util.ArrayList;
 
-public class FacilityList {
+public class FacilityList extends Application {
     private ArrayList<Facility> faArrayList = new ArrayList<>(500);
     public ArrayList<Facility> getArrayList() {
         return faArrayList;

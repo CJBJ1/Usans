@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,17 @@ import com.example.usans.Facility;
 import com.example.usans.FacilityList;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
-import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.MapFragment;
-import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.Overlay;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,51 +40,38 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback {
-    View view;
-    FragmentManager fm;
-    LatLng infoLatLng;
-
-    private JSONArray jsArr;
+    private View view;
+    private FragmentManager fm;
+    private FragmentManager infoFm;
+    private SupportMapFragment mapFragment;
     private FacilityList facilityList;
+    private JSONArray jsArr;
+    private GoogleMap mMap;
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment == null) {
-            mapFragment = MapFragment.newInstance();
-            getChildFragmentManager().beginTransaction().add(R.id.map, mapFragment).commit();
-        }
-
-        fm = getFragmentManager();
+        fm = getChildFragmentManager();
+        infoFm = getFragmentManager();
+        mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         return view;
     }
 
     @UiThread
     @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        facilityList = (FacilityList)getActivity().getApplicationContext();
 
-        final Marker marker = new Marker();
-        final Marker marker2 = new Marker();
-        marker.setPosition(new LatLng(37.5670135, 126.9783740));
-        marker2.setPosition(new LatLng(37.5640135, 126.9763740));
-        marker.setMap(naverMap);
-        marker2.setMap(naverMap);
-        Overlay.OnClickListener onClickListener = new Overlay.OnClickListener() {
-            @Override
-            public boolean onClick(@NonNull Overlay overlay) {
-                showInfo(fm);
-                return false;
-            }
-        };
-        marker.setOnClickListener(onClickListener);
-        marker2.setOnClickListener(onClickListener);
     }
+
 
     public void showInfo(FragmentManager fm){
         fm.popBackStack();
+
         Fragment inf = new Info();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
@@ -87,12 +80,41 @@ public class HomeFragment extends Fragment
         transaction.addToBackStack(null);
     }
 
-    public void setNetwork(){
-        String url = "http://54.180.83.196:8888/places";
-        NetworkTask networkTask = new NetworkTask(url, null);
-        networkTask.execute();
-    }
+    public void setMap(){
+        GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                showInfo(infoFm);
+                return false;
+            }
+        };
 
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+            }
+        });
+
+        for (int index =0;index<facilityList.getArrayList().size();index++) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(Double.parseDouble(facilityList.getArrayList().get(index).getLat()), Double.parseDouble(facilityList.getArrayList().get(index).getLng())));
+            mMap.addMarker(markerOptions).setTag(index);
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(new LatLng(37.5670135, 126.9783740));
+        MarkerOptions markerOptions2 = new MarkerOptions();
+        markerOptions2.position(new LatLng(37.5640135, 126.9763740));
+        mMap.addMarker(markerOptions);
+        mMap.addMarker(markerOptions2);
+
+        LatLng center = new LatLng(37.5670135, 126.9783740);
+        mMap.setOnMarkerClickListener(markerClickListener);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+    }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 
@@ -110,7 +132,7 @@ public class HomeFragment extends Fragment
 
             String result = "basic";
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url,values,0);
+            result = requestHttpURLConnection.request(url,values);
             return result;
         }
 
@@ -125,6 +147,8 @@ public class HomeFragment extends Fragment
                     parseJS(jsArr,index);
                     index++;
                 }
+
+                setMap();
 
             } catch (JSONException e) {
                 e.printStackTrace();
