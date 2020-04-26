@@ -55,7 +55,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mypageFragment = new MypageFragment();
         regFragment = new RegFragment();
 
-        setFrag(0); //프래그먼트 교체
+        //setFrag(0); //프래그먼트 교체
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, listFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, mypageFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, regFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
+
         ca.setActionBar(0);
     }
 
@@ -85,16 +90,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ca.setActionBar(n);
         switch (n) {
             case 0:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
+                getSupportFragmentManager().beginTransaction().show(homeFragment).commit();
                 break;
             case 1:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, listFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
+                getSupportFragmentManager().beginTransaction().show(listFragment).commit();
                 break;
             case 2:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, regFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
+                getSupportFragmentManager().beginTransaction().show(regFragment).commit();
                 break;
             case 3:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mypageFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
+                getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
+                getSupportFragmentManager().beginTransaction().show(mypageFragment).commit();
                 break;
         }
     }
