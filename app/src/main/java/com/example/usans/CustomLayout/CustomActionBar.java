@@ -19,6 +19,7 @@ public class CustomActionBar {
 
     public TextView dongTextView;
     public Button dongButton;
+    public Button addButton;
 
     public Button searchButton;
     public EditText searchText;
@@ -26,6 +27,8 @@ public class CustomActionBar {
 
     public TextView titleText;
     public ImageView medalView;
+
+    public Button closeButton;
 
     public CustomActionBar(Activity _activity, ActionBar _actionBar) {
         this.activity = _activity;
@@ -35,6 +38,7 @@ public class CustomActionBar {
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayShowHomeEnabled(false);
+
     }
 
     public void setActionBar(int n) {
@@ -45,6 +49,17 @@ public class CustomActionBar {
 
                 dongTextView = mCustomView.findViewById(R.id.dong_textView);
                 dongButton = mCustomView.findViewById(R.id.dong_button);
+                addButton = mCustomView.findViewById(R.id.add_button);
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setActionBar(4);
+                    }
+                });
+                break;
+            case 1:
+                setActionBar(0);
+                addButton.setVisibility(View.INVISIBLE);
                 break;
             case 2:
                 mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar2, null);
@@ -60,6 +75,18 @@ public class CustomActionBar {
 
                 titleText = mCustomView.findViewById(R.id.title_text);
                 medalView = mCustomView.findViewById(R.id.medal_view);
+                break;
+            case 4:
+                mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar4, null);
+                actionBar.setCustomView(mCustomView);
+
+                closeButton = mCustomView.findViewById(R.id.close_button);
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setActionBar(0);
+                    }
+                });
                 break;
         }
 

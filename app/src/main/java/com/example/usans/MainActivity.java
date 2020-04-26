@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void setFrag(int n) {    //프래그먼트 교체 메소드
         Fragment curFragment = new Fragment();
+        ca.setActionBar(n);
         switch (n) {
             case 0:
                 curFragment = homeFragment;
@@ -98,6 +99,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, curFragment).commit();
-        ca.setActionBar(n);
     }
 }

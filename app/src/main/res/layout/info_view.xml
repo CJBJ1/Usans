@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="10dp"
@@ -11,17 +12,6 @@
     android:elevation="15dp"
     android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test"
-        android:textSize="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/close_button"
@@ -44,9 +34,9 @@
             android:id="@+id/detail_button"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="자세히"
             android:background="@android:color/white"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"
+            android:text="자세히" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -63,5 +53,91 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/sans_thumbnail"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shadow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mainic" />
+
+    <TextView
+        android:id="@+id/sans_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="을지로 건강공원"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="평점"
+        app:layout_constraintStart_toStartOf="@+id/sans_name"
+        app:layout_constraintTop_toBottomOf="@+id/sans_name" />
+
+    <RatingBar
+        android:id="@+id/sans_ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="82dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="8dp"
+        android:max="5"
+        android:numStars="5"
+        android:rating="4"
+        android:stepSize="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/sans_address"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="2dp"
+        android:text="서울특별시 중구 세종대로22길 16 을지로 건강공원 "
+        app:layout_constraintEnd_toEndOf="@+id/close_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/sans_name"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <Button
+        android:id="@+id/sans_navigation_start_button"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:background="@drawable/green_corner"
+        android:text="출발"
+        app:layout_constraintEnd_toEndOf="@+id/close_button"
+        app:layout_constraintTop_toBottomOf="@+id/sans_address" />
+
+    <TextView
+        android:id="@+id/sans_machines"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp"
+        android:text="허리 돌리기    철봉    평행봉"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

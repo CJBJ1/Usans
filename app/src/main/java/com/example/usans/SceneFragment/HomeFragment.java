@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.Facility;
@@ -48,6 +49,9 @@ public class HomeFragment extends Fragment
     private JSONArray jsArr;
     private GoogleMap mMap;
 
+    public Button addMarkerButtom;
+    public Button sansNavigationStartButton;
+
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -57,7 +61,20 @@ public class HomeFragment extends Fragment
         mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        addMarkerButtom = view.findViewById(R.id.add_marker_button);
+        sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
+
         return view;
+    }
+
+    public void showAddMarkerButton(FragmentManager fm){
+        addMarkerButtom.setVisibility(View.VISIBLE);
+        addMarkerButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.w("addMarkerButton", "클릭");
+            }
+        });
     }
 
     @UiThread
@@ -67,7 +84,6 @@ public class HomeFragment extends Fragment
         facilityList = (FacilityList)getActivity().getApplicationContext();
         setMap();
     }
-
 
     public void showInfo(FragmentManager fm){
         fm.popBackStack();
