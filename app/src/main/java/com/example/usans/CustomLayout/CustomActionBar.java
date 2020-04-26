@@ -32,6 +32,9 @@ public class CustomActionBar {
 
     public Button closeButton;
 
+    public TextView stepCountView;
+    public Button arrivalButton;
+
     public CustomActionBar(Activity _activity, ActionBar _actionBar) {
         this.activity = _activity;
         this.actionBar = _actionBar;
@@ -94,6 +97,20 @@ public class CustomActionBar {
                     }
                 });
                 break;
+            case 5:
+                mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar5, null);
+                actionBar.setCustomView(mCustomView);
+
+                stepCountView = mCustomView.findViewById(R.id.step_count_view);
+                arrivalButton = mCustomView.findViewById(R.id.arrival_button);
+                arrivalButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setActionBar(0);
+                        MainActivity main = (MainActivity) activity;
+                        main.homeFragment.showRecommend();
+                    }
+                });
         }
 
         setExtend();

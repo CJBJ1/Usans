@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     MypageFragment mypageFragment;
     RegFragment regFragment;
 
-    CustomActionBar ca;
+    public CustomActionBar ca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

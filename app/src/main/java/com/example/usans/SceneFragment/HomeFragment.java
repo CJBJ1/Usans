@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.usans.CustomLayout.Info;
+import com.example.usans.CustomLayout.Recommend;
 import com.example.usans.Facility;
 import com.example.usans.FacilityList;
 import com.example.usans.R;
@@ -65,6 +66,17 @@ public class HomeFragment extends Fragment
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
 
         return view;
+    }
+
+    public void showRecommend(){
+        infoFm.popBackStack();
+
+        Fragment recommend = new Recommend();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
+        transaction.add(R.id.info, recommend);
+        transaction.commit();
+        transaction.addToBackStack(null);
     }
 
     public void showAddMarkerButton(){
