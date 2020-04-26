@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 
 public class CustomActionBar {
@@ -54,6 +56,8 @@ public class CustomActionBar {
                     @Override
                     public void onClick(View v) {
                         setActionBar(4);
+                        MainActivity main = (MainActivity) activity;
+                        main.homeFragment.showAddMarkerButton();
                     }
                 });
                 break;
@@ -85,6 +89,8 @@ public class CustomActionBar {
                     @Override
                     public void onClick(View v) {
                         setActionBar(0);
+                        MainActivity main = (MainActivity) activity;
+                        main.homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                     }
                 });
                 break;

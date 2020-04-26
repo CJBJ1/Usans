@@ -22,7 +22,7 @@
         android:id="@+id/add_marker_button"
         android:layout_width="164dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/green_corner"
         android:text="추가"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -67,12 +67,12 @@ public class HomeFragment extends Fragment
         return view;
     }
 
-    public void showAddMarkerButton(FragmentManager fm){
+    public void showAddMarkerButton(){
         addMarkerButtom.setVisibility(View.VISIBLE);
         addMarkerButtom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.w("addMarkerButton", "클릭");
+                Log.i("addMarkerButton", "클릭");
             }
         });
     }

@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button homeButton,listButton,regButton,mypageButton;
     FragmentTransaction tran;
 
-    Fragment homeFragment;
-    Fragment listFragment;
-    Fragment mypageFragment;
-    Fragment regFragment;
+    public HomeFragment homeFragment;
+    ListFragment listFragment;
+    MypageFragment mypageFragment;
+    RegFragment regFragment;
 
     CustomActionBar ca;
 
@@ -82,22 +82,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     public void setFrag(int n) {    //프래그먼트 교체 메소드
-        Fragment curFragment = new Fragment();
         ca.setActionBar(n);
         switch (n) {
             case 0:
-                curFragment = homeFragment;
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
                 break;
             case 1:
-                curFragment = listFragment;
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, listFragment).commit();
                 break;
             case 2:
-                curFragment = regFragment;
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, regFragment).commit();
                 break;
             case 3:
-                curFragment = mypageFragment;
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mypageFragment).commit();
                 break;
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, curFragment).commit();
     }
 }
