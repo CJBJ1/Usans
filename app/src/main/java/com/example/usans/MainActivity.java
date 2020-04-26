@@ -100,18 +100,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(listFragment).commit();
+                homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
             case 2:
                 getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(regFragment).commit();
+                homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
             case 3:
                 getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(mypageFragment).commit();
+                homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
         }
     }
