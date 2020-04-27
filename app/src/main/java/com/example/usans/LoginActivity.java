@@ -94,7 +94,6 @@ public class LoginActivity extends AppCompatActivity implements
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 String authCode = account.getServerAuthCode();
-
                 String url = "" + authCode;
 
             } catch (ApiException e) {
@@ -105,8 +104,8 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
     private void updateUI() {
-        //findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-        //findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.sign_out_button).setVisibility(View.GONE);
     }
 
     private void validateServerClientID() {

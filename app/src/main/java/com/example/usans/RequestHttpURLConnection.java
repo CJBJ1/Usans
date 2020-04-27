@@ -69,7 +69,6 @@ public class RequestHttpURLConnection {
                 return null;
             }
 
-
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
 
             String line;
