@@ -74,9 +74,9 @@ public class HomeFragment extends Fragment
         Fragment recommend = new Recommend();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
-        transaction.add(R.id.info, recommend);
-        transaction.commit();
+        transaction.replace(R.id.info, recommend);
         transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void showAddMarkerButton(){
