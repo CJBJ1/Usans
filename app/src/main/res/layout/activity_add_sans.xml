@@ -16,38 +16,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <View
         android:id="@+id/view"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shadow"
-        android:src="@drawable/mainic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/plus"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <EditText
         android:id="@+id/sans_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:text="장소 이름"
-        android:textSize="28dp"
+        android:hint="장소 이름"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toEndOf="@+id/view2"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
-    <TextView
+    <EditText
         android:id="@+id/sans_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="8dp"
-        android:text="장소 주소"
-        android:textSize="18dp"
+        android:hint="장소 주소"
+        android:textSize="14dp"
         app:layout_constraintStart_toEndOf="@+id/view2"
         app:layout_constraintTop_toBottomOf="@+id/sans_name" />
+
+    <EditText
+        android:id="@+id/sans_add_machine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="28dp"
+        android:textColor="@android:color/black"
+        android:hint="기구 추가"
+        android:textSize="14dp"
+        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/sans_address" />
+
+    <Button
+        android:id="@+id/sans_add_machine_button"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:background="@drawable/plus_black"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sans_add_machine"
+        app:layout_constraintStart_toEndOf="@+id/sans_add_machine"
+        app:layout_constraintTop_toBottomOf="@+id/sans_address" />
 
     <TextView
         android:id="@+id/sans_machines"
@@ -86,7 +115,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/view3"
         app:layout_constraintStart_toStartOf="@+id/view3"
         app:layout_constraintTop_toTopOf="@+id/view3">
 
@@ -98,10 +127,10 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
-                android:text="총 평점 "
-                android:textSize="18dp" />
+                android:textSize="18dp"
+                android:text="평점 "
+                android:layout_centerVertical="true"/>
 
         </RelativeLayout>
 
@@ -111,22 +140,36 @@
 
             <RatingBar
                 android:id="@+id/ratingBar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"/>
 
         </RelativeLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/write_comment_button"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="15dp"
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/pencil_ic"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/black_corner"
+        app:layout_constraintBottom_toBottomOf="@id/view3"
         app:layout_constraintEnd_toEndOf="@id/view3"
-        app:layout_constraintTop_toTopOf="@id/view3" />
+        app:layout_constraintStart_toStartOf="@id/view3"
+        app:layout_constraintTop_toBottomOf="@id/rating_layout" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_corner"
+        android:text="저장"
+        app:layout_constraintBottom_toBottomOf="@+id/view3"
+        app:layout_constraintEnd_toEndOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/view3"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

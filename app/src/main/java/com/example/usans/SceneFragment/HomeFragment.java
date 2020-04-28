@@ -15,6 +15,7 @@ import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Recommend;
 import com.example.usans.Facility;
 import com.example.usans.FacilityList;
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.GoogleMap;
@@ -76,9 +77,9 @@ public class HomeFragment extends Fragment
         Fragment recommend = new Recommend();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
-        transaction.add(R.id.info, recommend);
-        transaction.commit();
+        transaction.replace(R.id.info, recommend);
         transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void showAddMarkerButton(){
@@ -87,6 +88,8 @@ public class HomeFragment extends Fragment
             @Override
             public void onClick(View v) {
                 Log.i("addMarkerButton", "클릭");
+                MainActivity main = (MainActivity) getActivity();
+                main.moveToAddSans();
             }
         });
     }

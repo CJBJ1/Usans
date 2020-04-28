@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.usans.MainActivity;
 import com.example.usans.R;
@@ -28,18 +29,24 @@ public class Recommend extends Fragment {
             public void onClick(View view) {
                 //루틴 추천 목록으로 이동
 
-                Recommend.super.getActivity().onBackPressed();
+                closeRecommend();
             }
         });
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Recommend.super.getActivity().onBackPressed();
-//                this.
+                closeRecommend();
             }
         });
 
         return view;
     }
+
+    public void closeRecommend() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this);
+        ft.commit();
+    }
+
 }
