@@ -62,6 +62,8 @@ public class HomeFragment extends Fragment
         mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        facilityList = (FacilityList)getActivity().getApplicationContext();
+
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
 
@@ -94,7 +96,9 @@ public class HomeFragment extends Fragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         facilityList = (FacilityList)getActivity().getApplicationContext();
-        setMap();
+        String url = "http://3.34.18.171.nip.io:8000/api/Sansuzang";
+        NetworkTask networkTask = new NetworkTask(url, null);
+        networkTask.execute();
     }
 
     public void showInfo(FragmentManager fm){
@@ -117,30 +121,28 @@ public class HomeFragment extends Fragment
             }
         };
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-
-            }
-        });
+        Log.d("사이즈",facilityList.getArrayList().size() + "");
 
         for (int index =0;index<facilityList.getArrayList().size();index++) {
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(new LatLng(Double.parseDouble(facilityList.getArrayList().get(index).getLat()), Double.parseDouble(facilityList.getArrayList().get(index).getLng())));
+            Log.d("위도",facilityList.getArrayList().get(index).getLat());
+            Log.d("경도",facilityList.getArrayList().get(index).getLng());
+            markerOptions.position(new LatLng(Double.parseDouble(facilityList.getArrayList().get(index).getLat()),
+                    Double.parseDouble(facilityList.getArrayList().get(index).getLng())));
             mMap.addMarker(markerOptions).setTag(index);
         }
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(new LatLng(37.5670135, 126.9783740));
+        MarkerOptions markerOptions1 = new MarkerOptions();
+        markerOptions1.position(new LatLng(37.5670135, 126.9783740));
         MarkerOptions markerOptions2 = new MarkerOptions();
         markerOptions2.position(new LatLng(37.5640135, 126.9763740));
-        mMap.addMarker(markerOptions);
+        mMap.addMarker(markerOptions1);
         mMap.addMarker(markerOptions2);
 
         LatLng center = new LatLng(37.5670135, 126.9783740);
         mMap.setOnMarkerClickListener(markerClickListener);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
     }
 
@@ -171,13 +173,12 @@ public class HomeFragment extends Fragment
                 int index=0;
 
                 jsArr = new JSONArray(s);
-                while(index != jsArr.length()){
+                while(index != 100){
                     parseJS(jsArr,index);
                     index++;
                 }
 
                 setMap();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -191,8 +192,8 @@ public class HomeFragment extends Fragment
                 facility.setId(jsonObject.getString("id"));
                 facility.setName(jsonObject.getString("name"));
                 facility.setAddress(jsonObject.getString("address"));
-                facility.setLat(jsonObject.getString("latitude"));
-                facility.setLng(jsonObject.getString("longitude"));
+                facility.setLat(jsonObject.getString("lat"));
+                facility.setLng(jsonObject.getString("lon"));
 
                 facilityList.getArrayList().add(facility);
             } catch (JSONException e) {
