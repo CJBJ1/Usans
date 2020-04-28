@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
-
         ca = new CustomActionBar(this, getSupportActionBar());
 
         homeButton = (Button)findViewById(R.id.homebutton);

@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements
 
     public static final String TAG = "ServerAuthCodeActivity";
     private static final int RC_GET_AUTH_CODE = 9003;
-
+    private FacilityList facilityList;
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mAuthCodeTextView;
 
@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity implements
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
+
+        facilityList = (FacilityList) getApplication();
 
         validateServerClientID();
         //OAuth serverClientId
@@ -94,7 +96,11 @@ public class LoginActivity extends AppCompatActivity implements
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 String authCode = account.getServerAuthCode();
-                String url = "" + authCode;
+
+                String url = "http://3.34.18.171.nip.io:8000/register-by-token/google-oauth2/?auth_code=" + authCode;
+                NetworkTaskAuth networkTaskAuth = new NetworkTaskAuth(url, null);
+                networkTaskAuth.execute();
+
 
             } catch (ApiException e) {
                 Log.w(TAG, "Sign-in failed", e);
@@ -131,6 +137,32 @@ public class LoginActivity extends AppCompatActivity implements
             /*case R.id.disconnect_button:
                 revokeAccess();
                 break;*/
+        }
+    }
+
+    public class NetworkTaskAuth extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+
+        public NetworkTaskAuth(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = "basic";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("토큰 확인",s);
         }
     }
 

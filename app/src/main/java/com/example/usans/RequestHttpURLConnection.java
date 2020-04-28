@@ -21,11 +21,13 @@ import java.util.Map;
 
 
 public class RequestHttpURLConnection {
+
     private String accessToken = null;
 
-    public void setAccessToken(String token){
-        this.accessToken = token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
+
     public String request(String _url, ContentValues _params) {
 
         HttpURLConnection urlConn = null;
@@ -55,11 +57,15 @@ public class RequestHttpURLConnection {
         try {
             URL url = new URL(_url);
             urlConn = (HttpURLConnection) url.openConnection();
-            urlConn.setReadTimeout(10000);
-            urlConn.setConnectTimeout(15000);
+            urlConn.setReadTimeout(100000);
+            urlConn.setConnectTimeout(150000);
             urlConn.setRequestMethod("GET");
             urlConn.setDoInput(true);
             urlConn.setRequestProperty("Accept-Charset", "utf-8");
+            if(accessToken!=null) {
+                Log.d("access",accessToken);
+                urlConn.setRequestProperty("Authorization", "Token "+ accessToken);
+            }
             urlConn.setRequestProperty("Content-Type", "application/json");
 
             Log.d("응답코드",urlConn.getResponseCode() + "");
@@ -89,5 +95,4 @@ public class RequestHttpURLConnection {
         }
         return null;
     }
-
 }

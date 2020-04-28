@@ -8,16 +8,12 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.usans.R;
-import com.example.usans.logger.Log;
-import com.example.usans.logger.LogView;
-import com.example.usans.logger.LogWrapper;
-import com.example.usans.logger.MessageOnlyLogFilter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
@@ -55,7 +51,6 @@ public class FitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_test);
-        initializeLogging();
         if (hasRuntimePermissions()) {
             findFitnessDataSourcesWrapper();
         } else {
@@ -214,13 +209,6 @@ public class FitActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initializeLogging() {
-        LogWrapper logWrapper = new LogWrapper();
-        Log.setLogNode(logWrapper);
-        MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
-        logWrapper.setNext(msgFilter);
-        Log.i(TAG, "Ready");
-    }
 
     private boolean hasRuntimePermissions() {
         int permissionState =
