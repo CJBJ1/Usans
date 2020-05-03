@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -16,19 +19,35 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.usans.Adapter.CommentAdapter;
 import com.example.usans.Data.CommentItem;
 import com.example.usans.Data.CommentList;
+import com.example.usans.Data.Facility;
 import com.google.gson.Gson;
 
 public class DetailActivity extends AppCompatActivity {
+    Intent intent;
+    Facility facility;
+
     Button writeCommentButton;
     ListView commentListView;
 
     CommentAdapter adapter;
     CommentList commentList;
 
+    ImageView imageView;
+    TextView nameView, addressView, machinesView;
+    RatingBar ratingBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        intent = getIntent();
+        facility = intent.getParcelableExtra("facility");
+
+        imageView = findViewById(R.id.sans_image_view);
+        nameView = findViewById(R.id.sans_name);
+        addressView = findViewById(R.id.sans_address);
+        machinesView = findViewById(R.id.sans_machines);
+        ratingBar = findViewById(R.id.sans_ratingBar);
 
         writeCommentButton = findViewById(R.id.write_comment_button);
         writeCommentButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +62,8 @@ public class DetailActivity extends AppCompatActivity {
         adapter.addItem(new CommentItem("jaehoon", 0, 3, "테스트"));
 
         commentListView.setAdapter(adapter);
+
+        layout();
     }
 
     public void requestCommentList(final int movieId) {
@@ -93,5 +114,13 @@ public class DetailActivity extends AppCompatActivity {
     public void moveToWrite() {
         Intent intent = new Intent(this, WriteCommentActivity.class);
         startActivity(intent);
+    }
+
+    public void layout() {
+//        imageView = facility.getPhoto();
+        nameView.setText(facility.getName());
+        addressView.setText(facility.getAddress());
+        machinesView.setText(facility.getMachines());
+        ratingBar.setRating(facility.getRating());
     }
 }

@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.usans.MainActivity;
 import com.example.usans.R;
 
 public class Recommend extends Fragment {
@@ -21,7 +20,7 @@ public class Recommend extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recommend_view, container, false);
-        recommendButton = view.findViewById(R.id.recommend_button);
+        recommendButton = view.findViewById(R.id.sans_machines);
         closeButton = view.findViewById(R.id.close_button);
 
         recommendButton.setOnClickListener(new View.OnClickListener() {

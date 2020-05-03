@@ -14,7 +14,7 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/recommend_button"
+        android:id="@+id/sans_machines"
         android:layout_width="200dp"
         android:layout_height="80dp"
         android:background="@drawable/green_corner"

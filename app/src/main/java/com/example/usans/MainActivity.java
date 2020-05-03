@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.usans.CustomLayout.CustomActionBar;
+import com.example.usans.Data.Facility;
 import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
@@ -68,8 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void moveToDetail() {
+    public void moveToDetail(Facility facility) {
         Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("facility", facility);
         startActivity(intent);
     }
 

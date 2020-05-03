@@ -1,8 +1,6 @@
 package com.example.usans.SceneFragment;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,19 +11,15 @@ import android.widget.Button;
 
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Recommend;
-import com.example.usans.Facility;
-import com.example.usans.FacilityList;
+import com.example.usans.Data.Facility;
+import com.example.usans.Data.FacilityList;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
@@ -108,7 +101,10 @@ public class HomeFragment extends Fragment
     public void showInfo(FragmentManager fm){
         fm.popBackStack();
 
-        Fragment inf = new Info();
+        //임시
+        Facility facility = new Facility("1","고구동산", "서울시 동작구 상도 1동 325-9", new String[]{"image url"}, "허리돌리기 철봉 평행봉", "0.0", "0.0", 3);
+        Fragment inf = new Info(facility);
+
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
         transaction.add(R.id.info, inf);
