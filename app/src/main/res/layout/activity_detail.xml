@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/view"
+        android:id="@+id/sans_image_view"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginStart="20dp"
@@ -36,16 +36,16 @@
         android:textSize="28dp"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toEndOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="@+id/sans_image_view" />
 
     <TextView
         android:id="@+id/sans_address"
-        android:layout_width="wrap_content"
+        android:layout_width="221dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:layout_marginTop="8dp"
         android:text="장소 주소"
-        android:textSize="18dp"
+        android:textSize="15dp"
         app:layout_constraintStart_toEndOf="@+id/view2"
         app:layout_constraintTop_toBottomOf="@+id/sans_name" />
 
@@ -78,7 +78,18 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sans_machines"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"/>
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/green_corner_5dp"
+        android:layout_margin="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/comment_list_view"
+        app:layout_constraintEnd_toEndOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/view3"
+        app:layout_constraintTop_toTopOf="@+id/view3" />
 
     <LinearLayout
         android:id="@+id/rating_layout"
@@ -110,8 +121,8 @@
             android:layout_height="match_parent">
 
             <RatingBar
-                android:id="@+id/ratingBar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:id="@+id/sans_ratingBar"
+                style="@android:style/Widget.Holo.Light.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true" />
@@ -137,5 +148,15 @@
         app:layout_constraintEnd_toEndOf="@+id/view3"
         app:layout_constraintStart_toStartOf="@+id/view3"
         app:layout_constraintTop_toBottomOf="@+id/rating_layout" />
+
+    <Button
+        android:id="@+id/report_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_corner"
+        android:padding="3dp"
+        android:text="기구 상태 리포트"
+        app:layout_constraintBottom_toBottomOf="@+id/sans_image_view"
+        app:layout_constraintStart_toStartOf="@+id/sans_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

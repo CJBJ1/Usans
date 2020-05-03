@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/sans_image_view"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_marginStart="20dp"
@@ -31,10 +31,10 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:background="@drawable/plus"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintBottom_toBottomOf="@+id/sans_image_view"
+        app:layout_constraintEnd_toEndOf="@+id/sans_image_view"
+        app:layout_constraintStart_toStartOf="@+id/sans_image_view"
+        app:layout_constraintTop_toTopOf="@+id/sans_image_view" />
 
     <EditText
         android:id="@+id/sans_name"
@@ -44,7 +44,7 @@
         android:hint="장소 이름"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toEndOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="@+id/sans_image_view" />
 
     <EditText
         android:id="@+id/sans_address"
@@ -139,7 +139,7 @@
             android:layout_height="match_parent">
 
             <RatingBar
-                android:id="@+id/ratingBar"
+                android:id="@+id/sans_ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"/>

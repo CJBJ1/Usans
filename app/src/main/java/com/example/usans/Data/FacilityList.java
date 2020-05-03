@@ -1,8 +1,8 @@
-package com.example.usans;
+package com.example.usans.Data;
 
 import android.app.Application;
 
-import android.app.Application;
+import com.example.usans.Data.Facility;
 
 import java.util.ArrayList;
 

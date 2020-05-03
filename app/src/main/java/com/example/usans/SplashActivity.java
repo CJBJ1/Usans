@@ -1,7 +1,6 @@
 package com.example.usans;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +12,9 @@ import org.json.JSONObject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.usans.Data.Facility;
+import com.example.usans.Data.FacilityList;
 
 public class SplashActivity extends AppCompatActivity {
 

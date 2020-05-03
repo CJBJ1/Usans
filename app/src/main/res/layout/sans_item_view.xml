@@ -5,14 +5,13 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/writer_image_view"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <ImageView
+        android:id="@+id/sans_image_view"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_margin="10dp"
-        android:src="@mipmap/ic_launcher"
-        app:civ_border_color="@android:color/darker_gray"
-        app:civ_border_width="2dp" />
+        android:src="@drawable/mainic"
+        android:background="@drawable/shadow" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,10 +22,10 @@
             android:id="@+id/sans_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="userId"
+            android:layout_marginTop="10dp"
+            android:text="산스장 이름"
             android:textColor="@android:color/black"
-            android:textSize="10dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -38,7 +37,7 @@
                 android:id="@+id/time_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="passTIme"
+                android:text="평점"
                 android:textSize="12dp" />
 
             <RatingBar
@@ -61,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="comment"
+            android:text="주소"
             android:textColor="@android:color/black"
             android:textSize="14dp"
             android:textStyle="bold" />
@@ -73,35 +72,14 @@
             android:layout_marginBottom="5dp"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/sans_machines"
-                android:layout_width="40dp"
-                android:layout_height="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:text="추천"
+                android:text="산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 "
                 android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/recommend_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="   |   "
-                android:textColor="@android:color/black"
-                android:textSize="13dp" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="신고하기"
-                android:textSize="13dp" />
         </LinearLayout>
 
     </LinearLayout>
