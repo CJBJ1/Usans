@@ -13,7 +13,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.usans.Adapter.BoardAdapter;
 import com.example.usans.Adapter.CommentAdapter;
+import com.example.usans.Data.BoardItem;
+import com.example.usans.Data.BoardList;
 import com.example.usans.Data.CommentItem;
 import com.example.usans.Data.CommentList;
 import com.google.gson.Gson;
@@ -38,10 +41,9 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
         commentListView = findViewById(R.id.comment_list_view);
+
         adapter = new CommentAdapter();
-
         adapter.addItem(new CommentItem("jaehoon", 0, 3, "테스트"));
-
         commentListView.setAdapter(adapter);
     }
 
