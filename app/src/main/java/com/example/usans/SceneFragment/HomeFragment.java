@@ -99,9 +99,10 @@ public class HomeFragment extends Fragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         facilityList = (FacilityList)getActivity().getApplicationContext();
-        String url = "http://3.34.18.171.nip.io:8000/api/Sansuzang";
+        setMap();
+        /*String url = "http://3.34.18.171.nip.io:8000/api/Sansuzang";
         NetworkTask networkTask = new NetworkTask(url, null);
-        networkTask.execute();
+        networkTask.execute();*/
     }
 
     public void showInfo(FragmentManager fm){
@@ -145,7 +146,7 @@ public class HomeFragment extends Fragment
         LatLng center = new LatLng(37.5670135, 126.9783740);
         mMap.setOnMarkerClickListener(markerClickListener);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
     }
 
@@ -198,7 +199,6 @@ public class HomeFragment extends Fragment
                 facility.setLat(jsonObject.getString("lat"));
                 facility.setLng(jsonObject.getString("lon"));
 
-                Log.d("하하하",jsonObject.toString());
                 facilityList.getArrayList().add(facility);
             } catch (JSONException e) {
                 e.printStackTrace();
