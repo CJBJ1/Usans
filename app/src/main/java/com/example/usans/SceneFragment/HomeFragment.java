@@ -198,6 +198,7 @@ public class HomeFragment extends Fragment
                 facility.setLat(jsonObject.getString("lat"));
                 facility.setLng(jsonObject.getString("lon"));
 
+                Log.d("하하하",jsonObject.toString());
                 facilityList.getArrayList().add(facility);
             } catch (JSONException e) {
                 e.printStackTrace();
