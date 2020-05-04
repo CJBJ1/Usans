@@ -15,8 +15,12 @@ import androidx.fragment.app.Fragment;
 import com.example.usans.Data.Facility;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
+import com.google.android.gms.maps.model.LatLng;
 
 public class Info extends Fragment {
+
+    private Facility facility;
+
     View view;
     Button closeButton, detailButton, startButton;
 
@@ -24,7 +28,6 @@ public class Info extends Fragment {
     TextView nameView, addressView, machinesView;
     RatingBar ratingBar;
 
-    Facility facility;
 
     public Info (Facility facility) {
         this.facility = facility;

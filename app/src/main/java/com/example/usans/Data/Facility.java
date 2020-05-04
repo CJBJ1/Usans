@@ -30,6 +30,16 @@ public class Facility implements Parcelable {
         setLng(lng);
         setRating(rating);
     }
+    public Facility(Facility facility){
+        setId(facility.getId());
+        setName(facility.getName());
+        setAddress(facility.getAddress());
+        setPhoto(new String[]{"image"});
+        setMachines("철봉 허리돌리기 평행봉");
+        setLat(facility.getLat());
+        setLng(facility.getLng());
+        setRating(3);
+    }
 
     public Facility(Parcel src) {
         id = src.readString();

@@ -92,17 +92,20 @@ public class HomeFragment extends Fragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         facilityList = (FacilityList)getActivity().getApplicationContext();
-        setMap();
-        /*String url = "http://3.34.18.171.nip.io:8000/api/Sansuzang";
+        String url = "http://3.34.18.171:8000/api/Sansuzang";
         NetworkTask networkTask = new NetworkTask(url, null);
-        networkTask.execute();*/
+        networkTask.execute();
     }
 
-    public void showInfo(FragmentManager fm){
+    public void showInfo(FragmentManager fm,int index){
         fm.popBackStack();
+        Facility facility;
 
-        //임시
-        Facility facility = new Facility("1","고구동산", "서울시 동작구 상도 1동 325-9", new String[]{"image url"}, "허리돌리기 철봉 평행봉", "0.0", "0.0", 3);
+        if(index ==999) {
+            facility = new Facility("1", "고구동산", "서울시 동작구 상도 1동 325-9", new String[]{"image url"}, "허리돌리기 철봉 평행봉", "0.0", "0.0", 3);
+        }else {
+            facility = new Facility(facilityList.getArrayList().get(index));
+        }
         Fragment inf = new Info(facility);
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -116,7 +119,13 @@ public class HomeFragment extends Fragment
         GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                showInfo(infoFm);
+                if(marker.getTag().toString() != "테스트") {
+                    showInfo(infoFm, Integer.parseInt(marker.getTag().toString()));
+                }
+                else{
+
+                    showInfo(infoFm, 999);
+                }
                 return false;
             }
         };
@@ -125,10 +134,11 @@ public class HomeFragment extends Fragment
 
         for (int index =0;index<facilityList.getArrayList().size();index++) {
             MarkerOptions markerOptions = new MarkerOptions();
-            Log.d("위도",facilityList.getArrayList().get(index).getLat());
-            Log.d("경도",facilityList.getArrayList().get(index).getLng());
-            markerOptions.position(new LatLng(Double.parseDouble(facilityList.getArrayList().get(index).getLat()),
-                    Double.parseDouble(facilityList.getArrayList().get(index).getLng())));
+            Double lat = Double.parseDouble(facilityList.getArrayList().get(index).getLat());
+            Double lng = Double.parseDouble(facilityList.getArrayList().get(index).getLng());
+            Log.d("위도",lat + "");
+            Log.d("경도",lng + "");
+            markerOptions.position(new LatLng(lng,lat));
             mMap.addMarker(markerOptions).setTag(index);
         }
 
@@ -136,8 +146,8 @@ public class HomeFragment extends Fragment
         markerOptions1.position(new LatLng(37.5670135, 126.9783740));
         MarkerOptions markerOptions2 = new MarkerOptions();
         markerOptions2.position(new LatLng(37.5640135, 126.9763740));
-        mMap.addMarker(markerOptions1);
-        mMap.addMarker(markerOptions2);
+        mMap.addMarker(markerOptions1).setTag("테스트");
+        mMap.addMarker(markerOptions2).setTag("테스트");
 
         LatLng center = new LatLng(37.5670135, 126.9783740);
         mMap.setOnMarkerClickListener(markerClickListener);
