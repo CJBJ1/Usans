@@ -1,24 +1,20 @@
 package com.example.usans;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.usans.Activity.AddSansAcitivity;
+import com.example.usans.Activity.DetailActivity;
 import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.Data.Facility;
 import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button homeButton,listButton,regButton,mypageButton;

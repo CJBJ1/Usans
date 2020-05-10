@@ -1,4 +1,4 @@
-package com.example.usans;
+package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,20 +16,19 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.usans.Adapter.BoardAdapter;
 import com.example.usans.Adapter.CommentAdapter;
-import com.example.usans.Data.BoardItem;
-import com.example.usans.Data.BoardList;
+import com.example.usans.AppHelper;
 import com.example.usans.Data.CommentItem;
 import com.example.usans.Data.CommentList;
 import com.example.usans.Data.Facility;
+import com.example.usans.R;
 import com.google.gson.Gson;
 
 public class DetailActivity extends AppCompatActivity {
     Intent intent;
     Facility facility;
 
-    Button writeCommentButton;
+    Button writeCommentButton, reportButton;
     ListView commentListView;
 
     CommentAdapter adapter;
@@ -52,6 +51,13 @@ public class DetailActivity extends AppCompatActivity {
         machinesView = findViewById(R.id.sans_machines);
         ratingBar = findViewById(R.id.sans_ratingBar);
 
+        reportButton = findViewById(R.id.report_button);
+        reportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToReport();
+            }
+        });
         writeCommentButton = findViewById(R.id.write_comment_button);
         writeCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +117,12 @@ public class DetailActivity extends AppCompatActivity {
             adapter.addItem(commentItem);
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public void moveToReport() {
+        Intent intent = new Intent(this, ReportActivity.class);
+        intent.putExtra("machines", facility.getMachines());
+        startActivity(intent);
     }
 
     public void moveToWrite() {

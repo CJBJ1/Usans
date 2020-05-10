@@ -1,8 +1,10 @@
-package com.example.usans;
+package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.usans.R;
 
 public class AddSansAcitivity extends AppCompatActivity {
 

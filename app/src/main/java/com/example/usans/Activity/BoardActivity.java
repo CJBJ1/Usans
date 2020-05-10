@@ -1,4 +1,4 @@
-package com.example.usans;
+package com.example.usans.Activity;
 
 import android.os.Bundle;
 
