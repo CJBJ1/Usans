@@ -39,6 +39,7 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.volley:volley:1.1.0'
+    implementation 'com.github.volobot-admin:String-Picker-Android:v1.3'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.2.0'

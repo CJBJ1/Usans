@@ -65,7 +65,10 @@ public class CommentItemView extends LinearLayout {
     }
 
     public void setItemId(int id) {reviewId = id;}
-    public void setItemImage(/*int resId*/) {writerImageView.setImageResource(R.drawable.user1);}
+    public void setItemImage(/*int resId*/) {
+//        writerImageView.setImageResource(R.drawable.user1);
+        writerImageView.setImageResource(R.drawable.qm);
+    }
     public void setItemWriter(String userId) {wirterView.setText(userId);}
     public void setItemTime(String passTime) {timeView.setText(passTime);}
     public void setItemComment(String comment) {contentsView.setText(comment);}
