@@ -25,6 +25,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".FitActivity2" />
         <activity android:name=".FitActivity" />
+        <activity android:name=".WebActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

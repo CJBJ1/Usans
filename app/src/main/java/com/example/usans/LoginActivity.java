@@ -41,12 +41,12 @@ public class LoginActivity extends AppCompatActivity implements
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
-
         facilityList = (FacilityList) getApplication();
 
         validateServerClientID();
         //OAuth serverClientId
         updateUI();
+
         String serverClientId = getString(R.string.server_client_id);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
@@ -89,16 +89,17 @@ public class LoginActivity extends AppCompatActivity implements
         if (requestCode == RC_GET_AUTH_CODE) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                String authCode = account.getServerAuthCode();
+               GoogleSignInAccount account = task.getResult(ApiException.class);
+               String authCode = account.getServerAuthCode();
 
-                String url = "http://3.34.18.171.nip.io:8000/register-by-token/google-oauth2/?auth_code=" + authCode;
+                //String url = "http://3.34.18.171.nip.io:8000/complete/google-oauth2/?auth_code=" + authCode;
+                String url = "http://3.34.18.171.nip.io:8000/get-code/?state=state_parameter_passthrough_value&code="+authCode+"&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.metadata.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=none#";
                 NetworkTaskAuth networkTaskAuth = new NetworkTaskAuth(url, null);
                 networkTaskAuth.execute();
-
+                Log.d("된다",authCode);
 
             } catch (ApiException e) {
-                Log.w(TAG, "Sign-in failed", e);
+                Log.w(TAG, "안된다 안돼", e);
                 updateUI();
             }
         }
@@ -158,6 +159,8 @@ public class LoginActivity extends AppCompatActivity implements
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.d("토큰 확인",s);
+            facilityList = (FacilityList)getApplication();
+            facilityList.setAccessToken(s);
         }
     }
 
