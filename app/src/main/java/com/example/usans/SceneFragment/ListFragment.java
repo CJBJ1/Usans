@@ -1,6 +1,8 @@
 package com.example.usans.SceneFragment;
 
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +18,21 @@ import com.example.usans.Data.CommentList;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.R;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ListFragment extends Fragment {
+    private LatLng userLocation;
+    private ArrayList<Facility> sortedList;
     View view;
     ListView sansListView;
-
+    Facility facility;
     FacilityAdapter adapter;
     FacilityList facilityList;
 
@@ -29,13 +41,33 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
 
+
         sansListView = view.findViewById(R.id.sans_list_view);
+        facilityList = (FacilityList) getActivity().getApplication();
+        sortedList = new ArrayList<>();
         adapter = new FacilityAdapter();
 
-        adapter.addItem(new Facility("1","고구동산", "서울시 동작구 상도 1동 325-9", new String[]{"image url"}, "허리돌리기 철봉 평행봉", "0.0", "0.0", 3));
-
-        sansListView.setAdapter(adapter);
 
         return view;
+    }
+
+    public void updateAdapter(){
+            ArrayList<Facility> sortedList = facilityList.getArrayList();
+
+            Comparator<Facility> comparator = new Comparator<Facility>() {
+                @Override
+                public int compare(Facility facility, Facility t1) {
+                    return (int) (facility.getDistance()-t1.getDistance());
+                }
+
+            };
+
+            Collections.sort(sortedList, comparator);
+
+            for(int i=0;i<5;i++) {
+                Log.d("거리", sortedList.get(i).getDistance() + "");
+                adapter.addItem(new Facility(sortedList.get(i)));
+            }
+            sansListView.setAdapter(adapter);
     }
 }

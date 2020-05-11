@@ -28,6 +28,7 @@ import com.example.usans.R;
 
 import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.RequestHttpURLConnection;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -223,6 +224,9 @@ public class Info extends Fragment {
                     facilityList.getArrayList().get(i).getMarker().setVisible(false);
                 }
             }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.5670135+Double.parseDouble(facility.getLat()))/2.0,
+                    (126.9783740+Double.parseDouble(facility.getLng()))/2.0),13));
         }
 
     }

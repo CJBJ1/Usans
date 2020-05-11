@@ -1,8 +1,10 @@
 package com.example.usans;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -15,12 +17,18 @@ import com.example.usans.Activity.BoardActivity;
 import com.example.usans.Activity.DetailActivity;
 import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.Data.Facility;
+import com.example.usans.Data.FacilityList;
 import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    private FacilityList facilityList;
     Button homeButton,listButton,regButton,mypageButton;
     FragmentTransaction tran;
 
@@ -97,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.listbutton:
                 setBackground(1);
                 setFrag(1);
+                listFragment.updateAdapter();
                 break;
             case R.id.regbutton:
                 setBackground(2);
@@ -181,4 +190,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 }

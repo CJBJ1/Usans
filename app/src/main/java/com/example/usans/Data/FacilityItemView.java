@@ -23,6 +23,7 @@ public class FacilityItemView extends LinearLayout {
     TextView nameView;
     TextView addressView;
     TextView machinesView;
+    TextView distanceView;
     RatingBar ratingBar;
 
     public FacilityItemView(Context context) {
@@ -49,6 +50,7 @@ public class FacilityItemView extends LinearLayout {
         addressView = (TextView) findViewById(R.id.sans_address);
         machinesView = (TextView) findViewById(R.id.sans_machines);
         ratingBar = (RatingBar) findViewById(R.id.sans_ratingBar);
+        distanceView = (TextView) findViewById(R.id.sans_distance);
     }
 
     public void setItemId(String id) { facilityId = id; }
@@ -57,6 +59,7 @@ public class FacilityItemView extends LinearLayout {
     public void setItemAddress(String address) { addressView.setText(address); }
     public void setItemMachines(String machines) { machinesView.setText(machines); }
     public void setItemRating(float userRating) { ratingBar.setRating(userRating); }
+    public void setItemDistance(double distance){distanceView.setText(String.valueOf((Math.round(distance)/1000.0))+ "km");}
 
     public void requestIncreaseRecommend(final int id) {
         String url = "http://" + AppHelper.host + ":" + AppHelper.port + "/movie/increaseRecommend";

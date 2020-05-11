@@ -1,6 +1,7 @@
 package com.example.usans.SceneFragment;
 
 import android.content.ContentValues;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
@@ -46,6 +50,7 @@ public class HomeFragment extends Fragment
     private FacilityList facilityList;
     private JSONArray jsArr;
     private GoogleMap mMap;
+    private LatLng userLocation;
 
     public ImageView addMarker;
     public Button addMarkerButtom;
@@ -65,7 +70,7 @@ public class HomeFragment extends Fragment
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
-
+        userLocation = new LatLng(37.5670135, 126.9783740);
         return view;
     }
 
@@ -122,8 +127,6 @@ public class HomeFragment extends Fragment
     }
 
     public void setMap(){
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5670135, 126.9783740)));
         GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -152,15 +155,15 @@ public class HomeFragment extends Fragment
             facilityList.getArrayList().get(index).setMarker(marker);
         }
 
-        MarkerOptions markerOptions1 = new MarkerOptions();
+        /*MarkerOptions markerOptions1 = new MarkerOptions();
         markerOptions1.position(new LatLng(37.5670135, 126.9783740));
         MarkerOptions markerOptions2 = new MarkerOptions();
         markerOptions2.position(new LatLng(37.5640135, 126.9763740));
         mMap.addMarker(markerOptions1).setTag("테스트");
-        mMap.addMarker(markerOptions2).setTag("테스트");
+        mMap.addMarker(markerOptions2).setTag("테스트");*/
 
         mMap.setOnMarkerClickListener(markerClickListener);
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.5670135, 126.9783740),15));
 
     }
 
@@ -191,7 +194,7 @@ public class HomeFragment extends Fragment
                 int index=0;
                 if (s != null) {
                     jsArr = new JSONArray(s);
-                    while (index != 100) {
+                    while (index != 50) {
                         parseJS(jsArr, index);
                         index++;
                     }
@@ -212,11 +215,27 @@ public class HomeFragment extends Fragment
                 facility.setAddress(jsonObject.getString("address"));
                 facility.setLat(jsonObject.getString("lat"));
                 facility.setLng(jsonObject.getString("lon"));
+                facility.setDistance(getDistance(userLocation,
+                        new LatLng(Double.parseDouble(jsonObject.getString("lat")),
+                                Double.parseDouble(jsonObject.getString("lon")))));
 
                 facilityList.getArrayList().add(facility);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public double getDistance(LatLng LatLng1, LatLng LatLng2) {
+        double distance = 0;
+        Location locationA = new Location("A");
+        locationA.setLatitude(LatLng1.latitude);
+        locationA.setLongitude(LatLng1.longitude);
+        Location locationB = new Location("B");
+        locationB.setLatitude(LatLng2.latitude);
+        locationB.setLongitude(LatLng2.longitude);
+        distance = locationA.distanceTo(locationB);
+
+        return distance;
     }
 }
