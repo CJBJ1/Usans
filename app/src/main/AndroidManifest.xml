@@ -24,11 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SplashActivity" />
+        <activity android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".FitActivity2" />
         <activity android:name=".FitActivity" />
         <activity android:name=".WebActivity" />
+        <activity android:name=".FitActivity2" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

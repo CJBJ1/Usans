@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment
         }else {
             facility = new Facility(facilityList.getArrayList().get(index));
         }
-        Fragment inf = new Info(facility);
+        Fragment inf = new Info(facility,mMap);
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
@@ -117,6 +117,9 @@ public class HomeFragment extends Fragment
     }
 
     public void setMap(){
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5670135, 126.9783740)));
+
         GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -139,7 +142,7 @@ public class HomeFragment extends Fragment
             Double lng = Double.parseDouble(facilityList.getArrayList().get(index).getLng());
             Log.d("위도",lat + "");
             Log.d("경도",lng + "");
-            markerOptions.position(new LatLng(lng,lat));
+            markerOptions.position(new LatLng(lat,lng));
             mMap.addMarker(markerOptions).setTag(index);
         }
 
@@ -150,9 +153,7 @@ public class HomeFragment extends Fragment
         mMap.addMarker(markerOptions1).setTag("테스트");
         mMap.addMarker(markerOptions2).setTag("테스트");
 
-        LatLng center = new LatLng(37.5670135, 126.9783740);
         mMap.setOnMarkerClickListener(markerClickListener);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(center));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
     }

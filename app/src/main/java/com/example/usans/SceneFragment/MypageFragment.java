@@ -33,8 +33,10 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 
 public class MypageFragment extends Fragment implements View.OnClickListener {
@@ -43,6 +45,8 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
     private static final int RC_GET_AUTH_CODE = 9003;
     private FacilityList facilityList;
     private GoogleSignInClient mGoogleSignInClient;
+    private TextView userName;
+    private View userImage;
     private TextView mAuthCodeTextView;
     private JSONObject jsonObject;
     @Nullable
@@ -53,6 +57,8 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
 
         view.findViewById(R.id.sign_in_button).setOnClickListener( this);
         view.findViewById(R.id.sign_out_button).setOnClickListener(this);
+        userName = (TextView)view.findViewById(R.id.user_name);
+        userName.setText("비회원");
         facilityList = (FacilityList) getActivity().getApplication();
 
         validateServerClientID();
@@ -170,9 +176,16 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("토큰 확인",s);
-            facilityList = (FacilityList)getActivity().getApplication();
-            facilityList.setAccessToken(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                facilityList = (FacilityList)getActivity().getApplication();
+                facilityList.setAccessToken(jsonObject.getString("access_token"));
+                Log.d("토큰 확인",facilityList.getAccessToken());
+
+                userName.setText("로그인됨"); // 임시
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
