@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.usans.Activity.AddSansAcitivity;
+import com.example.usans.Activity.BoardActivity;
 import com.example.usans.Activity.DetailActivity;
 import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.Data.Facility;
@@ -76,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
         setBackground(0);
         ca.setActionBar(0);
+    }
+
+    public void moveToBoard() {
+        Intent intent = new Intent(this, BoardActivity.class);
+        startActivity(intent);
     }
 
     public void moveToAddSans() {

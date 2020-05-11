@@ -25,10 +25,6 @@ public class CustomActionBar {
     public Button dongButton;
     public Button addButton;
 
-    public Button searchButton;
-    public EditText searchText;
-    public Button writeButton;
-
     public TextView titleText;
     public ImageView medalView;
 
@@ -65,6 +61,8 @@ public class CustomActionBar {
                         main.homeFragment.showAddMarkerButton();
                     }
                 });
+                MainActivity main = (MainActivity) activity;
+                if (main.homeFragment.addMarker != null) main.homeFragment.addMarker.setVisibility(View.INVISIBLE);
                 break;
             case 1:
                 setActionBar(0);
@@ -73,10 +71,6 @@ public class CustomActionBar {
             case 2:
                 mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar2, null);
                 actionBar.setCustomView(mCustomView);
-
-                searchButton = mCustomView.findViewById(R.id.search_button);
-                searchText = mCustomView.findViewById(R.id.search_text);
-                writeButton = mCustomView.findViewById(R.id.write_button);
                 break;
             case 3:
                 mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar3, null);
@@ -95,6 +89,7 @@ public class CustomActionBar {
                     public void onClick(View v) {
                         setActionBar(0);
                         MainActivity main = (MainActivity) activity;
+                        main.homeFragment.addMarker.setVisibility(View.INVISIBLE);
                         main.homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                     }
                 });
