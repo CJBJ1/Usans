@@ -32,6 +32,7 @@ public class RegFragment extends Fragment {
 
         adapter = new TitleAdapter();
         adapter.addItem(new TitleItem(0, "서재훈", "05/01 12:34", "여기 좋아요","굳굳"));
+        adapter.addItem(new TitleItem(0, "ㅇㅎㅇ", "05/01 12:10", "운동 같이 하실분?","ㅇㅇ"));
         listView.setAdapter(adapter);
         return view;
     }

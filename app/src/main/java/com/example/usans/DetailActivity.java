@@ -1,7 +1,9 @@
 package com.example.usans;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,11 +25,13 @@ import com.example.usans.Data.BoardList;
 import com.example.usans.Data.CommentItem;
 import com.example.usans.Data.CommentList;
 import com.example.usans.Data.Facility;
+import com.example.usans.Data.FacilityList;
 import com.google.gson.Gson;
 
 public class DetailActivity extends AppCompatActivity {
     Intent intent;
     Facility facility;
+    FacilityList facilityList;
 
     Button writeCommentButton;
     ListView commentListView;
@@ -45,7 +49,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         intent = getIntent();
         facility = intent.getParcelableExtra("facility");
-
+        facilityList = (FacilityList)getApplication();
         imageView = findViewById(R.id.sans_image_view);
         nameView = findViewById(R.id.sans_name);
         addressView = findViewById(R.id.sans_address);
@@ -114,8 +118,22 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void moveToWrite() {
-        Intent intent = new Intent(this, WriteCommentActivity.class);
-        startActivity(intent);
+        if(facilityList.getAccessToken()!=null) {
+            Intent intent = new Intent(this, WriteCommentActivity.class);
+            startActivity(intent);
+        }
+        else{
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+            builder.setTitle("로그인이 필요합니다.");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 
     public void layout() {
