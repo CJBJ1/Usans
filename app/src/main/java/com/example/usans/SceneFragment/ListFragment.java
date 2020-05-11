@@ -63,7 +63,8 @@ public class ListFragment extends Fragment {
             };
 
             Collections.sort(sortedList, comparator);
-            for(int i=0;i<7;i++) {
+
+            for(int i=0;i<5;i++) {
                 Log.d("거리", sortedList.get(i).getDistance() + "");
                 adapter.addItem(new Facility(sortedList.get(i)));
             }
