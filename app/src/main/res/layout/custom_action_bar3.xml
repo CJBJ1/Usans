@@ -15,6 +15,7 @@
         android:layout_marginStart="12dp"
         android:text="나의 운동"
         android:textSize="18dp"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

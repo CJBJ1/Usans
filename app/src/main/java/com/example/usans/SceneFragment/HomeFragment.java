@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.usans.CustomLayout.Info;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment
     private JSONArray jsArr;
     private GoogleMap mMap;
 
+    public ImageView addMarker;
     public Button addMarkerButtom;
     public Button sansNavigationStartButton;
 
@@ -60,6 +62,7 @@ public class HomeFragment extends Fragment
 
         facilityList = (FacilityList)getActivity().getApplicationContext();
 
+        addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
 
@@ -78,13 +81,14 @@ public class HomeFragment extends Fragment
     }
 
     public void showAddMarkerButton(){
+        addMarker.setVisibility(View.VISIBLE);
         addMarkerButtom.setVisibility(View.VISIBLE);
         addMarkerButtom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("addMarkerButton", "클릭");
                 MainActivity main = (MainActivity) getActivity();
-                main.moveToAddSans();
+                main.moveToAddSans();   // 맵의 중앙 위치 전송
             }
         });
     }

@@ -42,4 +42,17 @@
         app:layout_constraintStart_toStartOf="parent">
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/marker_image"
+        android:layout_width="44dp"
+        android:layout_height="78dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/map"
+        app:layout_constraintTop_toTopOf="@+id/map"
+        app:srcCompat="@drawable/marker"
+        android:layout_marginBottom="38dp"
+        android:visibility="invisible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
