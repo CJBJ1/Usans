@@ -111,7 +111,8 @@ public class CustomActionBar {
                         setActionBar(0);
                         MainActivity main = (MainActivity) activity;
                         facilityList = (FacilityList)activity.getApplication();
-                        facilityList.getPolyline().remove();
+                        if (facilityList != null)
+                            facilityList.getPolyline().remove();
                         main.homeFragment.showRecommend();
                     }
                 });
