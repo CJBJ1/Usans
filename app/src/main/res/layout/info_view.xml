@@ -119,6 +119,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
+        android:id="@+id/routine_recommend_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/green_corner"
+        android:text="루틴 추천"
+        app:layout_constraintEnd_toStartOf="@+id/sans_navigation_start_button"
+        app:layout_constraintTop_toTopOf="@+id/sans_navigation_start_button"
+        android:layout_marginEnd="5dp"/>
+
+    <Button
         android:id="@+id/sans_navigation_start_button"
         android:layout_width="50dp"
         android:layout_height="30dp"

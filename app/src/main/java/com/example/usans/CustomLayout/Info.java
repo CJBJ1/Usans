@@ -1,5 +1,6 @@
 package com.example.usans.CustomLayout;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +12,20 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.usans.Data.Facility;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
+import com.example.usans.SceneFragment.HomeFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Info extends Fragment {
-
+    private Activity activity;
     private Facility facility;
 
     View view;
-    Button closeButton, detailButton, startButton;
+    Button closeButton, detailButton, routineRecommendButton, startButton;
 
     ImageView imageView;
     TextView nameView, addressView, machinesView;
@@ -45,6 +48,7 @@ public class Info extends Fragment {
 
         closeButton = view.findViewById(R.id.close_button);
         detailButton = view.findViewById(R.id.detail_button);
+        routineRecommendButton = view.findViewById(R.id.routine_recommend_button);
         startButton = view.findViewById(R.id.sans_navigation_start_button);
 
 
@@ -59,6 +63,15 @@ public class Info extends Fragment {
             public void onClick(View v) {
                 MainActivity main = (MainActivity) Info.super.getActivity();
                 main.moveToDetail(facility);
+            }
+        });
+        routineRecommendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity act = (MainActivity) getActivity();
+                HomeFragment homeF =  act.homeFragment;
+                homeF.showRecommend();
+                closeInfo();
             }
         });
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +89,12 @@ public class Info extends Fragment {
 
         layout();
         return view;
+    }
+
+    public void closeInfo() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this);
+        ft.commit();
     }
 
     public void layout() {
