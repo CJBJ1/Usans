@@ -180,7 +180,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(s);
                 facilityList = (FacilityList)getActivity().getApplication();
                 facilityList.setAccessToken(jsonObject.getString("access_token"));
-                Log.d("토큰 확인",facilityList.getAccessToken());
+                Log.d("토큰 확인",s);
 
                 userName.setText("로그인됨"); // 임시
             } catch (JSONException e) {

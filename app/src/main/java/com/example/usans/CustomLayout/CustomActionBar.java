@@ -113,6 +113,10 @@ public class CustomActionBar {
                         facilityList = (FacilityList)activity.getApplication();
                         if (facilityList != null)
                             facilityList.getPolyline().remove();
+
+                        for(int i=0;i<facilityList.getArrayList().size();i++){
+                            facilityList.getArrayList().get(i).getMarker().setVisible(true);
+                        }
                         main.homeFragment.showRecommend();
                     }
                 });
