@@ -67,7 +67,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal">
@@ -77,10 +77,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:text="산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 산스장머신 "
+                android:text="hi"
                 android:textColor="@android:color/black" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/sans_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginRight="12dp"
+            android:text="1.6km" />
 
     </LinearLayout>
 

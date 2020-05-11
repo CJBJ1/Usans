@@ -46,6 +46,7 @@ public class FacilityAdapter extends BaseAdapter {
         view.setItemAddress(item.getAddress());
         view.setItemMachines(item.getMachines());
         view.setItemRating(item.getRating());
+        view.setItemDistance(item.getDistance());
 
         return view;
     }

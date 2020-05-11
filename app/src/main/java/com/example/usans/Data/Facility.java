@@ -15,8 +15,10 @@ public class Facility implements Parcelable {
     private String machines;
     private String lat;
     private String lng;
+
     private float rating;
     private Marker marker;
+    private double distance;
 
     public Facility() {
     }
@@ -39,7 +41,8 @@ public class Facility implements Parcelable {
         setMachines("철봉 허리돌리기 평행봉");
         setLat(facility.getLat());
         setLng(facility.getLng());
-        setRating(3);
+        setRating(Integer.parseInt(facility.getId())%3+2);
+        setDistance(facility.getDistance());
     }
 
     public Facility(Parcel src) {
@@ -152,6 +155,14 @@ public class Facility implements Parcelable {
 
     public Marker getMarker() {
         return marker;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double getDistance() {
+        return distance;
     }
 }
 

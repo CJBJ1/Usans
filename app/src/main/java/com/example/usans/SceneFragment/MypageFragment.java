@@ -46,6 +46,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
     private FacilityList facilityList;
     private GoogleSignInClient mGoogleSignInClient;
     private TextView userName;
+    private TextView userName2;
     private View userImage;
     private TextView mAuthCodeTextView;
     private JSONObject jsonObject;
@@ -58,7 +59,9 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.sign_in_button).setOnClickListener( this);
         view.findViewById(R.id.sign_out_button).setOnClickListener(this);
         userName = (TextView)view.findViewById(R.id.user_name);
-        userName.setText("비회원");
+        userName2 = (TextView)view.findViewById(R.id.user_name2);
+        userName.setText("이름");
+        userName2.setText("닉네임");
         facilityList = (FacilityList) getActivity().getApplication();
 
         validateServerClientID();
@@ -183,6 +186,9 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 Log.d("토큰 확인",s);
 
                 userName.setText("로그인됨"); // 임시
+
+                view.findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+                view.findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
