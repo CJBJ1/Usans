@@ -12,9 +12,9 @@ public class CommentItem implements Parcelable {
     //public int timestamp;
     public float rating;
     public String contents;
-    public int recommend;
+    public String machine;
 
-    public CommentItem(String writer, int sansId, float rating, String contents) {
+    public CommentItem(String writer, int sansId, float rating, String contents, String machine) {
         this.id = id;
         this.writer = writer;
         this.sansId = sansId;
@@ -23,7 +23,7 @@ public class CommentItem implements Parcelable {
         //this.timestamp = timestamp;
         this.rating = rating;
         this.contents = contents;
-        this.recommend = recommend;
+        this.machine = machine;
     }
 
     public CommentItem(Parcel src) {
@@ -35,7 +35,7 @@ public class CommentItem implements Parcelable {
         //timestamp = src.readInt();
         rating = src.readFloat();
         contents = src.readString();
-        recommend = src.readInt();
+        machine = src.readString();
     }
 
     public static final Creator CREATOR = new Creator() {
@@ -63,7 +63,7 @@ public class CommentItem implements Parcelable {
         //dest.writeInt(timestamp);
         dest.writeFloat(rating);
         dest.writeString(contents);
-        dest.writeInt(recommend);
+        dest.writeString(machine);
     }
 
     public int getId() {
@@ -114,11 +114,11 @@ public class CommentItem implements Parcelable {
         this.contents = contents;
     }
 
-    public int getRecommend() {
-        return recommend;
+    public String getMachine() {
+        return machine;
     }
 
-    public void setRecommend(int recommend) {
-        this.recommend = recommend;
+    public void setMachine(String machine) {
+        this.machine = machine;
     }
 }

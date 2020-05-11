@@ -26,8 +26,7 @@ public class CommentItemView extends LinearLayout {
     TextView timeView;
     TextView contentsView;
     RatingBar ratingBar;
-    TextView recommendView;
-    Button recommendButton;
+    TextView machineView;
 
     public CommentItemView(Context context) {
         super(context);
@@ -53,67 +52,22 @@ public class CommentItemView extends LinearLayout {
         timeView = (TextView) findViewById(R.id.time_view);
         contentsView = (TextView) findViewById(R.id.sans_address);
         ratingBar = (RatingBar) findViewById(R.id.sans_ratingBar);
-        recommendView = findViewById(R.id.recommend_view);
-        recommendButton = findViewById(R.id.sans_machines);
-
-        recommendButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //requestIncreaseRecommend(facilityId);
-            }
-        });
+        machineView = findViewById(R.id.machine_view);
     }
 
     public void setItemId(int id) {reviewId = id;}
-    public void setItemImage(/*int resId*/) {
-//        writerImageView.setImageResource(R.drawable.user1);
-        writerImageView.setImageResource(R.drawable.qm);
+    public void setItemImage(float userRating) {
+        if (userRating >= 0) writerImageView.setImageResource(R.drawable.user1);
+        else writerImageView.setImageResource(R.drawable.qm);
     }
     public void setItemWriter(String userId) {wirterView.setText(userId);}
     public void setItemTime(String passTime) {timeView.setText(passTime);}
     public void setItemComment(String comment) {contentsView.setText(comment);}
-    public void setItemRating(float userRating) {ratingBar.setRating(userRating);}
-    public void setItemRecommend(int recommend) {recommendView.setText(toString().valueOf(recommend));}
-
-    public void requestIncreaseRecommend(final int id) {
-        String url = "http://" + AppHelper.host + ":" + AppHelper.port + "/movie/increaseRecommend";
-        url += "?" + "review_id=" + id;
-
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                url,    //GET 방식은 요청 path가 필요
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-//                        processResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "에러발생", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        request.setShouldCache(false);
-//        AppHelper.requestQueue.add(request);
-
+    public void setItemRating(float userRating) {
+        if (userRating >= 0) ratingBar.setRating(userRating);
+        else ratingBar.setVisibility(INVISIBLE);
     }
-
-//    public void processResponse(String response) {
-//        Gson gson = new Gson();
-//
-//        ResponseInfo info = gson.fromJson(response, ResponseInfo.class);
-//        if (info.code == 200) {
-//            try {
-//                recommendCallback.resetComment();
-//                Toast.makeText(getContext(), "추천 완료", Toast.LENGTH_SHORT).show();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
+    public void setItemMachine(String machine) {
+        machineView.setText(machine);}
 
 }

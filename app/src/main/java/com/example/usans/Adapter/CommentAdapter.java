@@ -41,12 +41,12 @@ public class CommentAdapter extends BaseAdapter {
         CommentItem item = items.get(position);
 
         view.setItemId(item.getId());
-        view.setItemImage(/*item.getResId()*/);
+        view.setItemImage(item.getRating());
         view.setItemWriter(item.getWriter());
         view.setItemTime(item.getTime());
         view.setItemComment(item.getContents());
         view.setItemRating(item.getRating());
-        view.setItemRecommend(item.getRecommend());
+        view.setItemMachine(item.getMachine());
 
         return view;
     }
