@@ -183,13 +183,13 @@ public class HomeFragment extends Fragment
             super.onPostExecute(s);
             try {
                 int index=0;
-
-                jsArr = new JSONArray(s);
-                while(index != 100){
-                    parseJS(jsArr,index);
-                    index++;
+                if (s != null) {
+                    jsArr = new JSONArray(s);
+                    while (index != 100) {
+                        parseJS(jsArr, index);
+                        index++;
+                    }
                 }
-
                 setMap();
             } catch (JSONException e) {
                 e.printStackTrace();

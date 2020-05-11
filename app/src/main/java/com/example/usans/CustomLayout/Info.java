@@ -87,7 +87,7 @@ public class Info extends Fragment {
         detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity main = (MainActivity) Info.super.getActivity();
+                MainActivity main = (MainActivity) getActivity();
                 main.moveToDetail(facility);
             }
         });

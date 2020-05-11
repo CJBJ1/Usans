@@ -4,36 +4,60 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-
+import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.example.usans.Adapter.BoardAdapter;
-import com.example.usans.Adapter.CommentAdapter;
-import com.example.usans.Adapter.TitleAdapter;
-import com.example.usans.Data.BoardItem;
-import com.example.usans.Data.CommentItem;
-import com.example.usans.Data.TitleItem;
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 
 import java.util.List;
 
 public class RegFragment extends Fragment {
     View view;
-    ListView listView;
-    TitleAdapter adapter;
+
+    Button hotButton, bestButton, freeButton, recommendButton;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_reg, container, false);
 
-        listView = (ListView)view.findViewById(R.id.title_list_view);
+        hotButton = view.findViewById(R.id.hot_button);
+        bestButton = view.findViewById(R.id.best_button);
+        freeButton = view.findViewById(R.id.free_button);
+        recommendButton = view.findViewById(R.id.recommend_button);
 
-        adapter = new TitleAdapter();
-        adapter.addItem(new TitleItem(0, "서재훈", "05/01 12:34", "여기 좋아요","굳굳"));
-        adapter.addItem(new TitleItem(0, "ㅇㅎㅇ", "05/01 12:10", "운동 같이 하실분?","ㅇㅇ"));
-        listView.setAdapter(adapter);
+        hotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBoard();
+            }
+        });
+        bestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBoard();
+            }
+        });
+        freeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBoard();
+            }
+        });
+        recommendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBoard();
+            }
+        });
+
         return view;
     }
+
+    public void showBoard() {
+        MainActivity main = (MainActivity) getActivity();
+        main.moveToBoard();
+    }
+
 }
