@@ -11,12 +11,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.usans.Data.FacilityList;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
 
 public class CustomActionBar {
     private Activity activity;
     private ActionBar actionBar;
+    private FacilityList facilityList;
     View mCustomView;
 
     public TextView dongTextView;
@@ -108,6 +110,8 @@ public class CustomActionBar {
                     public void onClick(View v) {
                         setActionBar(0);
                         MainActivity main = (MainActivity) activity;
+                        facilityList = (FacilityList)activity.getApplication();
+                        facilityList.getPolyline().remove();
                         main.homeFragment.showRecommend();
                     }
                 });
