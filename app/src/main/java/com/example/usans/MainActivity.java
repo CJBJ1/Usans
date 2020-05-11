@@ -1,9 +1,12 @@
 package com.example.usans;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public CustomActionBar ca;
 
+    RelativeLayout homeLayout, listLayout, regLayout, mypageLayout, heartLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listButton = (Button)findViewById(R.id.listbutton);
         regButton = (Button)findViewById(R.id.regbutton);
         mypageButton = (Button)findViewById(R.id.mypagebutton);
+        homeLayout = findViewById(R.id.homelayout);
+        listLayout = findViewById(R.id.listlayout);
+        regLayout = findViewById(R.id.reglayout);
+        mypageLayout = findViewById(R.id.mypagelayout);
+        heartLayout = findViewById(R.id.heartlayout);
 
         homeButton.setOnClickListener(this);
         listButton.setOnClickListener(this);
@@ -51,12 +61,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mypageFragment = new MypageFragment();
         regFragment = new RegFragment();
 
-        //setFrag(0); //프래그먼트 교체
+//        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, heartFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, listFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, mypageFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, regFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
-
+        setBackground(0);
         ca.setActionBar(0);
     }
 
@@ -75,19 +85,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v){
         switch (v.getId()){
             case R.id.homebutton:
+                setBackground(0);
                 setFrag(0);
                 break;
             case R.id.listbutton:
+                setBackground(1);
                 setFrag(1);
                 break;
             case R.id.regbutton:
+                setBackground(2);
                 setFrag(2);
                 break;
             case R.id.mypagebutton:
+                setBackground(3);
                 setFrag(3);
                 break;
         }
     }
+
+    public void setBackground(int n) {
+        switch (n) {
+            case 0:
+                homeLayout.setBackgroundColor(Color.LTGRAY);
+                listLayout.setBackgroundColor(Color.WHITE);
+                regLayout.setBackgroundColor(Color.WHITE);
+                mypageLayout.setBackgroundColor(Color.WHITE);
+                heartLayout.setBackgroundColor(Color.WHITE);
+                break;
+            case 1:
+                homeLayout.setBackgroundColor(Color.WHITE);
+                listLayout.setBackgroundColor(Color.LTGRAY);
+                regLayout.setBackgroundColor(Color.WHITE);
+                mypageLayout.setBackgroundColor(Color.WHITE);
+                heartLayout.setBackgroundColor(Color.WHITE);
+                break;
+            case 2:
+                homeLayout.setBackgroundColor(Color.WHITE);
+                listLayout.setBackgroundColor(Color.WHITE);
+                regLayout.setBackgroundColor(Color.LTGRAY);
+                mypageLayout.setBackgroundColor(Color.WHITE);
+                heartLayout.setBackgroundColor(Color.WHITE);
+                break;
+            case 3:
+                homeLayout.setBackgroundColor(Color.WHITE);
+                listLayout.setBackgroundColor(Color.WHITE);
+                regLayout.setBackgroundColor(Color.WHITE);
+                mypageLayout.setBackgroundColor(Color.LTGRAY);
+                heartLayout.setBackgroundColor(Color.WHITE);
+                break;
+            case 4:
+                homeLayout.setBackgroundColor(Color.WHITE);
+                listLayout.setBackgroundColor(Color.WHITE);
+                regLayout.setBackgroundColor(Color.WHITE);
+                mypageLayout.setBackgroundColor(Color.WHITE);
+                heartLayout.setBackgroundColor(Color.LTGRAY);
+                break;
+        }
+    }
+
     public void setFrag(int n) {    //프래그먼트 교체 메소드
         ca.setActionBar(n);
         switch (n) {

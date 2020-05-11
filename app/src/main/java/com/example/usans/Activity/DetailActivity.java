@@ -72,7 +72,8 @@ public class DetailActivity extends AppCompatActivity {
         commentListView = findViewById(R.id.comment_list_view);
 
         adapter = new CommentAdapter();
-        adapter.addItem(new CommentItem("jaehoon", 0, 3, "테스트"));
+        adapter.addItem(new CommentItem("jaehoon", 0, 3, "테스트 / 여기 기구들 전부 상태 좋고 야경이 너무 좋아요!!", ""));
+        adapter.addItem(new CommentItem("beomjoon", 0, -1, "테스트 / 철봉이 녹이 많이 슬었어요", "철봉"));
         commentListView.setAdapter(adapter);
 
         layout();

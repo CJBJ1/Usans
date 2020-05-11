@@ -21,6 +21,7 @@
         android:weightSum="1">
 
         <RelativeLayout
+            android:id="@+id/homelayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2" >
@@ -35,6 +36,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/listlayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2" >
@@ -49,6 +51,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/reglayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2" >
@@ -63,6 +66,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/mypagelayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2" >
@@ -77,6 +81,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/heartlayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2" >
