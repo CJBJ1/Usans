@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class FacilityList extends Application {
     private String accessToken;
     private ArrayList<Facility> faArrayList = new ArrayList<>(500);
+    private User user;
     private Polyline polyline;
 
     public void setAccessToken(String accessToken) {
@@ -31,4 +32,10 @@ public class FacilityList extends Application {
         return polyline;
     }
     public void removePolyline(){polyline=null;}
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public User getUser() {
+        return user;
+    }
 }

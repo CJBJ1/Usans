@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.usans.Data.FacilityList;
+import com.example.usans.Data.User;
 import com.example.usans.LoginActivity;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
@@ -40,16 +42,17 @@ import org.w3c.dom.Text;
 
 
 public class MypageFragment extends Fragment implements View.OnClickListener {
-    View view;
+    private View view;
     public static final String TAG = "ServerAuthCodeActivity";
     private static final int RC_GET_AUTH_CODE = 9003;
     private FacilityList facilityList;
     private GoogleSignInClient mGoogleSignInClient;
     private TextView userName;
     private TextView userName2;
-    private View userImage;
+    private ImageView userImage;
     private TextView mAuthCodeTextView;
     private JSONObject jsonObject;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
         userName2 = (TextView)view.findViewById(R.id.user_name2);
         userName.setText("이름");
         userName2.setText("닉네임");
+        userImage = (ImageView)view.findViewById(R.id.user_image);
         facilityList = (FacilityList) getActivity().getApplication();
 
         validateServerClientID();
@@ -181,11 +185,18 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
             super.onPostExecute(s);
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                User user = new User();
                 facilityList = (FacilityList)getActivity().getApplication();
-                facilityList.setAccessToken(jsonObject.getString("access_token"));
+                user.setId(jsonObject.getString("id"));
+                user.setName(jsonObject.getString("name"));
+                user.setEmail(jsonObject.getString("email"));
+                user.setPicture(jsonObject.getString("picture"));
+                facilityList.setUser(user);
+
                 Log.d("토큰 확인",s);
 
-                userName.setText("로그인됨"); // 임시
+                userName.setText(jsonObject.getString("name")); // 임시
+                userName2.setText(jsonObject.getString("email"));
 
                 view.findViewById(R.id.sign_in_button).setVisibility(View.GONE);
                 view.findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);

@@ -3,6 +3,7 @@
     package="com.example.usans">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".Data.FacilityList"
@@ -35,5 +36,4 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI" />
     </application>
-
 </manifest>
