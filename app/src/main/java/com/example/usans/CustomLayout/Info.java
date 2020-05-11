@@ -44,6 +44,7 @@ public class Info extends Fragment {
     private Activity activity;
     private Facility facility;
     private FacilityList facilityList;
+    private ArrayList<Facility> list;
     private GoogleMap mMap;
     List<List<HashMap<String, String>>> routes = null;
 
@@ -111,7 +112,6 @@ public class Info extends Fragment {
                 String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.5670135,126.9783740&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
                         "&key=AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI";
-
 
                 NetworkTask networkTask = new NetworkTask(url, null);
                 networkTask.execute();
@@ -202,7 +202,6 @@ public class Info extends Fragment {
                     points.add(position);
                 }
 
-                // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
                 lineOptions.width(8);
                 lineOptions.color(Color.RED);
@@ -214,6 +213,17 @@ public class Info extends Fragment {
                 }
                 facilityList.setPolyline(mMap.addPolyline(lineOptions));
             }
+
+
+            for(int i=0;i<facilityList.getArrayList().size();i++){
+                if(facilityList.getArrayList().get(i).getId()==facility.getId()){
+                    continue;
+                }
+                else{
+                    facilityList.getArrayList().get(i).getMarker().setVisible(false);
+                }
+            }
         }
+
     }
 }

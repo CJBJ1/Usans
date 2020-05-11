@@ -3,7 +3,8 @@ package com.example.usans.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.naver.maps.map.overlay.Marker;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Facility implements Parcelable {
 

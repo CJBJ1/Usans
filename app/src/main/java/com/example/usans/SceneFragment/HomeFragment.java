@@ -21,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -119,7 +120,6 @@ public class HomeFragment extends Fragment
     public void setMap(){
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.5670135, 126.9783740)));
-
         GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -143,7 +143,9 @@ public class HomeFragment extends Fragment
             Log.d("위도",lat + "");
             Log.d("경도",lng + "");
             markerOptions.position(new LatLng(lat,lng));
-            mMap.addMarker(markerOptions).setTag(index);
+            Marker marker = mMap.addMarker(markerOptions);
+            marker.setTag(index);
+            facilityList.getArrayList().get(index).setMarker(marker);
         }
 
         MarkerOptions markerOptions1 = new MarkerOptions();
