@@ -226,7 +226,7 @@ public class Info extends Fragment {
             }
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.5670135+Double.parseDouble(facility.getLat()))/2.0,
-                    (126.9783740+Double.parseDouble(facility.getLng()))/2.0),14));
+                    (126.9783740+Double.parseDouble(facility.getLng()))/2.0),13));
         }
 
     }
