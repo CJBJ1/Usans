@@ -67,9 +67,9 @@ public class ListFragment extends Fragment {
 
             for(int i=0;i<5;i++) {
                 Facility sortedData = new Facility(sortedList.get(i));
-                if(sortedData.getPhoto().length==0) {
+               /* if(sortedData.getPhoto().length==0) {
                     sortedData.setPhoto(facilityList.getImageList());
-                }
+                }*/
                 adapter.addItem(sortedData);
             }
             sansListView.setAdapter(adapter);

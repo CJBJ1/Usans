@@ -137,9 +137,11 @@ public class Info extends Fragment {
         addressView.setText(facility.getAddress());
         machinesView.setText(facility.getMachines());
         ratingBar.setRating(facility.getRating());
-        Random rnd = new Random();
-        int num = rnd.nextInt(4);
-        Glide.with(getContext()).load(facilityList.getImageList()[num]).into(imageView);
+        if(facility.getPhoto().length!=0) {
+            Random rnd = new Random();
+            int num = rnd.nextInt(facility.getPhoto().length);
+            Glide.with(getContext()).load(facility.getPhoto()[num]).into(imageView);
+        }
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
@@ -231,7 +233,7 @@ public class Info extends Fragment {
             }
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.5670135+Double.parseDouble(facility.getLat()))/2.0,
-                    (126.9783740+Double.parseDouble(facility.getLng()))/2.0),13));
+                    (126.9783740+Double.parseDouble(facility.getLng()))/2.0),11));
         }
 
     }

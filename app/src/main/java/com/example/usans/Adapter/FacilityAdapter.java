@@ -41,7 +41,9 @@ public class FacilityAdapter extends BaseAdapter {
         Facility item = items.get(position);
 
         view.setItemId(item.getId());
-        view.setItemImage(item.getPhoto());
+        if(item.getPhoto().length!=0) {
+            view.setItemImage(item.getPhoto());
+        }
         view.setItemName(item.getName());
         view.setItemAddress(item.getAddress());
         view.setItemMachines(item.getMachines());

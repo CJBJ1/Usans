@@ -57,8 +57,8 @@ public class RequestHttpURLConnection {
         try {
             URL url = new URL(_url);
             urlConn = (HttpURLConnection) url.openConnection();
-            urlConn.setReadTimeout(100000);
-            urlConn.setConnectTimeout(150000);
+            urlConn.setReadTimeout(10000);
+            urlConn.setConnectTimeout(15000);
             urlConn.setRequestMethod("GET");
             urlConn.setDoInput(true);
             urlConn.setRequestProperty("Accept-Charset", "utf-8");
