@@ -23,7 +23,7 @@ public class Facility implements Parcelable {
     public Facility() {
     }
 
-    public Facility(String id, String name, String address, String[] photo, String machines, String lat, String lng, float rating){
+    public Facility(String id, String name, String address, String[] photo, String machines, String lat, String lng, float rating,double distance){
         setId(id);
         setName(name);
         setAddress(address);
@@ -32,12 +32,18 @@ public class Facility implements Parcelable {
         setLat(lat);
         setLng(lng);
         setRating(rating);
+        setDistance(distance);
     }
     public Facility(Facility facility){
         setId(facility.getId());
         setName(facility.getName());
         setAddress(facility.getAddress());
-        setPhoto(new String[]{"image"});
+        if(facility.getPhoto()==null) {
+            setPhoto(new String[]{});
+        }
+        else{
+            setPhoto(facility.getPhoto());
+        }
         setMachines("철봉 허리돌리기 평행봉");
         setLat(facility.getLat());
         setLng(facility.getLng());

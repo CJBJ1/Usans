@@ -13,8 +13,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.example.usans.AppHelper;
 import com.example.usans.R;
+
+import java.util.Random;
 
 
 public class FacilityItemView extends LinearLayout {
@@ -54,7 +57,11 @@ public class FacilityItemView extends LinearLayout {
     }
 
     public void setItemId(String id) { facilityId = id; }
-    public void setItemImage(/*int resId*/) { /*sansImageView.setImageResource(R.drawable.user1);*/ }
+    public void setItemImage(String[] urlList) {
+        Random rnd = new Random();
+        int num = rnd.nextInt(4);
+        Glide.with(getContext()).load(urlList[num]).into(sansImageView);
+    }
     public void setItemName(String name) { nameView.setText(name); }
     public void setItemAddress(String address) { addressView.setText(address); }
     public void setItemMachines(String machines) { machinesView.setText(machines); }

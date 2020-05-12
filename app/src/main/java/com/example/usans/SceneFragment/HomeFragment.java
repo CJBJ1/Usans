@@ -112,11 +112,7 @@ public class HomeFragment extends Fragment
         fm.popBackStack();
         Facility facility;
 
-        if(index ==999) {
-            facility = new Facility("1", "고구동산", "서울시 동작구 상도 1동 325-9", new String[]{"image url"}, "허리돌리기 철봉 평행봉", "0.0", "0.0", 3);
-        }else {
-            facility = new Facility(facilityList.getArrayList().get(index));
-        }
+        facility = new Facility(facilityList.getArrayList().get(index));
         Fragment inf = new Info(facility,mMap);
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -134,7 +130,6 @@ public class HomeFragment extends Fragment
                     showInfo(infoFm, Integer.parseInt(marker.getTag().toString()));
                 }
                 else{
-
                     showInfo(infoFm, 999);
                 }
                 return false;
@@ -154,13 +149,6 @@ public class HomeFragment extends Fragment
             marker.setTag(index);
             facilityList.getArrayList().get(index).setMarker(marker);
         }
-
-        /*MarkerOptions markerOptions1 = new MarkerOptions();
-        markerOptions1.position(new LatLng(37.5670135, 126.9783740));
-        MarkerOptions markerOptions2 = new MarkerOptions();
-        markerOptions2.position(new LatLng(37.5640135, 126.9763740));
-        mMap.addMarker(markerOptions1).setTag("테스트");
-        mMap.addMarker(markerOptions2).setTag("테스트");*/
 
         mMap.setOnMarkerClickListener(markerClickListener);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.5670135, 126.9783740),15));
@@ -199,6 +187,8 @@ public class HomeFragment extends Fragment
                         index++;
                     }
                 }
+
+                addSans();
                 setMap();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -237,5 +227,24 @@ public class HomeFragment extends Fragment
         distance = locationA.distanceTo(locationB);
 
         return distance;
+    }
+
+    public void addSans(){
+        Facility facility = new Facility("10000", "분당중앙공원", "경기 성남시 분당구 성남대로 550",
+                new String[]{"https://img.theqoo.net/img/cipEd.jpg",
+                        "https://img.theqoo.net/img/JiUjC.jpg",
+                        "https://img.theqoo.net/img/BgmcT.jpg",
+                        "https://img.theqoo.net/img/kBWWT.jpg",
+                        "https://img.theqoo.net/img/jvVtA.jpg",
+                        "https://img.theqoo.net/img/alvzg.png"}, "몰라", "37.376260", "127.124842", 4 ,1
+        );
+        facilityList.getArrayList().add(facility);
+        facility = new Facility("10001","남산체육관","서울 용산구 소월로 272",
+                new String[]{"https://post-phinf.pstatic.net/MjAxNzA0MTFfMjIg/MDAxNDkxOTAxNTQ0MDIx.3lpcdB_DxIL00Bnpj4bfTooCYO9Q-fISZ-is70YGnxwg.O04eaSQVvPviZkc2kyUeumy6asVlzgRATcIYvBCblWQg.JPEG/KakaoTalk_20170411_180400451.jpg?type=w1200",
+                        "https://post-phinf.pstatic.net/MjAxNzA0MTFfMjQy/MDAxNDkxOTAxODIyMDk1.0ZSo5lUtFG_iNZZlz3N5tvfwNr3JvoUy-8_wtpfgS00g.odU29pGf2YmD5MJ_lgAcBBnfQzdhdiV7Ab0lAnwlHWEg.JPEG/IMG_6107.JPG?type=w1200",
+                        "https://post-phinf.pstatic.net/MjAxNzA0MTFfMiAg/MDAxNDkxOTAxODIyMTU0.Hk7z3DXkTSVuaGU_n_50axKmO9SMvItHa45psiyQPXMg.XxAp07EMaBA0W5OFGq-CwekcuDvKMuoUglp3JdWjzRAg.JPEG/IMG_6111.JPG?type=w1200",
+                        "https://post-phinf.pstatic.net/MjAxNzA0MTFfMjUy/MDAxNDkxOTAxOTM1NTQ1.S4jp6qgjbQfSzLkIsyKs7bmmbfJ2EB2DCyq3KnMOmGUg.gNu-77vMOyebbRwkrV2m2Ni5Ju_t6KxZdKvKcoiZ4nQg.JPEG/IMG_6105.JPG?type=w1200",
+                        "https://post-phinf.pstatic.net/MjAxNzA0MTFfMjgz/MDAxNDkxOTAxODU5NTg1.r0qXHuL2axoqG3VfuAF-c96x5dTro9jXF5_J8LrJB-Ag.UyVmmVmAGMewH5mqLhkY7-MtQaWoua3TR8mPF7N3Liwg.JPEG/KakaoTalk_20170411_180516595.jpg?type=w1200"},"몰라", "37.542769", "126.992699", 4 ,1);
+        facilityList.getArrayList().add(facility);
     }
 }

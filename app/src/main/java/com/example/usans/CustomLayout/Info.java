@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.DirectionsJSONParser;
@@ -40,6 +41,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Info extends Fragment {
     private Activity activity;
@@ -58,7 +60,7 @@ public class Info extends Fragment {
 
 
     public Info (Facility facility, GoogleMap mMap) {
-        this.facility = facility;
+        this.facility = new Facility(facility);
         this.mMap = mMap;
     }
 
@@ -135,6 +137,9 @@ public class Info extends Fragment {
         addressView.setText(facility.getAddress());
         machinesView.setText(facility.getMachines());
         ratingBar.setRating(facility.getRating());
+        Random rnd = new Random();
+        int num = rnd.nextInt(4);
+        Glide.with(getContext()).load(facilityList.getImageList()[num]).into(imageView);
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {

@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.User;
 import com.example.usans.LoginActivity;
@@ -185,6 +186,12 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
             super.onPostExecute(s);
             try {
                 JSONObject jsonObject = new JSONObject(s);
+                String imageUrl = jsonObject.getString("picture");
+                Glide.with(getActivity()).load(imageUrl).into(userImage);
+
+                userName.setText(jsonObject.getString("name"));
+                userName2.setText(jsonObject.getString("email"));
+
                 User user = new User();
                 facilityList = (FacilityList)getActivity().getApplication();
                 user.setId(jsonObject.getString("id"));
@@ -192,11 +199,6 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 user.setEmail(jsonObject.getString("email"));
                 user.setPicture(jsonObject.getString("picture"));
                 facilityList.setUser(user);
-
-                Log.d("토큰 확인",s);
-
-                userName.setText(jsonObject.getString("name")); // 임시
-                userName2.setText(jsonObject.getString("email"));
 
                 view.findViewById(R.id.sign_in_button).setVisibility(View.GONE);
                 view.findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);

@@ -52,12 +52,13 @@ public class ListFragment extends Fragment {
     }
 
     public void updateAdapter(){
+        adapter = new FacilityAdapter();
             ArrayList<Facility> sortedList = facilityList.getArrayList();
 
             Comparator<Facility> comparator = new Comparator<Facility>() {
                 @Override
                 public int compare(Facility facility, Facility t1) {
-                    return (int) (facility.getDistance()-t1.getDistance());
+                    return Double.compare(facility.getDistance(),t1.getDistance());
                 }
 
             };
@@ -65,8 +66,11 @@ public class ListFragment extends Fragment {
             Collections.sort(sortedList, comparator);
 
             for(int i=0;i<5;i++) {
-                Log.d("거리", sortedList.get(i).getDistance() + "");
-                adapter.addItem(new Facility(sortedList.get(i)));
+                Facility sortedData = new Facility(sortedList.get(i));
+                if(sortedData.getPhoto().length==0) {
+                    sortedData.setPhoto(facilityList.getImageList());
+                }
+                adapter.addItem(sortedData);
             }
             sansListView.setAdapter(adapter);
     }
