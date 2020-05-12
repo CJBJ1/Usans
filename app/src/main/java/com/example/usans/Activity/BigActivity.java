@@ -19,13 +19,6 @@ public class BigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_big);
 
-//        getSupportActionBar().setDisplayShowCustomEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setDisplayShowHomeEnabled(false);
-//        getSupportActionBar().setCustomView(LayoutInflater.from(this).inflate(R.layout.custom_action_bar, null));
-        getSupportActionBar().hide();
-
         imageView = findViewById(R.id.imageView);
 
         Intent intent = getIntent();

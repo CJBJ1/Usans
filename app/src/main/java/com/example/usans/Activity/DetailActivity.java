@@ -79,6 +79,13 @@ public class DetailActivity extends AppCompatActivity {
         adapter.addItem(new CommentItem("beomjoon", 0, -1, "테스트 / 철봉이 녹이 많이 슬었어요", "철봉"));
         commentListView.setAdapter(adapter);
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToImage(facility.getPhoto());
+            }
+        });
+
         layout();
     }
 
@@ -125,6 +132,12 @@ public class DetailActivity extends AppCompatActivity {
             adapter.addItem(commentItem);
         }
         adapter.notifyDataSetChanged();
+    }
+
+    public void moveToImage(String[] photos) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra("photos", photos);
+        startActivity(intent);
     }
 
     public void moveToReport() {

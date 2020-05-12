@@ -44,8 +44,6 @@ public class ImageActivity extends AppCompatActivity {
         intent = getIntent();
         photos = intent.getStringArrayExtra("photos");
 
-        getSupportActionBar().hide();
-
         setImage();
     }
 
