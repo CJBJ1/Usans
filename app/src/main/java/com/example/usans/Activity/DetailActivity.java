@@ -134,6 +134,12 @@ public class DetailActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    public void moveToImage(String[] photos) {
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra("photos", photos);
+        startActivity(intent);
+    }
+
     public void moveToReport() {
         if (facilityList.getUser()!=null) {
             Intent intent = new Intent(this, ReportActivity.class);
