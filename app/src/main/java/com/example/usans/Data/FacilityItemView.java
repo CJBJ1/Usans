@@ -59,9 +59,9 @@ public class FacilityItemView extends LinearLayout {
 
     public void setItemId(String id) { facilityId = id; }
     public void setItemImage(String[] urlList) {
-        Random rnd = new Random();
-        int num = rnd.nextInt(4);
-        Glide.with(getContext()).load(urlList[num]).into(sansImageView);
+        if(urlList.length>0) {
+            Glide.with(getContext()).load(urlList[0]).into(sansImageView);
+        }
     }
     public void setItemName(String name) { nameView.setText(name); }
     public void setItemAddress(String address) { addressView.setText(address); }

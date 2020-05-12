@@ -46,7 +46,7 @@ public class CommentAdapter extends BaseAdapter {
         view.setItemTime(item.getTime());
         view.setItemComment(item.getContents());
         view.setItemRating(item.getRating());
-        view.setItemMachine(item.getMachine());
+        view.setItemMachine(item.getMachine(), item.getRating());
 
         return view;
     }

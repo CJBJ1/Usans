@@ -3,6 +3,7 @@ package com.example.usans.SceneFragment;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,6 @@ public class ListFragment extends Fragment {
     View view;
     ListView sansListView;
     Facility facility;
-    FacilityAdapter adapter;
     FacilityList facilityList;
 
     @Nullable
@@ -49,15 +49,20 @@ public class ListFragment extends Fragment {
         sansListView = view.findViewById(R.id.sans_list_view);
         facilityList = (FacilityList) getActivity().getApplication();
         sortedList = new ArrayList<>();
-        adapter = new FacilityAdapter();
 
 
         return view;
     }
 
     public void updateAdapter(){
-        adapter = new FacilityAdapter();
-            final ArrayList<Facility> sortedList = facilityList.getArrayList();
+        FacilityAdapter adapter = new FacilityAdapter();
+        sortedList = new ArrayList<>(facilityList.getArrayList());
+
+        adapter.addItem(new Facility(sortedList.get(1)));
+        Log.d("겟겟",facilityList.getArrayList().get(1).getName());
+        adapter.addItem(new Facility(sortedList.get(3)));
+        adapter.addItem(new Facility(sortedList.get(2)));
+        adapter.addItem(new Facility(sortedList.get(0)));
 
             Comparator<Facility> comparator = new Comparator<Facility>() {
                 @Override
@@ -70,31 +75,12 @@ public class ListFragment extends Fragment {
             Collections.sort(sortedList, comparator);
 
 
-        if(sortedList.size()<5){
-            for(int i=0;i<sortedList.size();i++) {
-                Facility sortedData = new Facility(sortedList.get(i));
-               /* if(sortedData.getPhoto().length==0) {
-                    sortedData.setPhoto(facilityList.getImageList());
-                }*/
-                adapter.addItem(sortedData);
-                }
-            }
-        else{
-            for(int i=0;i<5;i++) {
-                Facility sortedData = new Facility(sortedList.get(i));
-               /* if(sortedData.getPhoto().length==0) {
-                    sortedData.setPhoto(facilityList.getImageList());
-                }*/
-                adapter.addItem(sortedData);
-            }
-        }
-            sansListView.setAdapter(adapter);
-
+        sansListView.setAdapter(adapter);
         sansListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
-                intent.putExtra("facility", sortedList.get(i));
+                intent.putExtra("facility", (Facility) adapterView.getItemAtPosition(i));
                 startActivity(intent);
             }
         });

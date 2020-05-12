@@ -41,7 +41,7 @@ public class FacilityAdapter extends BaseAdapter {
         Facility item = items.get(position);
 
         view.setItemId(item.getId());
-        if(item.getPhoto().length!=0) {
+        if(Integer.parseInt(item.getId())>=10000) {
             view.setItemImage(item.getPhoto());
         }
         view.setItemName(item.getName());

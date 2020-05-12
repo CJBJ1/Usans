@@ -65,7 +65,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
         userName = (TextView)view.findViewById(R.id.user_name);
         userName2 = (TextView)view.findViewById(R.id.user_name2);
         userName.setText("이름");
-        userName2.setText("닉네임");
+        userName2.setText("이메일");
         userImage = (ImageView)view.findViewById(R.id.user_image);
         facilityList = (FacilityList) getActivity().getApplication();
 
@@ -95,6 +95,9 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 updateUI();
+
+                userName.setText("이름");
+                userName2.setText("이메일");
             }
         });
     }
@@ -188,13 +191,14 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(s);
                 String imageUrl = jsonObject.getString("picture");
                 Glide.with(getActivity()).load(imageUrl).into(userImage);
+                Log.d("토큰",s);
 
                 userName.setText(jsonObject.getString("name"));
                 userName2.setText(jsonObject.getString("email"));
 
                 User user = new User();
                 facilityList = (FacilityList)getActivity().getApplication();
-                user.setId(jsonObject.getString("id"));
+                user.setId(jsonObject.getString("uid"));
                 user.setName(jsonObject.getString("name"));
                 user.setEmail(jsonObject.getString("email"));
                 user.setPicture(jsonObject.getString("picture"));

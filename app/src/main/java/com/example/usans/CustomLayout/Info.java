@@ -3,7 +3,9 @@ package com.example.usans.CustomLayout;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +34,10 @@ import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -55,6 +60,7 @@ public class Info extends Fragment {
     Button closeButton, detailButton, routineRecommendButton, startButton;
 
     ImageView imageView;
+    ImageView imageView2;
     TextView nameView, addressView, machinesView;
     RatingBar ratingBar;
 
@@ -70,6 +76,7 @@ public class Info extends Fragment {
         view = inflater.inflate(R.layout.info_view, container, false);
         facilityList = (FacilityList)getActivity().getApplication();
         imageView = view.findViewById(R.id.sans_image_view);
+        imageView2 = (ImageView)view.findViewById(R.id.sans_sub_image_view);
         nameView = view.findViewById(R.id.sans_name);
         addressView = view.findViewById(R.id.sans_address);
         machinesView = view.findViewById(R.id.sans_machines);
@@ -98,9 +105,9 @@ public class Info extends Fragment {
         routineRecommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity act = (MainActivity) getActivity();
+               /* MainActivity act = (MainActivity) getActivity();
                 HomeFragment homeF =  act.homeFragment;
-                homeF.showRecommend();
+                homeF.showRecommend();*/
                 closeInfo();
             }
         });
@@ -138,9 +145,7 @@ public class Info extends Fragment {
         machinesView.setText(facility.getMachines());
         ratingBar.setRating(facility.getRating());
         if(facility.getPhoto().length!=0) {
-            Random rnd = new Random();
-            int num = rnd.nextInt(facility.getPhoto().length);
-            Glide.with(getContext()).load(facility.getPhoto()[num]).into(imageView);
+            Glide.with(getContext()).load(facility.getPhoto()[0]).into(imageView);
         }
     }
 
@@ -231,6 +236,13 @@ public class Info extends Fragment {
                     facilityList.getArrayList().get(i).getMarker().setVisible(false);
                 }
             }
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(new LatLng(37.5670135,126.9783740));
+            Marker marker = mMap.addMarker(markerOptions);
+
+            marker.setIcon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            marker.setTag("start");
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.5670135+Double.parseDouble(facility.getLat()))/2.0,
                     (126.9783740+Double.parseDouble(facility.getLng()))/2.0),11));

@@ -67,7 +67,8 @@ public class CommentItemView extends LinearLayout {
         if (userRating >= 0) ratingBar.setRating(userRating);
         else ratingBar.setVisibility(INVISIBLE);
     }
-    public void setItemMachine(String machine) {
-        machineView.setText(machine);}
+    public void setItemMachine(String machine,float userRating) {
+        machineView.setText(machine);
+    }
 
 }

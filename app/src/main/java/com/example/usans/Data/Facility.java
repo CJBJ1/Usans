@@ -23,9 +23,9 @@ public class Facility implements Parcelable {
     private Marker marker;
     private double distance;
 
-    public Facility() {
-    }
+    public Facility(){
 
+    }
     public Facility(String id, String name, String address, String[] photo, String machines, String lat, String lng, float rating,double distance){
         setId(id);
         setName(name);
