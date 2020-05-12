@@ -95,9 +95,10 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 updateUI();
-
                 userName.setText("이름");
                 userName2.setText("이메일");
+                userImage.setImageResource(R.mipmap.ic_launcher);
+                facilityList.setUser(null);
             }
         });
     }

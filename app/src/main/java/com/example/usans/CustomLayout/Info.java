@@ -246,12 +246,6 @@ public class Info extends Fragment {
                 }
             }
 
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(new LatLng(37.5670135,126.9783740));
-            Marker marker = mMap.addMarker(markerOptions);
-
-            marker.setIcon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            marker.setTag("start");
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.5670135+Double.parseDouble(facility.getLat()))/2.0,
                     (126.9783740+Double.parseDouble(facility.getLng()))/2.0),11));

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.usans.Data.Facility;
@@ -23,11 +24,14 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class WriteCommentActivity extends AppCompatActivity {
     Button saveButton, cancelButton;
     EditText contentsInput;
+    TextView titleView;
     RatingBar ratingBar;
+    String title;
     String userID;
     String facilityID;
 
@@ -42,8 +46,12 @@ public class WriteCommentActivity extends AppCompatActivity {
         cancelButton = findViewById(R.id.cancel_button);
         contentsInput = findViewById(R.id.contents_input);
         ratingBar = findViewById(R.id.write_rating_bar);
+        titleView = findViewById(R.id.write_title_view);
+        title = intent.getStringExtra("title");
         userID = intent.getStringExtra("userID");
         facilityID = intent.getStringExtra("facilityID");
+
+        titleView.setText(title);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +78,7 @@ public class WriteCommentActivity extends AppCompatActivity {
             finish();
             return false;
         } else {
+            Log.d("userID",userID);
             String url = "http://3.34.18.171.nip.io:8000/review/?user="+userID+"&loc="+facilityID+"&rating="+Math.round(ratingBar.getRating())+"&text="+contents;
             NetworkTask networkTask = new NetworkTask(url, null);
             networkTask.execute();

@@ -135,14 +135,13 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void moveToReport() {
-        if (1 == 1) {
+        if (facilityList.getUser()!=null) {
             Intent intent = new Intent(this, ReportActivity.class);
             intent.putExtra("machines", facility.getMachines());
             intent.putExtra("facilityID", facility.getId());
             intent.putExtra("userID", facilityList.getUser().getId());
             startActivityForResult(intent, 100);
         } else {
-
             AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
             builder.setTitle("로그인이 필요합니다.");
             builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -156,13 +155,13 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void moveToWrite() {
-        if (1 == 1) {
+        if (facilityList.getUser()!=null) {
             Intent intent = new Intent(this, WriteCommentActivity.class);
+            intent.putExtra("title",facility.getName());
             intent.putExtra("facilityID", facility.getId());
             intent.putExtra("userID", facilityList.getUser().getId());
             startActivityForResult(intent, 100);
         } else {
-
             AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
             builder.setTitle("로그인이 필요합니다.");
             builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {

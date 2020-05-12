@@ -78,6 +78,15 @@ public class ReportActivity extends AppCompatActivity {
             finish();
             return false;
         } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("user", userID);
+            contentValues.put("loc", facilityID);
+            contentValues.put("rating", -1);
+            contentValues.put("text", contents);
+            contentValues.put("mach", "testmachine");
+            contentValues.put("stat", picked);
+
+
             String url = "http://3.34.18.171.nip.io:8000/review/?user="+userID+"&loc="+facilityID+"&rating=-1&text="+contents+"&mach=testmachine"+
                     "&stat="+picked;
             NetworkTask networkTask = new NetworkTask(url, null);

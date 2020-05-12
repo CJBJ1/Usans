@@ -150,7 +150,7 @@ public class RequestHttpURLConnection {
             // [2-1]. urlConn 설정.
             urlConn.setReadTimeout(10000);
             urlConn.setConnectTimeout(15000);
-            urlConn.setRequestMethod("GET"); // URL 요청에 대한 메소드 설정 : GET/POST.
+            urlConn.setRequestMethod("POST"); // URL 요청에 대한 메소드 설정 : GET/POST.
             urlConn.setDoOutput(true);
             urlConn.setDoInput(true);
             urlConn.setRequestProperty("Accept-Charset", "utf-8"); // Accept-Charset 설정.
