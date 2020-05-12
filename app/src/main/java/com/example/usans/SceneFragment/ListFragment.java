@@ -65,7 +65,9 @@ public class ListFragment extends Fragment {
 
             Collections.sort(sortedList, comparator);
 
-            for(int i=0;i<5;i++) {
+            int size = sortedList.size();
+            int max = 5<=size ? 5 : size;
+            for(int i=0;i<max;i++) {
                 Facility sortedData = new Facility(sortedList.get(i));
                /* if(sortedData.getPhoto().length==0) {
                     sortedData.setPhoto(facilityList.getImageList());

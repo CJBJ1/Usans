@@ -110,6 +110,7 @@ public class Info extends Fragment {
                 Info.super.getActivity().onBackPressed();
 
                 MainActivity main = (MainActivity) Info.super.getActivity();
+                main.ca.roadMode = true;
                 main.ca.setActionBar(5);
 
                 String url = "https://maps.googleapis.com/maps/api/directions/" +

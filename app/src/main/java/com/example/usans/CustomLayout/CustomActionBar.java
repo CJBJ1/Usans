@@ -33,9 +33,12 @@ public class CustomActionBar {
     public TextView stepCountView;
     public Button arrivalButton;
 
+    public boolean roadMode;
+
     public CustomActionBar(Activity _activity, ActionBar _actionBar) {
         this.activity = _activity;
         this.actionBar = _actionBar;
+        roadMode = false;
 
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -47,6 +50,10 @@ public class CustomActionBar {
     public void setActionBar(int n) {
         switch (n) {
             case 0:
+                if (roadMode) {
+                    setActionBar(5);
+                    break;
+                }
                 mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar, null);
                 actionBar.setCustomView(mCustomView);
 
@@ -103,6 +110,7 @@ public class CustomActionBar {
                 arrivalButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        roadMode = false;
                         setActionBar(0);
                         MainActivity main = (MainActivity) activity;
                         facilityList = (FacilityList)activity.getApplication();
@@ -115,6 +123,7 @@ public class CustomActionBar {
                         main.homeFragment.showRecommend();
                     }
                 });
+                break;
         }
 
         setExtend();
