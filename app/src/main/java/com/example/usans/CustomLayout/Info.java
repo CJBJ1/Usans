@@ -121,6 +121,14 @@ public class Info extends Fragment {
                 networkTask.execute();
             }
         });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("imageView", "클릭됨");
+                MainActivity main = (MainActivity) getActivity();
+                main.moveToImage(facility.getPhoto());
+            }
+        });
 
         layout();
         return view;
