@@ -82,6 +82,7 @@ public class ListFragment extends Fragment {
                 Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
                 intent.putExtra("facility", (Facility) adapterView.getItemAtPosition(i));
                 startActivity(intent);
+
             }
         });
     }

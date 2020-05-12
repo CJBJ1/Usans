@@ -117,6 +117,7 @@ public class Info extends Fragment {
                 Info.super.getActivity().onBackPressed();
 
                 MainActivity main = (MainActivity) Info.super.getActivity();
+                main.ca.roadMode = true;
                 main.ca.setActionBar(5);
 
                 String url = "https://maps.googleapis.com/maps/api/directions/" +
@@ -125,6 +126,14 @@ public class Info extends Fragment {
 
                 NetworkTask networkTask = new NetworkTask(url, null);
                 networkTask.execute();
+            }
+        });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("imageView", "클릭됨");
+                MainActivity main = (MainActivity) getActivity();
+                main.moveToImage(facility.getPhoto());
             }
         });
 
