@@ -1,22 +1,26 @@
 package com.example.usans.SceneFragment;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.usans.Activity.DetailActivity;
 import com.example.usans.Adapter.CommentAdapter;
 import com.example.usans.Adapter.FacilityAdapter;
 import com.example.usans.Data.CommentItem;
 import com.example.usans.Data.CommentList;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -53,7 +57,7 @@ public class ListFragment extends Fragment {
 
     public void updateAdapter(){
         adapter = new FacilityAdapter();
-            ArrayList<Facility> sortedList = facilityList.getArrayList();
+            final ArrayList<Facility> sortedList = facilityList.getArrayList();
 
             Comparator<Facility> comparator = new Comparator<Facility>() {
                 @Override
@@ -65,6 +69,17 @@ public class ListFragment extends Fragment {
 
             Collections.sort(sortedList, comparator);
 
+
+        if(sortedList.size()<5){
+            for(int i=0;i<sortedList.size();i++) {
+                Facility sortedData = new Facility(sortedList.get(i));
+               /* if(sortedData.getPhoto().length==0) {
+                    sortedData.setPhoto(facilityList.getImageList());
+                }*/
+                adapter.addItem(sortedData);
+                }
+            }
+        else{
             for(int i=0;i<5;i++) {
                 Facility sortedData = new Facility(sortedList.get(i));
                /* if(sortedData.getPhoto().length==0) {
@@ -72,6 +87,16 @@ public class ListFragment extends Fragment {
                 }*/
                 adapter.addItem(sortedData);
             }
+        }
             sansListView.setAdapter(adapter);
+
+        sansListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
+                intent.putExtra("facility", sortedList.get(i));
+                startActivity(intent);
+            }
+        });
     }
 }

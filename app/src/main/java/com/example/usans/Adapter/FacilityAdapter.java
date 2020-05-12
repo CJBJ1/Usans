@@ -46,7 +46,12 @@ public class FacilityAdapter extends BaseAdapter {
         }
         view.setItemName(item.getName());
         view.setItemAddress(item.getAddress());
-        view.setItemMachines(item.getMachines());
+        if(item.getMachineList()==null) {
+            view.setItemMachines(item.getMachines());
+        }
+        else{
+            view.setItemMachineList(item.getMachineList());
+        }
         view.setItemRating(item.getRating());
         view.setItemDistance(item.getDistance());
 

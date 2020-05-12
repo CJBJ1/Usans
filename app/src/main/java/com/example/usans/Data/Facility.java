@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class Facility implements Parcelable {
 
     private String id;
@@ -13,6 +15,7 @@ public class Facility implements Parcelable {
     private String address;
     private String[] photo;
     private String machines;
+    private ArrayList<String> machineList;
     private String lat;
     private String lng;
 
@@ -49,6 +52,9 @@ public class Facility implements Parcelable {
         }
         else {
             setMachines(facility.getMachines());
+            machineList = new ArrayList<>();
+            for (String machine : facility.getMachines().split(" "))
+                machineList.add(machine);
         }
         setLat(facility.getLat());
         setLng(facility.getLng());
@@ -174,6 +180,14 @@ public class Facility implements Parcelable {
 
     public double getDistance() {
         return distance;
+    }
+
+    public void setMachineList(ArrayList<String> machineList) {
+        this.machineList = machineList;
+    }
+
+    public ArrayList<String> getMachineList() {
+        return machineList;
     }
 }
 

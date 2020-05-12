@@ -128,24 +128,21 @@ public class HomeFragment extends Fragment
             @Override
             public boolean onMarkerClick(Marker marker) {
                 showInfo(infoFm, Integer.parseInt(marker.getTag().toString()));
-
                 return false;
             }
         };
-
-        Log.d("사이즈",facilityList.getArrayList().size() + "");
 
         for (int index =0;index<facilityList.getArrayList().size();index++) {
             MarkerOptions markerOptions = new MarkerOptions();
             Double lat = Double.parseDouble(facilityList.getArrayList().get(index).getLat());
             Double lng = Double.parseDouble(facilityList.getArrayList().get(index).getLng());
-            Log.d("위도",lat + "");
-            Log.d("경도",lng + "");
             markerOptions.position(new LatLng(lat,lng));
             Marker marker = mMap.addMarker(markerOptions);
             marker.setTag(index);
+
             if(Integer.parseInt(facilityList.getArrayList().get(index).getId())>=10000)
                 marker.setIcon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
             facilityList.getArrayList().get(index).setMarker(marker);
         }
 
@@ -181,7 +178,7 @@ public class HomeFragment extends Fragment
                 int index=0;
                 if (s != null) {
                     jsArr = new JSONArray(s);
-                    while (index != 50) {
+                    while (index != 20) {
                         parseJS(jsArr, index);
                         index++;
                     }
@@ -242,7 +239,7 @@ public class HomeFragment extends Fragment
                         "https://post-phinf.pstatic.net/MjAxNzA0MTFfMjQy/MDAxNDkxOTAxODIyMDk1.0ZSo5lUtFG_iNZZlz3N5tvfwNr3JvoUy-8_wtpfgS00g.odU29pGf2YmD5MJ_lgAcBBnfQzdhdiV7Ab0lAnwlHWEg.JPEG/IMG_6107.JPG?type=w1200",
                         "https://post-phinf.pstatic.net/MjAxNzA0MTFfMiAg/MDAxNDkxOTAxODIyMTU0.Hk7z3DXkTSVuaGU_n_50axKmO9SMvItHa45psiyQPXMg.XxAp07EMaBA0W5OFGq-CwekcuDvKMuoUglp3JdWjzRAg.JPEG/IMG_6111.JPG?type=w1200",
                         "https://post-phinf.pstatic.net/MjAxNzA0MTFfMjUy/MDAxNDkxOTAxOTM1NTQ1.S4jp6qgjbQfSzLkIsyKs7bmmbfJ2EB2DCyq3KnMOmGUg.gNu-77vMOyebbRwkrV2m2Ni5Ju_t6KxZdKvKcoiZ4nQg.JPEG/IMG_6105.JPG?type=w1200",
-                        "https://post-phinf.pstatic.net/MjAxNzA0MTFfMjgz/MDAxNDkxOTAxODU5NTg1.r0qXHuL2axoqG3VfuAF-c96x5dTro9jXF5_J8LrJB-Ag.UyVmmVmAGMewH5mqLhkY7-MtQaWoua3TR8mPF7N3Liwg.JPEG/KakaoTalk_20170411_180516595.jpg?type=w1200"},"스탠딩레그컬머신 레그익스텐션머신 체스트프레스머신 버터플라이머신 철봉", "37.542769", "126.992699", 4 ,1);
+                        "https://post-phinf.pstatic.net/MjAxNzA0MTFfMjgz/MDAxNDkxOTAxODU5NTg1.r0qXHuL2axoqG3VfuAF-c96x5dTro9jXF5_J8LrJB-Ag.UyVmmVmAGMewH5mqLhkY7-MtQaWoua3TR8mPF7N3Liwg.JPEG/KakaoTalk_20170411_180516595.jpg?type=w1200"},"벤치프레스 스탠딩레그컬머신 레그익스텐션머신 체스트프레스머신 버터플라이머신 철봉", "37.542769", "126.992699", 4 ,1);
         facilityList.getArrayList().add(facility);
         facility = new Facility("10002","관악산 운동시설","서울 관악구 대학동 산28-7",
                 new String[]{"https://postfiles.pstatic.net/MjAyMDA0MTFfNjgg/MDAxNTg2NTk1NDc1NDgx.XX7HZPu4V01tEMCNL-5SpTucuuyH4_QGHXDblqVGGZYg.06Crs3nTfDkWQ6IVyjm9Z9yejniYOYIBtsiQSi7ILiog.JPEG.lovehun96/1586595476219.jpg?type=w580",

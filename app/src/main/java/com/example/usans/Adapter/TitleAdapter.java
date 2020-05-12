@@ -52,12 +52,6 @@ public class TitleAdapter extends BaseAdapter {
         view.setItemTitle(item.getTitle());
         view.setItemContents(item.getContents());
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("예이","예");
-            }
-        });
         return view;
     }
 

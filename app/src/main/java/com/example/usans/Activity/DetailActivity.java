@@ -172,10 +172,12 @@ public class DetailActivity extends AppCompatActivity {
         addressView.setText(facility.getAddress());
         machinesView.setText(facility.getMachines());
         ratingBar.setRating(facility.getRating());
-        if(facility.getPhoto().length!=0) {
-            Random rnd = new Random();
-            int num = rnd.nextInt(facility.getPhoto().length);
-            Glide.with(this).load(facility.getPhoto()[num]).into(imageView);
+        if(facility.getPhoto()!=null) {
+            if (facility.getPhoto().length != 0) {
+                Random rnd = new Random();
+                int num = rnd.nextInt(facility.getPhoto().length);
+                Glide.with(this).load(facility.getPhoto()[num]).into(imageView);
+            }
         }
     }
 }

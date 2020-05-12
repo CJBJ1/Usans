@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.usans.AppHelper;
 import com.example.usans.R;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -65,6 +66,11 @@ public class FacilityItemView extends LinearLayout {
     public void setItemName(String name) { nameView.setText(name); }
     public void setItemAddress(String address) { addressView.setText(address); }
     public void setItemMachines(String machines) { machinesView.setText(machines); }
+    public void setItemMachineList(ArrayList<String> machineList){
+        int surplus = machineList.size()-2;
+        String lists = machineList.get(0) + " " + machineList.get(1)+" "+ "외 " + surplus  + "종";
+        machinesView.setText(lists);
+    }
     public void setItemRating(float userRating) { ratingBar.setRating(userRating); }
     public void setItemDistance(double distance){distanceView.setText(String.valueOf((Math.round(distance)/1000.0))+ "km");}
 
