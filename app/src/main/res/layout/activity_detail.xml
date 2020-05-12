@@ -31,10 +31,11 @@
         android:id="@+id/sans_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="15dp"
         android:text="장소 이름"
-        android:textSize="28dp"
         android:textColor="@android:color/black"
+        android:textSize="28dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/view2"
         app:layout_constraintTop_toTopOf="@+id/sans_image_view" />
 
@@ -42,7 +43,7 @@
         android:id="@+id/sans_address"
         android:layout_width="221dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="17dp"
         android:layout_marginTop="8dp"
         android:text="장소 주소"
         android:textSize="15dp"
@@ -154,8 +155,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/green_corner"
-        android:padding="3dp"
+        android:padding="5dp"
         android:text="기구 상태 리포트"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/sans_image_view"
         app:layout_constraintStart_toStartOf="@+id/sans_name" />
 
