@@ -44,7 +44,12 @@ public class Facility implements Parcelable {
         else{
             setPhoto(facility.getPhoto());
         }
-        setMachines("철봉 허리돌리기 평행봉");
+        if(Integer.parseInt(facility.getId())<10000) {
+            setMachines("철봉 허리돌리기 평행봉");
+        }
+        else {
+            setMachines(facility.getMachines());
+        }
         setLat(facility.getLat());
         setLng(facility.getLng());
         setRating(Integer.parseInt(facility.getId())%3+2);

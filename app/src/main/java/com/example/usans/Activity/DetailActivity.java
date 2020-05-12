@@ -128,7 +128,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void moveToReport() {
-        if(facilityList.getUser()!=null) {
+        if(1==1) {
             Intent intent = new Intent(this, ReportActivity.class);
             intent.putExtra("machines", facility.getMachines());
             startActivity(intent);
@@ -148,7 +148,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void moveToWrite() {
-        if(facilityList.getUser()!=null) {
+        if(1==1) {
             Intent intent = new Intent(this, WriteCommentActivity.class);
             startActivity(intent);
         }
