@@ -186,7 +186,6 @@ public class HomeFragment extends Fragment
                         index++;
                     }
                 }
-
                 addSans();
                 setMap();
             } catch (JSONException e) {

@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.example.usans.Adapter.CommentAdapter;
 import com.example.usans.AppHelper;
 import com.example.usans.Data.CommentItem;
@@ -26,6 +27,8 @@ import com.example.usans.Data.Facility;
 import com.example.usans.R;
 import com.example.usans.Data.FacilityList;
 import com.google.gson.Gson;
+
+import java.util.Random;
 
 public class DetailActivity extends AppCompatActivity {
     Intent intent;
@@ -125,13 +128,27 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void moveToReport() {
-        Intent intent = new Intent(this, ReportActivity.class);
-        intent.putExtra("machines", facility.getMachines());
-        startActivity(intent);
+        if(facilityList.getUser()!=null) {
+            Intent intent = new Intent(this, ReportActivity.class);
+            intent.putExtra("machines", facility.getMachines());
+            startActivity(intent);
+        }
+        else{
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+            builder.setTitle("로그인이 필요합니다.");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 
     public void moveToWrite() {
-        if(facilityList.getAccessToken()!=null) {
+        if(facilityList.getUser()!=null) {
             Intent intent = new Intent(this, WriteCommentActivity.class);
             startActivity(intent);
         }
@@ -155,5 +172,10 @@ public class DetailActivity extends AppCompatActivity {
         addressView.setText(facility.getAddress());
         machinesView.setText(facility.getMachines());
         ratingBar.setRating(facility.getRating());
+        if(facility.getPhoto().length!=0) {
+            Random rnd = new Random();
+            int num = rnd.nextInt(facility.getPhoto().length);
+            Glide.with(this).load(facility.getPhoto()[num]).into(imageView);
+        }
     }
 }
