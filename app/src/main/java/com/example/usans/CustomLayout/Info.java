@@ -121,7 +121,7 @@ public class Info extends Fragment {
                 main.ca.setActionBar(5);
 
                 String url = "https://maps.googleapis.com/maps/api/directions/" +
-                        "json?origin=37.5670135,126.9783740&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
+                        "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
                         "&key=AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI";
 
                 NetworkTask networkTask = new NetworkTask(url, null);
@@ -247,8 +247,8 @@ public class Info extends Fragment {
             }
 
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.5670135+Double.parseDouble(facility.getLat()))/2.0,
-                    (126.9783740+Double.parseDouble(facility.getLng()))/2.0),11));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.503149+Double.parseDouble(facility.getLat()))/2.0,
+                    (126.952264+Double.parseDouble(facility.getLng()))/2.0),11));
         }
 
     }

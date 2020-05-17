@@ -127,7 +127,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 String url = "http://3.34.18.171.nip.io:8000/get-code/?state=state_parameter_passthrough_value&code="+authCode+"&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.metadata.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=none#";
                 NetworkTaskAuth networkTaskAuth = new NetworkTaskAuth(url, null);
                 networkTaskAuth.execute();
-                Log.d("된다",authCode);
+                Log.d("code",authCode);
 
             } catch (ApiException e) {
                 Log.w(TAG, "안된다 안돼", e);
@@ -192,7 +192,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(s);
                 String imageUrl = jsonObject.getString("picture");
                 Glide.with(getActivity()).load(imageUrl).into(userImage);
-                Log.d("토큰",s);
+                Log.d("로그인",s);
 
                 userName.setText(jsonObject.getString("name"));
                 userName2.setText(jsonObject.getString("email"));

@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        userLocation = new LatLng(37.5670135, 126.9783740);
+        userLocation = new LatLng(37.503149, 126.952264);
         facilityList = (FacilityList)getActivity().getApplicationContext();
         fm = getChildFragmentManager();
         infoFm = getFragmentManager();
@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment
         }
 
         mMap.setOnMarkerClickListener(markerClickListener);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(37.5670135, 126.9783740),15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,15));
 
     }
 
@@ -175,11 +175,12 @@ public class HomeFragment extends Fragment
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
+                Log.d("결과",s);
                 addSans();
                 int index=0;
                 if (s != null) {
                     jsArr = new JSONArray(s);
-                    while (index != 20) {
+                    while (index != 10) {
                         parseJS(jsArr, index);
                         index++;
                     }

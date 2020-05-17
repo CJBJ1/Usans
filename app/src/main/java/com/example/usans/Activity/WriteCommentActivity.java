@@ -110,8 +110,8 @@ public class WriteCommentActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Log.d("POST","POST");
         }
-
     }
 
 }

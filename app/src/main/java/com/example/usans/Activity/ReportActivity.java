@@ -119,6 +119,7 @@ public class ReportActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Log.d("POST","POST");
         }
 
     }

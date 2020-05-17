@@ -58,10 +58,9 @@ public class ListFragment extends Fragment {
         FacilityAdapter adapter = new FacilityAdapter();
         sortedList = new ArrayList<>(facilityList.getArrayList());
 
-        adapter.addItem(new Facility(sortedList.get(1)));
-        Log.d("겟겟",facilityList.getArrayList().get(1).getName());
-        adapter.addItem(new Facility(sortedList.get(3)));
         adapter.addItem(new Facility(sortedList.get(2)));
+        adapter.addItem(new Facility(sortedList.get(1)));
+        adapter.addItem(new Facility(sortedList.get(3)));
         adapter.addItem(new Facility(sortedList.get(0)));
 
             Comparator<Facility> comparator = new Comparator<Facility>() {

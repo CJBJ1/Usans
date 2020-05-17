@@ -30,7 +30,6 @@ import com.example.usans.Data.Facility;
 import com.example.usans.R;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.RequestHttpURLConnection;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,6 +82,13 @@ public class DetailActivity extends AppCompatActivity {
         });
         commentListView = findViewById(R.id.comment_list_view);
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToImage(facility.getPhoto());
+            }
+        });
+
         String url = "http://3.34.18.171.nip.io:8000/api/Review";
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
@@ -116,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void processResponse(String response) {
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
 
 //        ResponseInfo info = gson.fromJson(response, ResponseInfo.class);
 //        if (info.code == 200) {
@@ -227,7 +233,7 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("예", s);
+            Log.d("서버", s);
             try {
                 JSONArray jsArr = new JSONArray(s);
                 int index = jsArr.length() - 1;
