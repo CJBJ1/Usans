@@ -1,0 +1,148 @@
+package com.example.usans;
+
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+
+import com.example.usans.CustomLayout.Info;
+import com.example.usans.Data.Facility;
+import com.example.usans.Data.FacilityList;
+import com.example.usans.SceneFragment.HomeFragment;
+import com.skt.Tmap.TMapMarkerItem2;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+public class MarkerOverlay extends TMapMarkerItem2 {
+
+    private DisplayMetrics dm = null;
+
+    private Context mContext = null;
+    private BalloonOverlayView balloonView = null;
+    private int mAnimationCount = 0;
+    private FacilityList facilityList;
+    private FragmentManager fm;
+
+
+    @Override
+    public Bitmap getIcon() {
+        return super.getIcon();
+    }
+
+    @Override
+    public void setIcon(Bitmap bitmap) {
+        super.setIcon(bitmap);
+    }
+
+    @Override
+    public void setTMapPoint(TMapPoint point) {
+        super.setTMapPoint(point);
+    }
+
+    @Override
+    public TMapPoint getTMapPoint() {
+        return super.getTMapPoint();
+    }
+
+    @Override
+    public void setPosition(float dx, float dy) {
+        super.setPosition(dx, dy);
+    }
+
+    public void setFm(FragmentManager fm) {
+        this.fm = fm;
+    }
+
+    public void setFacilityList(FacilityList facilityList) {
+        this.facilityList = facilityList;
+    }
+
+    /**
+     * 풍선뷰 영역을 설정한다.
+     */
+    @Override
+    public void setCalloutRect(Rect rect) {
+        super.setCalloutRect(rect);
+    }
+
+    public MarkerOverlay(Context context, String labelName, String id,FragmentManager fm) {
+        this.mContext = context;
+        this.fm = fm;
+        facilityList = (FacilityList) context;
+        dm = new DisplayMetrics();
+        WindowManager wmgr = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        wmgr.getDefaultDisplay().getMetrics(dm);
+    }
+
+    @Override
+    public void draw(Canvas canvas, TMapView mapView, boolean showCallout) {
+
+        int x = mapView.getRotatedMapXForPoint(getTMapPoint().getLatitude(), getTMapPoint().getLongitude());
+        int y = mapView.getRotatedMapYForPoint(getTMapPoint().getLatitude(), getTMapPoint().getLongitude());
+
+        canvas.save();
+        canvas.rotate(-mapView.getRotate(), mapView.getCenterPointX(), mapView.getCenterPointY());
+
+        float xPos = getPositionX();
+        float yPos = getPositionY();
+
+        int nPos_x, nPos_y;
+
+        int nMarkerIconWidth = 0;
+        int nMarkerIconHeight = 0;
+        int marginX = 0;
+        int marginY = 0;
+
+        nMarkerIconWidth = getIcon().getWidth();
+        nMarkerIconHeight = getIcon().getHeight();
+
+        nPos_x = (int) (xPos * nMarkerIconWidth);
+        nPos_y = (int) (yPos * nMarkerIconHeight);
+
+        if(nPos_x == 0) {
+            marginX = nMarkerIconWidth / 2;
+        } else {
+            marginX = nPos_x;
+        }
+
+        if(nPos_y == 0) {
+            marginY = nMarkerIconHeight / 2;
+        } else {
+            marginY = nPos_y;
+        }
+
+        canvas.translate(x - marginX, y - marginY);
+        canvas.drawBitmap(getIcon(), 0, 0, null);
+        canvas.restore();
+
+    }
+
+    public boolean onSingleTapUp(PointF point, TMapView mapView) {
+        Log.d("클릭","클리이익");
+        fm.popBackStack();
+        Facility facility;
+
+        facility = new Facility(facilityList.getArrayList().get(Integer.parseInt(getID())));
+        Fragment inf = new Info(facility);
+
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
+        transaction.add(R.id.info, inf);
+        transaction.commit();
+        transaction.addToBackStack(null);
+        return false;
+    }
+
+
+}

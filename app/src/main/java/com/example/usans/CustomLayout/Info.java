@@ -65,9 +65,8 @@ public class Info extends Fragment {
     RatingBar ratingBar;
 
 
-    public Info (Facility facility, GoogleMap mMap) {
+    public Info (Facility facility) {
         this.facility = new Facility(facility);
-        this.mMap = mMap;
     }
 
     @Nullable

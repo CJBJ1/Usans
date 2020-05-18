@@ -1,6 +1,8 @@
 package com.example.usans.SceneFragment;
 
 import android.content.ContentValues;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.usans.CustomLayout.Info;
@@ -17,6 +20,7 @@ import com.example.usans.CustomLayout.Recommend;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.MainActivity;
+import com.example.usans.MarkerOverlay;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,11 +32,16 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapMarkerItem2;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -42,8 +51,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class HomeFragment extends Fragment
-        implements OnMapReadyCallback {
+public class HomeFragment extends Fragment {
+    TMapView tMapView;
     private View view;
     private FragmentManager fm;
     private FragmentManager infoFm;
@@ -67,8 +76,15 @@ public class HomeFragment extends Fragment
         fm = getChildFragmentManager();
         infoFm = getFragmentManager();
 
-        mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        LinearLayout linearLayoutTmap = (LinearLayout)view.findViewById(R.id.linearLayoutTmap);
+        tMapView = new TMapView(getActivity().getApplicationContext());
+
+        tMapView.setSKTMapApiKey( "l7xxa365f1c5c3254bc19fd5f6b6442b15e5" );
+        linearLayoutTmap.addView( tMapView );
+
+        String url = "http://3.34.18.171:8000/api/Sansuzang";
+        NetworkTask networkTask = new NetworkTask(url, null);
+        networkTask.execute();
 
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
@@ -100,21 +116,13 @@ public class HomeFragment extends Fragment
         });
     }
 
-    @UiThread
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        String url = "http://3.34.18.171:8000/api/Sansuzang";
-        NetworkTask networkTask = new NetworkTask(url, null);
-        networkTask.execute();
-    }
 
-    public void showInfo(FragmentManager fm,int index){
+    public void showInfo(int index){
         fm.popBackStack();
         Facility facility;
 
         facility = new Facility(facilityList.getArrayList().get(index));
-        Fragment inf = new Info(facility,mMap);
+        Fragment inf = new Info(facility);
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
@@ -124,31 +132,30 @@ public class HomeFragment extends Fragment
     }
 
     public void setMap(){
-        GoogleMap.OnMarkerClickListener markerClickListener = new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                showInfo(infoFm, Integer.parseInt(marker.getTag().toString()));
-                Log.d("마커태그",marker.getTag().toString());
-                return false;
-            }
-        };
+        ArrayList<Facility> list = facilityList.getArrayList();
+        int size = facilityList.getArrayList().size();
+        for(int i = 0;i<size;i++){
+            Facility facility = list.get(i);
+            MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm);
 
-        for (int index =0;index<facilityList.getArrayList().size();index++) {
-            MarkerOptions markerOptions = new MarkerOptions();
-            Double lat = Double.parseDouble(facilityList.getArrayList().get(index).getLat());
-            Double lng = Double.parseDouble(facilityList.getArrayList().get(index).getLng());
-            markerOptions.position(new LatLng(lat,lng));
-            Marker marker = mMap.addMarker(markerOptions);
-            marker.setTag(index);
+            TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())); // SKT타워
+            Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
+            markerItem1.setIcon(bitmap);
 
-            if(Integer.parseInt(facilityList.getArrayList().get(index).getId())>=10000)
-                marker.setIcon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-            facilityList.getArrayList().get(index).setMarker(marker);
+            markerItem1.setTMapPoint( tMapPoint1 );
+            markerItem1.setID(String.valueOf(i));
+            markerItem1.setIcon(resizeBitmap(bitmap, 200));
+            tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
         }
 
-        mMap.setOnMarkerClickListener(markerClickListener);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation,15));
-
+        tMapView.setCenterPoint( 126.985302, 37.570841 );
+        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
+            @Override
+            public void onCalloutMarker2ClickEvent(String s, TMapMarkerItem2 tMapMarkerItem2) {
+                Log.d("클릭","클릭");
+                showInfo(1);
+            }
+        });
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
@@ -185,6 +192,7 @@ public class HomeFragment extends Fragment
                         index++;
                     }
                 }
+
                 setMap();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -222,6 +230,19 @@ public class HomeFragment extends Fragment
         distance = locationA.distanceTo(locationB);
 
         return distance;
+    }
+
+    public Bitmap resizeBitmap(Bitmap original, int width) {
+        int resizeWidth = width;
+
+        double aspectRatio = (double) original.getHeight() / (double) original.getWidth();
+        int targetHeight = (int) (resizeWidth * aspectRatio);
+
+        Bitmap result = Bitmap.createScaledBitmap(original, resizeWidth, targetHeight, false);
+        if( result != original) {
+            original.recycle();
+        }
+        return result;
     }
 
     public void addSans(){
