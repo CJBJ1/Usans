@@ -171,6 +171,7 @@ public class Info extends Fragment {
         tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
+                polyLine.setID("result");
                 tMapView.addTMapPath(polyLine);
                 int mSize = facilityList.getArrayList().size();
                 for(int i =0;i<mSize;i++){

@@ -120,7 +120,7 @@ public class CustomActionBar {
                         for(int i=0;i<size;i++) {
                             tMapView.addMarkerItem2(facilityList.getArrayList().get(i).getId(),facilityList.getArrayList().get(i).getMarker());
                         }
-                        tMapView.removeAllTMapPolyLine();
+                        tMapView.removeTMapPath();
                         //main.homeFragment.showRecommend();
                     }
                 });
