@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.skt.Tmap.TMapMarkerItem2;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Facility implements Parcelable {
     private String lng;
 
     private float rating;
-    private Marker marker;
+    private TMapMarkerItem2 marker;
     private double distance;
 
     public Facility(){
@@ -166,11 +167,11 @@ public class Facility implements Parcelable {
     }
 
 
-    public void setMarker(Marker marker) {
+    public void setMarker(TMapMarkerItem2 marker) {
         this.marker = marker;
     }
 
-    public Marker getMarker() {
+    public TMapMarkerItem2 getMarker() {
         return marker;
     }
 

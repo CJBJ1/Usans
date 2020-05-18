@@ -33,6 +33,7 @@ public class MarkerOverlay extends TMapMarkerItem2 {
     private int mAnimationCount = 0;
     private FacilityList facilityList;
     private FragmentManager fm;
+    private TMapView tMapView;
 
 
     @Override
@@ -76,9 +77,10 @@ public class MarkerOverlay extends TMapMarkerItem2 {
         super.setCalloutRect(rect);
     }
 
-    public MarkerOverlay(Context context, String labelName, String id,FragmentManager fm) {
+    public MarkerOverlay(Context context, String labelName, String id,FragmentManager fm,TMapView tMapView) {
         this.mContext = context;
         this.fm = fm;
+        this.tMapView = tMapView;
         facilityList = (FacilityList) context;
         dm = new DisplayMetrics();
         WindowManager wmgr = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
@@ -134,7 +136,7 @@ public class MarkerOverlay extends TMapMarkerItem2 {
         Facility facility;
 
         facility = new Facility(facilityList.getArrayList().get(Integer.parseInt(getID())));
-        Fragment inf = new Info(facility);
+        Fragment inf = new Info(facility,tMapView);
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
@@ -143,6 +145,4 @@ public class MarkerOverlay extends TMapMarkerItem2 {
         transaction.addToBackStack(null);
         return false;
     }
-
-
 }

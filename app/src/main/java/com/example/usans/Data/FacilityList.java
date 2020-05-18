@@ -5,15 +5,16 @@ import android.app.Application;
 import com.example.usans.Data.Facility;
 import com.google.android.gms.maps.model.Polyline;
 import com.skt.Tmap.TMapMarkerItem2;
+import com.skt.Tmap.TMapView;
 
 import java.util.ArrayList;
 
 public class FacilityList extends Application {
     private String accessToken;
     private ArrayList<Facility> faArrayList = new ArrayList<>(100);
-    private ArrayList<TMapMarkerItem2> markerList = new ArrayList<>(100);
     private User user;
     private Polyline polyline;
+    private TMapView tMapView;
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
@@ -41,4 +42,11 @@ public class FacilityList extends Application {
         return user;
     }
 
+    public void settMapView(TMapView tMapView) {
+        this.tMapView = tMapView;
+    }
+
+    public TMapView gettMapView() {
+        return tMapView;
+    }
 }

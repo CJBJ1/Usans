@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
+import com.skt.Tmap.TMapView;
 
 public class CustomActionBar {
     private Activity activity;
@@ -114,13 +115,13 @@ public class CustomActionBar {
                         setActionBar(0);
                         MainActivity main = (MainActivity) activity;
                         facilityList = (FacilityList)activity.getApplication();
-                        if (facilityList != null)
-                            facilityList.getPolyline().remove();
-
-                        for(int i=0;i<facilityList.getArrayList().size();i++){
-                            facilityList.getArrayList().get(i).getMarker().setVisible(true);
+                        int size = facilityList.getArrayList().size();
+                        TMapView tMapView = facilityList.gettMapView();
+                        for(int i=0;i<size;i++) {
+                            tMapView.addMarkerItem2(facilityList.getArrayList().get(i).getId(),facilityList.getArrayList().get(i).getMarker());
                         }
-                        main.homeFragment.showRecommend();
+                        tMapView.removeAllTMapPolyLine();
+                        //main.homeFragment.showRecommend();
                     }
                 });
                 break;

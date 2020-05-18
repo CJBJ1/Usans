@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment {
         Facility facility;
 
         facility = new Facility(facilityList.getArrayList().get(index));
-        Fragment inf = new Info(facility);
+        Fragment inf = new Info(facility,tMapView);
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment {
         int size = facilityList.getArrayList().size();
         for(int i = 0;i<size;i++){
             Facility facility = list.get(i);
-            MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm);
+            MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
 
             TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())); // SKT타워
             Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
@@ -145,7 +145,9 @@ public class HomeFragment extends Fragment {
             markerItem1.setTMapPoint( tMapPoint1 );
             markerItem1.setID(String.valueOf(i));
             markerItem1.setIcon(resizeBitmap(bitmap, 200));
+            markerItem1.setPosition(0.5f, 0.8f);
             tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+            facilityList.getArrayList().get(i).setMarker(markerItem1);
         }
 
         tMapView.setCenterPoint( 126.985302, 37.570841 );
@@ -155,6 +157,8 @@ public class HomeFragment extends Fragment {
                 Log.d("클릭","클릭");
             }
         });
+
+        facilityList.settMapView(tMapView);
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {

@@ -40,6 +40,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapMarkerItem2;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapPolyLine;
+import com.skt.Tmap.TMapView;
 
 import org.json.JSONObject;
 
@@ -53,7 +58,7 @@ public class Info extends Fragment {
     private Facility facility;
     private FacilityList facilityList;
     private ArrayList<Facility> list;
-    private GoogleMap mMap;
+    private TMapView tMapView;
     List<List<HashMap<String, String>>> routes = null;
 
     View view;
@@ -65,8 +70,9 @@ public class Info extends Fragment {
     RatingBar ratingBar;
 
 
-    public Info (Facility facility) {
+    public Info (Facility facility,TMapView tMapView) {
         this.facility = new Facility(facility);
+        this.tMapView = tMapView;
     }
 
     @Nullable
@@ -118,6 +124,8 @@ public class Info extends Fragment {
                 MainActivity main = (MainActivity) Info.super.getActivity();
                 main.ca.roadMode = true;
                 main.ca.setActionBar(5);
+                getWalkPath(new TMapPoint(37.503149,126.952264),
+                        new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
 
                 /*String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
@@ -155,6 +163,21 @@ public class Info extends Fragment {
         if(facility.getPhoto().length!=0) {
             Glide.with(getContext()).load(facility.getPhoto()[0]).into(imageView);
         }
+    }
+
+
+    public void getWalkPath(TMapPoint startPoint,TMapPoint endPoint){
+        TMapData tMapData = new TMapData();
+        tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
+            @Override
+            public void onFindPathData(TMapPolyLine polyLine) {
+                tMapView.addTMapPath(polyLine);
+                int mSize = facilityList.getArrayList().size();
+                for(int i =0;i<mSize;i++){
+                    tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
+                }
+            }
+        });
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
@@ -208,7 +231,7 @@ public class Info extends Fragment {
             ArrayList<LatLng> points = null;
             PolylineOptions lineOptions = null;
 
-            for (int i = 0; i < result.size(); i++) {
+           /* for (int i = 0; i < result.size(); i++) {
                 points = new ArrayList<LatLng>();
                 lineOptions = new PolylineOptions();
                 List<HashMap<String, String>> path = result.get(i);
@@ -247,7 +270,7 @@ public class Info extends Fragment {
 
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.503149+Double.parseDouble(facility.getLat()))/2.0,
-                    (126.952264+Double.parseDouble(facility.getLng()))/2.0),11));
+                    (126.952264+Double.parseDouble(facility.getLng()))/2.0),11));*/
         }
 
     }
