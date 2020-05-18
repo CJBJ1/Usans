@@ -118,7 +118,7 @@ public class CustomActionBar {
                         int size = facilityList.getArrayList().size();
                         TMapView tMapView = facilityList.gettMapView();
                         for(int i=0;i<size;i++) {
-                            tMapView.addMarkerItem2(facilityList.getArrayList().get(i).getId(),facilityList.getArrayList().get(i).getMarker());
+                            tMapView.addMarkerItem2(String.valueOf(i),facilityList.getArrayList().get(i).getMarker());
                         }
                         tMapView.removeTMapPath();
                         //main.homeFragment.showRecommend();
