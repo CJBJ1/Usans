@@ -190,7 +190,11 @@ public class DetailActivity extends AppCompatActivity {
 //        imageView = facility.getPhoto();
         nameView.setText(facility.getName());
         addressView.setText(facility.getAddress());
-        machinesView.setText(facility.getMachines());
+        StringBuilder machines = new StringBuilder();
+        for (String machine : facility.getMachines().split(" ")) {
+            machines.append(machine + "\t   ");
+        }
+        machinesView.setText(machines.toString());
         ratingBar.setRating(facility.getRating());
         if (facility.getPhoto() != null) {
             if (facility.getPhoto().length != 0) {

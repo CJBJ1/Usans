@@ -124,6 +124,7 @@ public class Info extends Fragment {
                 MainActivity main = (MainActivity) Info.super.getActivity();
                 main.ca.roadMode = true;
                 main.ca.setActionBar(5);
+                main.ca.setName(facility.getName());
                 getWalkPath(new TMapPoint(37.503149,126.952264),
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
 
@@ -158,7 +159,11 @@ public class Info extends Fragment {
 //        imageView = facility.getPhoto();
         nameView.setText(facility.getName());
         addressView.setText(facility.getAddress());
-        machinesView.setText(facility.getMachines());
+        StringBuilder machines = new StringBuilder();
+        for (String machine : facility.getMachines().split(" ")) {
+            machines.append(machine + "\t   ");
+        }
+        machinesView.setText(machines.toString());
         ratingBar.setRating(facility.getRating());
         if(facility.getPhoto().length!=0) {
             Glide.with(getContext()).load(facility.getPhoto()[0]).into(imageView);
