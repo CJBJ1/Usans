@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
 
         userLocation = new LatLng(37.503149, 126.952264);
         facilityList = (FacilityList)getActivity().getApplicationContext();
-        fm = getChildFragmentManager();
+        fm = getFragmentManager();
         infoFm = getFragmentManager();
 
         LinearLayout linearLayoutTmap = (LinearLayout)view.findViewById(R.id.linearLayoutTmap);
@@ -153,7 +153,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onCalloutMarker2ClickEvent(String s, TMapMarkerItem2 tMapMarkerItem2) {
                 Log.d("클릭","클릭");
-                showInfo(1);
             }
         });
     }

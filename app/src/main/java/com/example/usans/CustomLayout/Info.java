@@ -119,12 +119,12 @@ public class Info extends Fragment {
                 main.ca.roadMode = true;
                 main.ca.setActionBar(5);
 
-                String url = "https://maps.googleapis.com/maps/api/directions/" +
+                /*String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
                         "&key=AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI";
 
                 NetworkTask networkTask = new NetworkTask(url, null);
-                networkTask.execute();
+                networkTask.execute();*/
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
