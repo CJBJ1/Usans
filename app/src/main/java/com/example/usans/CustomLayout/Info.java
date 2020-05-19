@@ -47,6 +47,9 @@ import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,6 +129,8 @@ public class Info extends Fragment {
                 main.ca.setActionBar(5);
                 getWalkPath(new TMapPoint(37.503149,126.952264),
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
+                getWalkDocument(new TMapPoint(37.503149,126.952264),
+                        new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
 
                 /*String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
@@ -176,6 +181,28 @@ public class Info extends Fragment {
                 int mSize = facilityList.getArrayList().size();
                 for(int i =0;i<mSize;i++){
                     tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
+                }
+            }
+        });
+
+    }
+
+    public void getWalkDocument(TMapPoint startPoint,TMapPoint endPoint){
+        TMapData tMapData = new TMapData();
+        tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint,endPoint, new TMapData.FindPathDataAllListenerCallback() {
+            @Override
+            public void onFindPathDataAll(Document document) {
+                Element root = document.getDocumentElement();
+                NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
+                Log.d("NodeList",nodeListPlacemark + "");
+                for( int i=0; i<nodeListPlacemark.getLength(); i++ ) {
+                    NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+                    Log.d("Item",nodeListPlacemarkItem + "");
+                    for( int j=0; j<nodeListPlacemarkItem.getLength(); j++ ) {
+                        if( nodeListPlacemarkItem.item(j).getNodeName().equals("description") ) {
+                            Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim() );
+                        }
+                    }
                 }
             }
         });

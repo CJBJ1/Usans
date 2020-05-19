@@ -121,7 +121,6 @@ public class CustomActionBar {
                             tMapView.addMarkerItem2(String.valueOf(i),facilityList.getArrayList().get(i).getMarker());
                         }
                         tMapView.removeTMapPath();
-                        //main.homeFragment.showRecommend();
                     }
                 });
                 break;

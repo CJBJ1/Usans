@@ -137,11 +137,9 @@ public class HomeFragment extends Fragment {
         for(int i = 0;i<size;i++){
             Facility facility = list.get(i);
             MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
-
             TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())); // SKT타워
             Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
             markerItem1.setIcon(bitmap);
-
             markerItem1.setTMapPoint( tMapPoint1 );
             markerItem1.setID(String.valueOf(i));
             markerItem1.setIcon(resizeBitmap(bitmap, 200));
@@ -231,7 +229,6 @@ public class HomeFragment extends Fragment {
         locationB.setLatitude(LatLng2.latitude);
         locationB.setLongitude(LatLng2.longitude);
         distance = locationA.distanceTo(locationB);
-
         return distance;
     }
 
