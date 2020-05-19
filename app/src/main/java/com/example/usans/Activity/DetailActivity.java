@@ -148,7 +148,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void moveToReport() {
         if (facilityList.getUser()!=null) {
-            Intent intent = new Intent(this, ReportActivity.class);
+            Intent intent = new Intent(this, ReportListActivity.class);
             intent.putExtra("machines", facility.getMachines());
             intent.putExtra("facilityID", facility.getId());
             intent.putExtra("userID", facilityList.getUser().getId());
@@ -187,7 +187,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void layout() {
-//        imageView = facility.getPhoto();
         nameView.setText(facility.getName());
         addressView.setText(facility.getAddress());
         StringBuilder machines = new StringBuilder();
@@ -245,13 +244,12 @@ public class DetailActivity extends AppCompatActivity {
                 adapter = new CommentAdapter();
                 while (index != -1) {
                     JSONObject jsonObject = jsArr.getJSONObject(index);
-                    if (jsonObject.getString("loc").equals(facility.getId())) {
-                        adapter.addItem(new CommentItem(jsonObject.getString("username"), 0, Float.parseFloat(jsonObject.getString("rating")), jsonObject.getString("text"),  jsonObject.getString("machinestate")));
+                    Float rating = Float.parseFloat(jsonObject.getString("rating"));
+                    if (jsonObject.getString("loc").equals(facility.getId()) && rating > -1) {
+                        adapter.addItem(new CommentItem(jsonObject.getString("username"), 0, rating, jsonObject.getString("text"),  jsonObject.getString("machinestate")));
                     }
                     index--;
                 }
-                adapter.addItem(new CommentItem("서재훈", 0, 3, "테스트 / 여기 기구들 전부 상태 좋고 야경이 너무 좋아요!!", ""));
-                adapter.addItem(new CommentItem("서재훈", 0, -1, "테스트 / 철봉이 녹이 많이 슬었어요", "철봉"));
 
                 commentListView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
