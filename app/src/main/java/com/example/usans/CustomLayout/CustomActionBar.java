@@ -1,11 +1,9 @@
 package com.example.usans.CustomLayout;
 
 import android.app.Activity;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
@@ -31,7 +29,7 @@ public class CustomActionBar {
 
     public Button closeButton;
 
-    public TextView stepCountView;
+    public TextView nameView;
     public Button arrivalButton;
 
     public boolean roadMode;
@@ -106,7 +104,8 @@ public class CustomActionBar {
                 mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar5, null);
                 actionBar.setCustomView(mCustomView);
 
-                stepCountView = mCustomView.findViewById(R.id.step_count_view);
+                nameView = mCustomView.findViewById(R.id.name_view);
+
                 arrivalButton = mCustomView.findViewById(R.id.arrival_button);
                 arrivalButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -127,6 +126,10 @@ public class CustomActionBar {
         }
 
         setExtend();
+    }
+
+    public void setName(String name) {
+        this.nameView.setText(name);
     }
 
     public void setExtend() {

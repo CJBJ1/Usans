@@ -70,6 +70,7 @@
         android:id="@+id/title_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"></ListView>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shadow"></ListView>
 
 </LinearLayout>
