@@ -9,12 +9,15 @@ import com.skt.Tmap.TMapView;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.FragmentManager;
+
 public class FacilityList extends Application {
     private String accessToken;
     private ArrayList<Facility> faArrayList = new ArrayList<>(100);
     private User user;
     private Polyline polyline;
     private TMapView tMapView;
+    private FragmentManager fm;
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
@@ -48,5 +51,13 @@ public class FacilityList extends Application {
 
     public TMapView gettMapView() {
         return tMapView;
+    }
+
+    public void setFm(FragmentManager fm) {
+        this.fm = fm;
+    }
+
+    public FragmentManager getFm() {
+        return fm;
     }
 }

@@ -20,11 +20,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.example.usans.Adapter.RouteAdapter;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
+import com.example.usans.Data.RouteItem;
 import com.example.usans.DirectionsJSONParser;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
@@ -62,6 +65,7 @@ public class Info extends Fragment {
     private FacilityList facilityList;
     private ArrayList<Facility> list;
     private TMapView tMapView;
+    private FragmentManager fm;
     List<List<HashMap<String, String>>> routes = null;
 
     View view;
@@ -77,6 +81,9 @@ public class Info extends Fragment {
         this.facility = new Facility(facility);
         this.tMapView = tMapView;
     }
+
+    public Info(){}
+
 
     @Nullable
     @Override
@@ -124,14 +131,20 @@ public class Info extends Fragment {
             public void onClick(View v) {
                 Info.super.getActivity().onBackPressed();
 
+                fm = facilityList.getFm();
                 MainActivity main = (MainActivity) Info.super.getActivity();
                 main.ca.roadMode = true;
                 main.ca.setActionBar(5);
-                main.ca.setName(facility.getName());
+
+                if(facility!=null) {
+                    main.ca.setName(facility.getName());
+                }
+
                 getWalkPath(new TMapPoint(37.503149,126.952264),
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
                 getWalkDocument(new TMapPoint(37.503149,126.952264),
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
+
 
                 /*String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
@@ -150,7 +163,7 @@ public class Info extends Fragment {
             }
         });
 
-        layout();
+        if(this.facility !=null)layout();
         return view;
     }
 
@@ -197,6 +210,7 @@ public class Info extends Fragment {
         tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint,endPoint, new TMapData.FindPathDataAllListenerCallback() {
             @Override
             public void onFindPathDataAll(Document document) {
+                RouteAdapter adapter = new RouteAdapter();
                 Element root = document.getDocumentElement();
                 NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
                 Log.d("NodeList",nodeListPlacemark + "");
@@ -205,10 +219,19 @@ public class Info extends Fragment {
                     Log.d("Item",nodeListPlacemarkItem + "");
                     for( int j=0; j<nodeListPlacemarkItem.getLength(); j++ ) {
                         if( nodeListPlacemarkItem.item(j).getNodeName().equals("description") ) {
+                            adapter.addItem(new RouteItem(nodeListPlacemarkItem.item(j).getTextContent().trim()));
                             Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim() );
                         }
                     }
                 }
+
+                fm.popBackStack();
+                Fragment Route = new Route(adapter);
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
+                transaction.add(R.id.info, Route);
+                transaction.commit();
+                transaction.addToBackStack(null);
             }
         });
     }

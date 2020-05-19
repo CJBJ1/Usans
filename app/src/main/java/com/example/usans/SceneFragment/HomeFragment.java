@@ -89,6 +89,8 @@ public class HomeFragment extends Fragment {
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
+
+        facilityList.setFm(fm);
         return view;
     }
 
