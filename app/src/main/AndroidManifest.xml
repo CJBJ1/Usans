@@ -24,7 +24,7 @@
         <activity android:name=".Activity.DetailActivity" />
         <activity android:name=".Activity.BoardActivity" />
         <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppThemeMain" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,6 +38,8 @@
         <activity android:name=".FitActivity" />
         <activity android:name=".WebActivity" />
         <activity android:name=".FitActivity2" />
+        <activity android:name=".Activity.WriteActivity"
+            android:theme="@style/AppThemeMain"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

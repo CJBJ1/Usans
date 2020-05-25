@@ -1,6 +1,9 @@
 package com.example.usans.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -17,6 +20,7 @@ import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
 
 public class BoardActivity extends AppCompatActivity {
+    private Button writeButton;
     FragmentTransaction tran;
     BoardFragment boardFragment;
 
@@ -24,6 +28,7 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+
         boardFragment = new BoardFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
     }

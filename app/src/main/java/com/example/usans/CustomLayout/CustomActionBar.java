@@ -38,11 +38,7 @@ public class CustomActionBar {
         this.activity = _activity;
         this.actionBar = _actionBar;
         roadMode = false;
-
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -125,7 +121,7 @@ public class CustomActionBar {
                 break;
         }
 
-        setExtend();
+        //setExtend();
     }
 
     public void setName(String name) {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.usans.Activity.DetailActivity;
+import com.example.usans.Activity.WriteActivity;
 import com.example.usans.Adapter.TitleAdapter;
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.Data.Facility;
@@ -28,6 +30,7 @@ public class BoardFragment extends Fragment {
     ListView listView;
     TitleAdapter adapter;
     FragmentManager fm;
+    Button writeButton;
 
     @Nullable
     @Override
@@ -40,6 +43,15 @@ public class BoardFragment extends Fragment {
             adapter.addItem(new TitleItem(0, "서재훈", "05/01 12:34", "여기 좋아요","굳굳"));
             adapter.addItem(new TitleItem(0, "정재형", "05/01 12:10", "운동 같이 하실분?","컴컴"));
             listView.setAdapter(adapter);
+
+        writeButton = view.findViewById(R.id.write_board);
+        writeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), WriteActivity.class);
+                startActivity(intent);
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

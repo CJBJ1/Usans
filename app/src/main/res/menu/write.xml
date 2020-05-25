@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/wa_gallery"
+        android:title=""
+        android:icon="@drawable/photo"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/wa_add"
+        android:title=""
+        android:icon="@drawable/ok"
+        app:showAsAction="always"
+        />
+</menu>

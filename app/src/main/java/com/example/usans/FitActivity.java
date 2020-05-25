@@ -202,10 +202,6 @@ public class FitActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_unregister_listener) {
-            unregisterFitnessDataListener();
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 

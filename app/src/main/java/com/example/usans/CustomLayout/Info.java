@@ -47,6 +47,7 @@ import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
+import com.skt.Tmap.TMapTapi;
 import com.skt.Tmap.TMapView;
 
 import org.json.JSONObject;
@@ -66,10 +67,12 @@ public class Info extends Fragment {
     private ArrayList<Facility> list;
     private TMapView tMapView;
     private FragmentManager fm;
+    private Button tAppButton;
     List<List<HashMap<String, String>>> routes = null;
 
     View view;
     Button closeButton, detailButton, routineRecommendButton, startButton;
+
 
     ImageView imageView;
     ImageView imageView2;
@@ -129,7 +132,22 @@ public class Info extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Info.super.getActivity().onBackPressed();
+                TMapTapi tMapTapi = new TMapTapi(getActivity().getApplicationContext());
+                HashMap pathInfo = new HashMap();
+                pathInfo.put("rGoName", "T타워");
+                pathInfo.put("rGoX", "126.985302");
+                pathInfo.put("rGoY", "37.570841");
+
+                pathInfo.put("rStName", "출발지");
+                pathInfo.put("rStX", "126.926252");
+                pathInfo.put("rStY", "37.557607");
+
+                pathInfo.put("rV1Name", "경유지");
+                pathInfo.put("rV1X", "126.976867");
+                pathInfo.put("rV1Y", "37.576016");
+                tMapTapi.invokeRoute(pathInfo);
+
+                /*Info.super.getActivity().onBackPressed();
 
                 fm = facilityList.getFm();
                 MainActivity main = (MainActivity) Info.super.getActivity();
@@ -144,7 +162,7 @@ public class Info extends Fragment {
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
                 getWalkDocument(new TMapPoint(37.503149,126.952264),
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
-
+*/
 
                 /*String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
@@ -191,7 +209,7 @@ public class Info extends Fragment {
 
     public void getWalkPath(TMapPoint startPoint,TMapPoint endPoint){
         TMapData tMapData = new TMapData();
-        tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
+        tMapData.findPathDataWithType(TMapData.TMapPathType.CAR_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
                 polyLine.setID("result");
@@ -207,7 +225,7 @@ public class Info extends Fragment {
 
     public void getWalkDocument(TMapPoint startPoint,TMapPoint endPoint){
         TMapData tMapData = new TMapData();
-        tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint,endPoint, new TMapData.FindPathDataAllListenerCallback() {
+        tMapData.findPathDataAllType(TMapData.TMapPathType.CAR_PATH, startPoint,endPoint, new TMapData.FindPathDataAllListenerCallback() {
             @Override
             public void onFindPathDataAll(Document document) {
                 RouteAdapter adapter = new RouteAdapter();

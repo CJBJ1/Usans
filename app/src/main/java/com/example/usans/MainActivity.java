@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -60,18 +61,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#330000ff")));
-        actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#550000ff")));
-        //ca = new CustomActionBar(this, getSupportActionBar());
+        ca = new CustomActionBar(this, getSupportActionBar());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         homeButton = (Button)findViewById(R.id.homebutton);
         listButton = (Button)findViewById(R.id.listbutton);
         regButton = (Button)findViewById(R.id.regbutton);
         mypageButton = (Button)findViewById(R.id.mypagebutton);
+
         homeLayout = findViewById(R.id.homelayout);
         listLayout = findViewById(R.id.listlayout);
         regLayout = findViewById(R.id.reglayout);
@@ -189,8 +186,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             }
+            case R.id.menu_add:{
+                homeFragment.showAddMarkerButton();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     public void setFrag(int n) {    //프래그먼트 교체 메소드
