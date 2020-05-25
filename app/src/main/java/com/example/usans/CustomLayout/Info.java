@@ -112,7 +112,7 @@ public class Info extends Fragment {
             public void onClick(View v) {
                 MainActivity act = (MainActivity) getActivity();
                 HomeFragment homeF =  act.homeFragment;
-                homeF.showRecommend();
+                homeF.showRecommend(facility.getMachines());
                 closeInfo();
             }
         });

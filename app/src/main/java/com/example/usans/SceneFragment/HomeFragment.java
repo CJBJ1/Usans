@@ -92,10 +92,11 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void showRecommend(){
+    public void showRecommend(String machines){
         infoFm.popBackStack();
 
-        Fragment recommend = new Recommend();
+        Recommend recommend = new Recommend();
+        recommend.machines = machines;
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
         transaction.replace(R.id.info, recommend);

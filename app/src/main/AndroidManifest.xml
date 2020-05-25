@@ -14,8 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.RoutineDetailActivity"></activity>
-        <activity android:name=".Activity.RoutineActivity" />
+        <activity android:name=".Activity.RoutineActivity"/>
         <activity android:name=".Activity.ReportListActivity" />
         <activity android:name=".Activity.BigActivity" />
         <activity android:name=".Activity.ImageActivity" />
