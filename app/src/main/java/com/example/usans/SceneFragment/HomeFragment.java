@@ -289,5 +289,21 @@ public class HomeFragment extends Fragment {
                 getDistance(userLocation,
                         new LatLng(37.608263, 127.086944)));
         facilityList.getArrayList().add(facility);
+        //37.508181, 126.954435
+        facility = new Facility("10004","고구동산 체력단련장","서울 동작구 본동",
+                new String[]{"https://lh3.googleusercontent.com/proxy/PJ3fx5ZH4tFoTFktBwLAeCIABke909Rn0uQuV8efUvxu2rcoslB6ELzr5DQzygYy3abcIk1_AI6jTx6UanE8RMJrcnQlng04ag7zFxUI0n8", "http://ideeaa.net/wordpress/wp-content/uploads/2015/07/g3.jpg"},
+                "벤치프레스 스탠딩레그컬머신 랫풀다운 레그익스텐션머신 체스트프레스머신 버터플라이머신 철봉",
+                "37.508181", "126.954435", 5 ,
+                getDistance(userLocation,
+                        new LatLng(37.508181, 126.954435)));
+        facilityList.getArrayList().add(facility);
+        //37.507585, 126.954684
+        facility = new Facility("10005","고구동산 테스트","서울 동작구 본동",
+                new String[] {},
+                "철봉",
+                "37.507585", "126.954684", 1 ,
+                getDistance(userLocation,
+                        new LatLng(37.507585, 126.954684)));
+        facilityList.getArrayList().add(facility);
     }
 }
