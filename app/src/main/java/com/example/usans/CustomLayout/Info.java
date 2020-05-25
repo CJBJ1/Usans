@@ -110,9 +110,9 @@ public class Info extends Fragment {
         routineRecommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* MainActivity act = (MainActivity) getActivity();
+                MainActivity act = (MainActivity) getActivity();
                 HomeFragment homeF =  act.homeFragment;
-                homeF.showRecommend();*/
+                homeF.showRecommend();
                 closeInfo();
             }
         });

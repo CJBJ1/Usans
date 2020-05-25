@@ -16,6 +16,7 @@ import com.example.usans.Activity.AddSansAcitivity;
 import com.example.usans.Activity.BoardActivity;
 import com.example.usans.Activity.DetailActivity;
 import com.example.usans.Activity.ImageActivity;
+import com.example.usans.Activity.RoutineActivity;
 import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
@@ -78,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
         setBackground(0);
         ca.setActionBar(0);
+    }
+
+    public void moveToRoutine() {
+        Intent intent = new Intent(this, RoutineActivity.class);
+        startActivity(intent);
     }
 
     public void moveToImage(String[] photos) {

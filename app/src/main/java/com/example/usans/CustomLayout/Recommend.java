@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 
 public class Recommend extends Fragment {
@@ -27,7 +26,8 @@ public class Recommend extends Fragment {
             @Override
             public void onClick(View view) {
                 //루틴 추천 목록으로 이동
-
+                MainActivity main = (MainActivity) Recommend.super.getActivity();
+                main.moveToRoutine();
                 closeRecommend();
             }
         });
