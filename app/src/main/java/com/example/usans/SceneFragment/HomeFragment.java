@@ -1,5 +1,6 @@
 package com.example.usans.SceneFragment;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,12 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.widget.Toast;
 
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Recommend;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
+import com.example.usans.GpsTracker;
 import com.example.usans.MainActivity;
 import com.example.usans.MarkerOverlay;
 import com.example.usans.R;
@@ -41,9 +46,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
@@ -65,6 +73,14 @@ public class HomeFragment extends Fragment {
     public ImageView addMarker;
     public Button addMarkerButtom;
     public Button sansNavigationStartButton;
+    private Button gpsButton;
+
+    private GpsTracker gpsTracker;
+    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
+    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -89,6 +105,20 @@ public class HomeFragment extends Fragment {
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
+        gpsButton = view.findViewById(R.id.gps_button);
+
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gpsTracker = new GpsTracker(getActivity().getApplicationContext());
+                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude()*(-1);
+
+                String address = getCurrentAddress(latitude, longitude);
+                Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+                tMapView.setCenterPoint(longitude,latitude,true);
+            }
+        });
 
         facilityList.setFm(fm);
         return view;
@@ -149,7 +179,6 @@ public class HomeFragment extends Fragment {
             tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
             facilityList.getArrayList().get(i).setMarker(markerItem1);
         }
-
         tMapView.setCenterPoint( 126.985302, 37.570841 );
         tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
             @Override
@@ -162,19 +191,15 @@ public class HomeFragment extends Fragment {
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
-
         private String url;
         private ContentValues values;
-
         public NetworkTask(String url, ContentValues values) {
-
             this.url = url;
             this.values = values;
         }
 
         @Override
         protected String doInBackground(Void... params) {
-
             String result = "basic";
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             result = requestHttpURLConnection.request(url,values);
@@ -246,6 +271,34 @@ public class HomeFragment extends Fragment {
         }
         return result;
     }
+
+    public String getCurrentAddress( double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+        List<Address> addresses;
+
+        try {
+            addresses = geocoder.getFromLocation(
+                    latitude,
+                    longitude,
+                    7);
+        } catch (IOException ioException) {
+            //네트워크 문제
+            Toast.makeText(getActivity().getApplicationContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
+            return "지오코더 서비스 사용불가";
+        } catch (IllegalArgumentException illegalArgumentException) {
+            Toast.makeText(getActivity().getApplicationContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
+            return "잘못된 GPS 좌표";
+
+        }
+        if (addresses == null || addresses.size() == 0) {
+            Toast.makeText(getActivity().getApplicationContext(), "주소 미발견", Toast.LENGTH_LONG).show();
+            return "주소 미발견";
+
+        }
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString()+"\n";
+    }
+
 
     public void addSans(){
         Facility facility = new Facility("10000", "분당중앙공원", "경기 성남시 분당구 성남대로 550",

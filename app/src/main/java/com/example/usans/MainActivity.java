@@ -3,13 +3,20 @@ package com.example.usans;
 import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.usans.Activity.AddSansAcitivity;
@@ -30,6 +37,7 @@ import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FacilityList facilityList;
+    private DrawerLayout mDrawerLayout;
     Button homeButton,listButton,regButton,mypageButton;
     FragmentTransaction tran;
 
@@ -49,8 +57,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
-        ca = new CustomActionBar(this, getSupportActionBar());
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#330000ff")));
+        actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#550000ff")));
+        //ca = new CustomActionBar(this, getSupportActionBar());
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         homeButton = (Button)findViewById(R.id.homebutton);
         listButton = (Button)findViewById(R.id.listbutton);
         regButton = (Button)findViewById(R.id.regbutton);
@@ -77,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, regFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
         setBackground(0);
-        ca.setActionBar(0);
+        //ca.setActionBar(0);
     }
 
     public void moveToImage(String[] photos) {
@@ -165,8 +182,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ // 왼쪽 상단 버튼 눌렀을 때
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void setFrag(int n) {    //프래그먼트 교체 메소드
-        ca.setActionBar(n);
+        //ca.setActionBar(n);
         switch (n) {
             case 0:
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();

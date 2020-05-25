@@ -56,8 +56,8 @@ public class CustomActionBar {
                 mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar, null);
                 actionBar.setCustomView(mCustomView);
 
-                dongTextView = mCustomView.findViewById(R.id.dong_textView);
-                dongButton = mCustomView.findViewById(R.id.dong_button);
+                //dongTextView = mCustomView.findViewById(R.id.dong_textView);
+                //dongButton = mCustomView.findViewById(R.id.dong_button);
                 addButton = mCustomView.findViewById(R.id.add_button);
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override

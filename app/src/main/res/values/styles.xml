@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryDark">#000000</item>
@@ -17,6 +17,27 @@
     <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorButtonNormal">@color/blue_grey_500</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Activity with no Title -->
+    <style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="DrawerTextStyle" >
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">"@font/bm"</item>
     </style>
 
 </resources>
