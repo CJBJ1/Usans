@@ -63,7 +63,8 @@ public class HomeFragment extends Fragment {
     private LatLng userLocation;
 
     public ImageView addMarker;
-    public Button addMarkerButtom;
+    public LinearLayout zoomLayout;
+    public Button addMarkerButtom, zoomPlus, zoomMinus;
     public Button sansNavigationStartButton;
 
     @Nullable
@@ -88,7 +89,25 @@ public class HomeFragment extends Fragment {
 
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
+        zoomPlus = view.findViewById(R.id.zoom_plus);
+        zoomMinus = view.findViewById(R.id.zoom_minus);
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
+
+        zoomPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tMapView.setZoomLevel(tMapView.getZoomLevel()+1);
+            }
+        });
+        zoomMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tMapView.setZoomLevel(tMapView.getZoomLevel()-1);
+            }
+        });
+        zoomLayout = view.findViewById(R.id.zoom_layout);
+        zoomLayout.setVisibility(View.VISIBLE);
+
         return view;
     }
 

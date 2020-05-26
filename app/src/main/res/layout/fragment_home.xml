@@ -13,7 +13,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </LinearLayout>
 
 
     <Button
@@ -52,5 +54,35 @@
         app:srcCompat="@drawable/marker"
         android:layout_marginBottom="38dp"
         android:visibility="invisible"/>
+
+    <LinearLayout
+        android:id="@+id/zoom_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible">
+
+        <Button
+            android:id="@+id/zoom_plus"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:text="+"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:background="@drawable/shadow"/>
+
+        <Button
+            android:id="@+id/zoom_minus"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:text="-"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:background="@drawable/shadow"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
