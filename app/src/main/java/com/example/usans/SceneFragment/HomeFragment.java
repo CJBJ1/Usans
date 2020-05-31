@@ -111,15 +111,14 @@ public class HomeFragment extends Fragment {
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
 
-        try {
+       /* try {
             InputStream in = getActivity().getAssets().open("test.gpx");
             XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
             XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
             loadGpxData(xmlPullParser,in);
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
-        }
-
+        }*/
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         sansNavigationStartButton = view.findViewById(R.id.sans_navigation_start_button);
