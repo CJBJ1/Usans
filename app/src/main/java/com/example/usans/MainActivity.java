@@ -100,8 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void moveToBoard() {
+    public void moveToBoard(int boardNumber) {
         Intent intent = new Intent(this, BoardActivity.class);
+        intent.putExtra("boardNumber", boardNumber);
         startActivity(intent);
     }
 

@@ -27,7 +27,7 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        boardFragment = new BoardFragment();
+        boardFragment = new BoardFragment(getIntent().getIntExtra("boardNumber", 0));
         getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
     }
 

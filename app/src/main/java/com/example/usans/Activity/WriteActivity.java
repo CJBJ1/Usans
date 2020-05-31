@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.usans.AppHelper;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import androidx.appcompat.app.ActionBar;
@@ -16,13 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class WriteActivity extends AppCompatActivity {
-
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_IMAGE = 2;
 
     private Uri mImageCaptureUri;
     private ImageView imageView;
+    EditText waTitle, waContent;
+    ContentValues contentValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +36,9 @@ public class WriteActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.wa_image_view);
         imageView.setVisibility(View.INVISIBLE);
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("title", "테스트");
-        contentValues.put("board", "2");
-        contentValues.put("author", "8");
-        contentValues.put("text", "테스트");
-
-        String url = "http://3.34.18.171.nip.io:8000/arti/write/";
-        NetworkTask networkTask = new NetworkTask(url, contentValues);
-        networkTask.execute();
+        waTitle = findViewById(R.id.wa_title);
+        waContent = findViewById(R.id.wa_content);
+        contentValues = new ContentValues();
 
         Toolbar toolbar = findViewById(R.id.toolbar_write);
         setSupportActionBar(toolbar);
@@ -61,6 +60,13 @@ public class WriteActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.wa_add:{
+                contentValues.put("title", waTitle.getText().toString());
+                contentValues.put("board", getIntent().getIntExtra("boardNumber", 0));
+                contentValues.put("author", "8");
+                contentValues.put("text", waContent.getText().toString());
+                NetworkTask networkTask = new NetworkTask(AppHelper.Write, contentValues);
+                networkTask.execute();
+
                 Intent intent = new Intent();
                 setResult(222, intent);
                 finish();

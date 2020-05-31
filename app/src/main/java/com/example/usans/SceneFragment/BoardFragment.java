@@ -34,18 +34,24 @@ public class BoardFragment extends Fragment {
     FragmentManager fm;
     Button writeButton;
 
+    int boardNumber;
+
+    public BoardFragment (int boardNumber) {
+        this.boardNumber = boardNumber;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_board, container, false);
 
-            listView = view.findViewById(R.id.board_list_view);
-            fm = getFragmentManager();
-            adapter = new TitleAdapter();
+        listView = view.findViewById(R.id.board_list_view);
+        fm = getFragmentManager();
+        adapter = new TitleAdapter();
 
-            adapter.addItem(new TitleItem(0, "서재훈", "05/22 14:22", "테스트","테스트"));
-            adapter.addItem(new TitleItem(0, "서재훈", "05/01 12:34", "여기 좋아요","굳굳"));
-            adapter.addItem(new TitleItem(0, "정재형", "05/01 12:10", "운동 같이 하실분?","컴컴"));
+        adapter.addItem(new TitleItem(0, "서재훈", "05/22 14:22", "테스트","테스트"));
+        adapter.addItem(new TitleItem(0, "서재훈", "05/01 12:34", "여기 좋아요","굳굳"));
+        adapter.addItem(new TitleItem(0, "정재형", "05/01 12:10", "운동 같이 하실분?","컴컴"));
 
         listView.setAdapter(adapter);
 
@@ -54,6 +60,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WriteActivity.class);
+                intent.putExtra("boardNumber", boardNumber);
                 startActivityForResult(intent,22);
             }
         });
