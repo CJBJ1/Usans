@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_weight="0.15"
-        app:srcCompat="@drawable/car" />
+        app:srcCompat="@drawable/walk" />
 
     <TextView
         android:id="@+id/route_text"

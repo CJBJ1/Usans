@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class RouteItem implements Parcelable {
     public String route;
+    int isCar;
 
 
     public RouteItem(String route) {
@@ -41,5 +42,13 @@ public class RouteItem implements Parcelable {
 
     public void setRoute(String route) {
         this.route = route;
+    }
+
+    public void setIsCar(int isCar) {
+        this.isCar = isCar;
+    }
+
+    public int getIsCar() {
+        return isCar;
     }
 }

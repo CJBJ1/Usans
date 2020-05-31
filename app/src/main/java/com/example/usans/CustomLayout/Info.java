@@ -62,6 +62,7 @@ import java.util.Random;
 
 public class Info extends Fragment {
     private Activity activity;
+    private MainActivity main;
     private Facility facility;
     private FacilityList facilityList;
     private ArrayList<Facility> list;
@@ -93,6 +94,8 @@ public class Info extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.info_view, container, false);
         facilityList = (FacilityList)getActivity().getApplication();
+        fm = facilityList.getFm();
+        main = (MainActivity) getActivity();
         imageView = view.findViewById(R.id.sans_image_view);
         imageView2 = (ImageView)view.findViewById(R.id.sans_sub_image_view);
         nameView = view.findViewById(R.id.sans_name);
@@ -132,37 +135,10 @@ public class Info extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TMapTapi tMapTapi = new TMapTapi(getActivity().getApplicationContext());
-                HashMap pathInfo = new HashMap();
-                pathInfo.put("rGoName", "T타워");
-                pathInfo.put("rGoX", "126.985302");
-                pathInfo.put("rGoY", "37.570841");
 
-                pathInfo.put("rStName", "출발지");
-                pathInfo.put("rStX", "126.926252");
-                pathInfo.put("rStY", "37.557607");
-
-                pathInfo.put("rV1Name", "경유지");
-                pathInfo.put("rV1X", "126.976867");
-                pathInfo.put("rV1Y", "37.576016");
-                tMapTapi.invokeRoute(pathInfo);
-
-                /*Info.super.getActivity().onBackPressed();
-
-                fm = facilityList.getFm();
-                MainActivity main = (MainActivity) Info.super.getActivity();
-                main.ca.roadMode = true;
-                main.ca.setActionBar(5);
-
-                if(facility!=null) {
-                    main.ca.setName(facility.getName());
-                }
-
-                getWalkPath(new TMapPoint(37.503149,126.952264),
-                        new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
-                getWalkDocument(new TMapPoint(37.503149,126.952264),
-                        new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
-*/
+                Info.super.getActivity().onBackPressed();
+                main.setSelectedFacility(facility);
+                main.invalidRoute(0);
 
                 /*String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
@@ -204,148 +180,5 @@ public class Info extends Fragment {
         if(facility.getPhoto().length!=0) {
             Glide.with(getContext()).load(facility.getPhoto()[0]).into(imageView);
         }
-    }
-
-
-    public void getWalkPath(TMapPoint startPoint,TMapPoint endPoint){
-        TMapData tMapData = new TMapData();
-        tMapData.findPathDataWithType(TMapData.TMapPathType.CAR_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
-            @Override
-            public void onFindPathData(TMapPolyLine polyLine) {
-                polyLine.setID("result");
-                tMapView.addTMapPath(polyLine);
-                int mSize = facilityList.getArrayList().size();
-                for(int i =0;i<mSize;i++){
-                    tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
-                }
-            }
-        });
-
-    }
-
-    public void getWalkDocument(TMapPoint startPoint,TMapPoint endPoint){
-        TMapData tMapData = new TMapData();
-        tMapData.findPathDataAllType(TMapData.TMapPathType.CAR_PATH, startPoint,endPoint, new TMapData.FindPathDataAllListenerCallback() {
-            @Override
-            public void onFindPathDataAll(Document document) {
-                RouteAdapter adapter = new RouteAdapter();
-                Element root = document.getDocumentElement();
-                NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
-                Log.d("NodeList",nodeListPlacemark + "");
-                for( int i=0; i<nodeListPlacemark.getLength(); i++ ) {
-                    NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
-                    Log.d("Item",nodeListPlacemarkItem + "");
-                    for( int j=0; j<nodeListPlacemarkItem.getLength(); j++ ) {
-                        if( nodeListPlacemarkItem.item(j).getNodeName().equals("description") ) {
-                            adapter.addItem(new RouteItem(nodeListPlacemarkItem.item(j).getTextContent().trim()));
-                            Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim() );
-                        }
-                    }
-                }
-
-                fm.popBackStack();
-                Fragment Route = new Route(adapter);
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
-                transaction.add(R.id.info, Route);
-                transaction.commit();
-                transaction.addToBackStack(null);
-            }
-        });
-    }
-
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-
-        private String url;
-        private ContentValues values;
-
-        public NetworkTask(String url, ContentValues values) {
-
-            this.url = url;
-            this.values = values;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            String result = "basic";
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url,values);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.d("길찾아",s);
-            ParserTask parserTask = new ParserTask();
-            parserTask.execute(s);
-        }
-
-    }
-
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> > {
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                DirectionsJSONParser parser = new DirectionsJSONParser();
-                routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
-            PolylineOptions lineOptions = null;
-
-           /* for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<LatLng>();
-                lineOptions = new PolylineOptions();
-                List<HashMap<String, String>> path = result.get(i);
-
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(8);
-                lineOptions.color(Color.RED);
-            }
-
-            if (lineOptions != null) {
-                if (facilityList.getPolyline() != null) {
-                    facilityList.getPolyline().remove();
-                }
-                facilityList.setPolyline(mMap.addPolyline(lineOptions));
-            }
-
-
-            for(int i=0;i<facilityList.getArrayList().size();i++){
-                if(facilityList.getArrayList().get(i).getId()==facility.getId()){
-                    continue;
-                }
-                else{
-                    facilityList.getArrayList().get(i).getMarker().setVisible(false);
-                }
-            }
-
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.503149+Double.parseDouble(facility.getLat()))/2.0,
-                    (126.952264+Double.parseDouble(facility.getLng()))/2.0),11));*/
-        }
-
     }
 }

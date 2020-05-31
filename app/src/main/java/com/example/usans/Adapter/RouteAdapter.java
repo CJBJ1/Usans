@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class RouteAdapter extends BaseAdapter {
     ArrayList<RouteItem> items = new ArrayList<>();
+    int isCar;
 
     public void addItem(RouteItem item){
         items.add(item);
@@ -35,6 +36,14 @@ public class RouteAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) { return position; }
 
+    public int getIsCar() {
+        return isCar;
+    }
+
+    public void setIsCar(int isCar) {
+        this.isCar = isCar;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         RouteItemView view;
@@ -45,6 +54,9 @@ public class RouteAdapter extends BaseAdapter {
         }
 
         RouteItem item = items.get(position);
+        if(isCar==1){
+            view.setImageView();
+        }
         view.setItemRoute(item.getRoute());
         return view;
     }

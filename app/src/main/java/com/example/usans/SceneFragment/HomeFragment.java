@@ -120,6 +120,7 @@ public class HomeFragment extends Fragment {
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
         }*/
+
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         zoomPlus = view.findViewById(R.id.zoom_plus);

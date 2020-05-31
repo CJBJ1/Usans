@@ -12,6 +12,7 @@ import com.example.usans.R;
 public class RouteItemView extends LinearLayout {
     int id;
     TextView routeView;
+    ImageView imageView;
 
 
     public RouteItemView(Context context) {
@@ -34,8 +35,12 @@ public class RouteItemView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.route_item_view, this, true);
         routeView = findViewById(R.id.route_text);
+        imageView = findViewById(R.id.route_image);
     }
 
     public void setItemRoute(String route) {routeView.setText(route);}
+    public void setImageView(){
+        imageView.setImageResource(R.drawable.car);
+    }
 
 }
