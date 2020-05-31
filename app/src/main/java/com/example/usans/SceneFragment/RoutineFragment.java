@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +39,8 @@ public class RoutineFragment extends Fragment {
         String machine[] = machines.split(" ");
         //machines 로 기구 목록 뽑아내고 가능한 루틴 구하기
         //임시 데이터
-        adapter.addItem(new RoutineItem(0, "가슴", "벤치프레스 -> 덤벨프레스 -> 딥스 -> 덤벨플라이"));
-        adapter.addItem(new RoutineItem(0, "등", "풀업 -> 랫풀다운 -> 바벨로우"));
+        adapter.addItem(new RoutineItem(0, "가슴", "벤치프레스 -> 체스트프레스머신 -> 딥스 -> 버터플라이머신"));
+        adapter.addItem(new RoutineItem(2, "등", "풀업 -> 랫풀다운 -> 친업"));
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
