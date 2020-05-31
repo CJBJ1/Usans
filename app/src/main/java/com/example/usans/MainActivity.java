@@ -1,6 +1,8 @@
 package com.example.usans;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -40,6 +42,7 @@ import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
@@ -241,17 +244,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 case R.id.routeBar_car: {
                     invalidRoute(1);
-                       return true;
+                    return true;
                 }
                 case R.id.routeBar_ok: {
                     onBackPressed();
                     setBarMode(0);
                     invalidateOptionsMenu();
+                    tMapView.removeMarkerItem2("temp");
                     int size = facilityList.getArrayList().size();
                     TMapView tMapView = facilityList.gettMapView();
                     for(int i=0;i<size;i++) {
                         tMapView.addMarkerItem2(String.valueOf(i),facilityList.getArrayList().get(i).getMarker());
                     }
+                    tMapView.removeAllTMapPolyLine();
                     tMapView.removeTMapPath();
                 }
             }
@@ -332,6 +337,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (int i = 0; i < mSize; i++) {
                         tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
                     }
+                    MarkerOverlay markerItem1 = new MarkerOverlay(getApplicationContext(),"hi","hi",fm,tMapView);
+                    TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng()));
+                    Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
+                    markerItem1.setIcon(bitmap);
+                    markerItem1.setTMapPoint( tMapPoint1 );
+                    markerItem1.setID("temp");
+                    markerItem1.setPosition(0.5f, 0.8f);
+                    markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
+                    tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
                 }
             });
         }
@@ -346,6 +360,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (int i = 0; i < mSize; i++) {
                         tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
                     }
+                    MarkerOverlay markerItem1 = new MarkerOverlay(getApplicationContext(),"hi","hi",fm,tMapView);
+                    TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng()));
+                    Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
+                    markerItem1.setIcon(bitmap);
+                    markerItem1.setTMapPoint( tMapPoint1 );
+                    markerItem1.setID("temp");
+                    markerItem1.setPosition(0.5f, 0.8f);
+                    markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
+                    tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
                 }
             });
         }
@@ -375,10 +398,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
 
-                    fm = facilityList.getFm();
-                    fm.popBackStack();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    //fm.popBackStack();
                     Fragment Route = new Route(adapter);
-                    FragmentTransaction transaction = fm.beginTransaction();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
                     transaction.add(R.id.info, Route);
                     transaction.commit();
@@ -404,10 +427,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }
                     }
-                    fm = facilityList.getFm();
-                    fm.popBackStack();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
                     Fragment Route = new Route(adapter);
-                    FragmentTransaction transaction = fm.beginTransaction();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
                     transaction.add(R.id.info, Route);
                     transaction.commit();
@@ -424,5 +446,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng())),isCar);
         setBarMode(1);
         invalidateOptionsMenu();
+    }
+
+    public void loadGpxData(XmlPullParser parser, InputStream gpxIn)
+            throws XmlPullParserException, IOException {
+        tMapView = facilityList.gettMapView();
+        parser.setInput(gpxIn, null);
+        parser.nextTag();
+        int id =0;
+        ArrayList<TMapPoint> tMapPoints = new ArrayList<TMapPoint>();
+
+
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+
+            if (parser.getName().equals("trk")){
+                if(tMapPoints.size()!=0){
+                    TMapPolyLine tMapPolyLine = new TMapPolyLine();
+                    tMapPolyLine.setLineColor(Color.BLUE);
+                    tMapPolyLine.setLineWidth(2);
+                    for( int i=0; i<tMapPoints.size(); i++ ) {
+                        tMapPolyLine.addLinePoint( tMapPoints.get(i) );
+                    }
+                    tMapView.addTMapPolyLine(String.valueOf(id), tMapPolyLine);
+                    id++;
+                }
+
+                tMapPoints = new ArrayList<TMapPoint>();
+
+            }
+
+            if (parser.getName().equals("trkpt")) {
+                tMapPoints.add(new TMapPoint(
+                        Double.valueOf(parser.getAttributeValue(null, "lat")),
+                        Double.valueOf(parser.getAttributeValue(null, "lon"))));
+            }
+
+        }
+        TMapPolyLine tMapPolyLine = new TMapPolyLine();
+        tMapPolyLine.setLineColor(Color.BLUE);
+        tMapPolyLine.setLineWidth(2);
+        for( int i=0; i<tMapPoints.size(); i++ ) {
+            tMapPolyLine.addLinePoint( tMapPoints.get(i) );
+        }
+        tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
+
     }
 }

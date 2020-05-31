@@ -112,15 +112,6 @@ public class HomeFragment extends Fragment {
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
 
-       /* try {
-            InputStream in = getActivity().getAssets().open("test.gpx");
-            XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-            loadGpxData(xmlPullParser,in);
-        } catch (IOException | XmlPullParserException e) {
-            e.printStackTrace();
-        }*/
-
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         zoomPlus = view.findViewById(R.id.zoom_plus);
@@ -414,9 +405,9 @@ public class HomeFragment extends Fragment {
                 new String[]{"https://postfiles.pstatic.net/MjAyMDA0MTFfNjgg/MDAxNTg2NTk1NDc1NDgx.XX7HZPu4V01tEMCNL-5SpTucuuyH4_QGHXDblqVGGZYg.06Crs3nTfDkWQ6IVyjm9Z9yejniYOYIBtsiQSi7ILiog.JPEG.lovehun96/1586595476219.jpg?type=w580",
                 "https://postfiles.pstatic.net/MjAyMDA0MTFfMTE0/MDAxNTg2NTk1NDc2MzM0.ox5mtOW6lsJvxG4ppGaTtgQJwSWSGitJSBZ_f7QladMg.umd0kotG-cYZEmZXPUrXCkYuERYrZDiCmDd9iDgz5QQg.JPEG.lovehun96/1586595477014.jpg?type=w580",
                 "https://postfiles.pstatic.net/MjAyMDA0MTFfMjcz/MDAxNTg2NTk1NDgwODcw.jjSg9KsV5r4cmhl3EQg-5mXUBGd2SF17roh6w1GHI1gg.cZgJLh8HWesc7Gq47VPO5GL-JMdOL0uHvXgWl0Rs3N4g.JPEG.lovehun96/1586595481621.jpg?type=w580",
-                "https://postfiles.pstatic.net/MjAyMDA0MTFfMjAg/MDAxNTg2NTk1NDgwMDk2.wUOIOLSQzEAqIPuHkG4SkrZwwyo3WlM4CCo6yLBsNBUg.kOH-98BIQ1TvHz6QZOFr5IY-XjfoC4PzaiyThLc6nPwg.JPEG.lovehun96/1586595480857.jpg?type=w580"},"벤치프레스 랫풀다운머신 체스트프레스머신 버터플라이머신", "37.462966", "126.942490", 4 ,
+                "https://postfiles.pstatic.net/MjAyMDA0MTFfMjAg/MDAxNTg2NTk1NDgwMDk2.wUOIOLSQzEAqIPuHkG4SkrZwwyo3WlM4CCo6yLBsNBUg.kOH-98BIQ1TvHz6QZOFr5IY-XjfoC4PzaiyThLc6nPwg.JPEG.lovehun96/1586595480857.jpg?type=w580"},"벤치프레스 랫풀다운머신 체스트프레스머신 버터플라이머신", "37.445262", "126.975757", 4 ,
                 getDistance(userLocation,
-                        new LatLng(37.462966, 126.942490)));
+                        new LatLng(37.445262, 126.975757)));
         facilityList.getArrayList().add(facility);
 
         facility = new Facility("10003","봉화산 운동시설","서울 중랑구 묵동 산46-1",

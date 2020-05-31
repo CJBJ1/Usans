@@ -131,18 +131,20 @@ public class MarkerOverlay extends TMapMarkerItem2 {
     }
 
     public boolean onSingleTapUp(PointF point, TMapView mapView) {
-        Log.d("클릭","클리이익");
-        fm.popBackStack();
-        Facility facility;
+        if(!getID().equals("temp")) {
+            Log.d("클릭", "클리이익");
+            fm.popBackStack();
+            Facility facility;
 
-        facility = new Facility(facilityList.getArrayList().get(Integer.parseInt(getID())));
-        Fragment inf = new Info(facility,tMapView);
+            facility = new Facility(facilityList.getArrayList().get(Integer.parseInt(getID())));
+            Fragment inf = new Info(facility, tMapView);
 
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
-        transaction.add(R.id.info, inf);
-        transaction.commit();
-        transaction.addToBackStack(null);
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
+            transaction.add(R.id.info, inf);
+            transaction.commit();
+            transaction.addToBackStack(null);
+        }
         return false;
     }
 }

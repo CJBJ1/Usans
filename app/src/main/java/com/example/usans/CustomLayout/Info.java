@@ -37,6 +37,7 @@ import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -54,7 +55,12 @@ import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -139,7 +145,16 @@ public class Info extends Fragment {
                 Info.super.getActivity().onBackPressed();
                 main.setSelectedFacility(facility);
                 main.invalidRoute(0);
-
+                if(facility.getId().equals("10002")){
+                    try {
+                        InputStream in = getActivity().getAssets().open("test.gpx");
+                        XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
+                        XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
+                        main.loadGpxData(xmlPullParser,in);
+                    } catch (IOException | XmlPullParserException e) {
+                        e.printStackTrace();
+                    }
+                }
                 /*String url = "https://maps.googleapis.com/maps/api/directions/" +
                         "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
                         "&key=AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI";
@@ -181,4 +196,5 @@ public class Info extends Fragment {
             Glide.with(getContext()).load(facility.getPhoto()[0]).into(imageView);
         }
     }
+
 }
