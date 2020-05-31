@@ -3,12 +3,8 @@ package com.example.usans.Adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.example.usans.Data.BoardItem;
 import com.example.usans.Data.BoardItemView;
-import com.example.usans.Data.CommentItem;
-import com.example.usans.Data.CommentItemView;
-
 import java.util.ArrayList;
 
 public class BoardAdapter extends BaseAdapter {

@@ -1,25 +1,19 @@
 package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.usans.GpsTracker;
 import com.example.usans.R;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;

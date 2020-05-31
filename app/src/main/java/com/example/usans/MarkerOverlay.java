@@ -1,7 +1,5 @@
 package com.example.usans;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,17 +7,13 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
-import com.example.usans.SceneFragment.HomeFragment;
 import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -27,14 +21,12 @@ import androidx.fragment.app.FragmentTransaction;
 public class MarkerOverlay extends TMapMarkerItem2 {
 
     private DisplayMetrics dm = null;
-
     private Context mContext = null;
     private BalloonOverlayView balloonView = null;
     private int mAnimationCount = 0;
     private FacilityList facilityList;
     private FragmentManager fm;
     private TMapView tMapView;
-
 
     @Override
     public Bitmap getIcon() {
@@ -89,7 +81,6 @@ public class MarkerOverlay extends TMapMarkerItem2 {
 
     @Override
     public void draw(Canvas canvas, TMapView mapView, boolean showCallout) {
-
         int x = mapView.getRotatedMapXForPoint(getTMapPoint().getLatitude(), getTMapPoint().getLongitude());
         int y = mapView.getRotatedMapYForPoint(getTMapPoint().getLatitude(), getTMapPoint().getLongitude());
 
@@ -127,7 +118,6 @@ public class MarkerOverlay extends TMapMarkerItem2 {
         canvas.translate(x - marginX, y - marginY);
         canvas.drawBitmap(getIcon(), 0, 0, null);
         canvas.restore();
-
     }
 
     public boolean onSingleTapUp(PointF point, TMapView mapView) {

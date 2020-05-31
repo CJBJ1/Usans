@@ -3,16 +3,13 @@ package com.example.usans.Data;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.usans.R;
 
 public class RouteItemView extends LinearLayout {
     int id;
     TextView routeView;
-
 
     public RouteItemView(Context context) {
         super(context);
@@ -23,7 +20,6 @@ public class RouteItemView extends LinearLayout {
         super(context, attrs);
         init(context);
     }
-
 
     @Override
     protected void onDetachedFromWindow() {

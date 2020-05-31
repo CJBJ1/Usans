@@ -6,22 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.example.usans.Adapter.RouteAdapter;
-import com.example.usans.Adapter.TitleAdapter;
-import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.RouteItem;
-import com.example.usans.Data.TitleItem;
 import com.example.usans.R;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapPoint;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import java.util.ArrayList;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -42,7 +34,7 @@ public class Route extends Fragment {
         this.endLng=endLng;
     }
 
-    Route(RouteAdapter adapter){this.adapter = adapter;}
+    Route(RouteAdapter adapter) {this.adapter = adapter;}
 
     @Nullable
     @Override
@@ -75,4 +67,5 @@ public class Route extends Fragment {
             }
         });
     }
+
 }

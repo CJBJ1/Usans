@@ -24,9 +24,8 @@ public class Facility implements Parcelable {
     private TMapMarkerItem2 marker;
     private double distance;
 
-    public Facility(){
+    public Facility(){}
 
-    }
     public Facility(String id, String name, String address, String[] photo, String machines, String lat, String lng, float rating,double distance){
         setId(id);
         setName(name);
@@ -38,19 +37,16 @@ public class Facility implements Parcelable {
         setRating(rating);
         setDistance(distance);
     }
+
     public Facility(Facility facility){
         setId(facility.getId());
         setName(facility.getName());
         setAddress(facility.getAddress());
-        if(facility.getPhoto()==null) {
-            setPhoto(new String[]{});
-        }
-        else{
-            setPhoto(facility.getPhoto());
-        }
-        if(Integer.parseInt(facility.getId())<10000) {
-            setMachines("철봉 허리돌리기 평행봉");
-        }
+
+        if(facility.getPhoto()==null) setPhoto(new String[]{});
+        else setPhoto(facility.getPhoto());
+
+        if(Integer.parseInt(facility.getId())<10000) setMachines("철봉 허리돌리기 평행봉");
         else {
             setMachines(facility.getMachines());
             machineList = new ArrayList<>();
@@ -79,7 +75,6 @@ public class Facility implements Parcelable {
         public Facility createFromParcel(Parcel src) {
             return new Facility(src);
         }
-
         public Facility[] newArray(int size) {
             return new Facility[size];
         }
@@ -165,7 +160,6 @@ public class Facility implements Parcelable {
     public void setRating(float rating) {
         this.rating = rating;
     }
-
 
     public void setMarker(TMapMarkerItem2 marker) {
         this.marker = marker;

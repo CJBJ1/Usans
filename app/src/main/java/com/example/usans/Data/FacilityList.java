@@ -1,14 +1,9 @@
 package com.example.usans.Data;
 
 import android.app.Application;
-
-import com.example.usans.Data.Facility;
 import com.google.android.gms.maps.model.Polyline;
-import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapView;
-
 import java.util.ArrayList;
-
 import androidx.fragment.app.FragmentManager;
 
 public class FacilityList extends Application {
@@ -44,19 +39,15 @@ public class FacilityList extends Application {
     public User getUser() {
         return user;
     }
-
     public void settMapView(TMapView tMapView) {
         this.tMapView = tMapView;
     }
-
     public TMapView gettMapView() {
         return tMapView;
     }
-
     public void setFm(FragmentManager fm) {
         this.fm = fm;
     }
-
     public FragmentManager getFm() {
         return fm;
     }

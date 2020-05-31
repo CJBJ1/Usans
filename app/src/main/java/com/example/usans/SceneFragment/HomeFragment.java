@@ -17,9 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationManager;
 import android.widget.Toast;
-
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Recommend;
 import com.example.usans.Data.Facility;
@@ -31,42 +29,25 @@ import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
 import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import io.ticofab.androidgpxparser.parser.GPXParser;
-import io.ticofab.androidgpxparser.parser.domain.Gpx;
 
 public class HomeFragment extends Fragment {
     TMapView tMapView;
@@ -90,12 +71,9 @@ public class HomeFragment extends Fragment {
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
-
-
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
 
         userLocation = new LatLng(37.503149, 126.952264);
         facilityList = (FacilityList)getActivity().getApplicationContext();
@@ -186,7 +164,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
     public void showInfo(int index){
         fm.popBackStack();
         Facility facility;
@@ -226,8 +203,6 @@ public class HomeFragment extends Fragment {
         });
 
         facilityList.settMapView(tMapView);
-
-
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
@@ -339,8 +314,6 @@ public class HomeFragment extends Fragment {
         return address.getAddressLine(0).toString()+"\n";
     }
 
-
-
     public void loadGpxData(XmlPullParser parser, InputStream gpxIn)
             throws XmlPullParserException, IOException {
         parser.setInput(gpxIn, null);
@@ -348,12 +321,10 @@ public class HomeFragment extends Fragment {
         int id =0;
         ArrayList<TMapPoint> tMapPoints = new ArrayList<TMapPoint>();
 
-
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
-
             if (parser.getName().equals("trk")){
                 if(tMapPoints.size()!=0){
                     TMapPolyLine tMapPolyLine = new TMapPolyLine();
@@ -367,7 +338,6 @@ public class HomeFragment extends Fragment {
                 }
 
                 tMapPoints = new ArrayList<TMapPoint>();
-
             }
 
             if (parser.getName().equals("trkpt")) {
@@ -375,7 +345,6 @@ public class HomeFragment extends Fragment {
                         Double.valueOf(parser.getAttributeValue(null, "lat")),
                         Double.valueOf(parser.getAttributeValue(null, "lon"))));
             }
-
         }
         TMapPolyLine tMapPolyLine = new TMapPolyLine();
         tMapPolyLine.setLineColor(Color.BLUE);
@@ -384,7 +353,6 @@ public class HomeFragment extends Fragment {
             tMapPolyLine.addLinePoint( tMapPoints.get(i) );
         }
         tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
-
     }
 
     public void addSans(){
@@ -428,7 +396,6 @@ public class HomeFragment extends Fragment {
                 getDistance(userLocation,
                         new LatLng(37.608263, 127.086944)));
         facilityList.getArrayList().add(facility);
-        //37.508181, 126.954435
         facility = new Facility("10004","고구동산 체력단련장","서울 동작구 본동",
                 new String[]{"https://lh3.googleusercontent.com/proxy/PJ3fx5ZH4tFoTFktBwLAeCIABke909Rn0uQuV8efUvxu2rcoslB6ELzr5DQzygYy3abcIk1_AI6jTx6UanE8RMJrcnQlng04ag7zFxUI0n8", "http://ideeaa.net/wordpress/wp-content/uploads/2015/07/g3.jpg"},
                 "벤치프레스 스탠딩레그컬머신 랫풀다운 레그익스텐션머신 체스트프레스머신 버터플라이머신 철봉",
@@ -436,7 +403,6 @@ public class HomeFragment extends Fragment {
                 getDistance(userLocation,
                         new LatLng(37.508181, 126.954435)));
         facilityList.getArrayList().add(facility);
-        //37.507585, 126.954684
         facility = new Facility("10005","고구동산 테스트","서울 동작구 본동",
                 new String[] {},
                 "철봉",

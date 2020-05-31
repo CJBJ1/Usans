@@ -2,41 +2,27 @@ package com.example.usans.Activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.usans.Adapter.CommentAdapter;
-import com.example.usans.AppHelper;
 import com.example.usans.Data.CommentItem;
-import com.example.usans.Data.CommentList;
 import com.example.usans.Data.Facility;
 import com.example.usans.R;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.RequestHttpURLConnection;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Comment;
-
-import java.util.Random;
 
 public class DetailActivity extends AppCompatActivity {
     Intent intent;
@@ -47,7 +33,6 @@ public class DetailActivity extends AppCompatActivity {
     ListView commentListView;
 
     CommentAdapter adapter;
-    CommentList commentList;
 
     ImageView imageView;
     TextView nameView, addressView, machinesView;
@@ -93,51 +78,6 @@ public class DetailActivity extends AppCompatActivity {
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
         layout();
-    }
-
-    public void requestCommentList(final int movieId) {
-        String url = "http://" + AppHelper.host + ":" + AppHelper.port + AppHelper.readCommentList;
-        url += "?" + "id=" + movieId;
-
-        StringRequest request = new StringRequest(
-                Request.Method.GET,
-                url,    //GET 방식은 요청 path가 필요
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        processResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "에러발생", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        request.setShouldCache(false);
-        AppHelper.requestQueue.add(request);
-
-    }
-
-    public void processResponse(String response) {
-        //Gson gson = new Gson();
-
-//        ResponseInfo info = gson.fromJson(response, ResponseInfo.class);
-//        if (info.code == 200) {
-//            commentList = gson.fromJson(response, CommentList.class);
-//
-//            setCommentList();
-//        }
-    }
-
-    public void setCommentList() {
-        for (int i = 0; i < commentList.result.size(); i++) {
-            CommentItem commentItem = commentList.result.get(i);
-            adapter.addItem(commentItem);
-        }
-        adapter.notifyDataSetChanged();
     }
 
     public void moveToImage(String[] photos) {
@@ -215,7 +155,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
-
         private String url;
         private ContentValues values;
 
@@ -236,7 +175,6 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("서버", s);
             try {
                 JSONArray jsArr = new JSONArray(s);
                 int index = jsArr.length() - 1;
@@ -256,8 +194,8 @@ public class DetailActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
+
 }
 

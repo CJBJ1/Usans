@@ -1,13 +1,9 @@
 package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.example.usans.R;
 

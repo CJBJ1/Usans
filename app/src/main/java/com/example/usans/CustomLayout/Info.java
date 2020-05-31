@@ -1,12 +1,6 @@
 package com.example.usans.CustomLayout;
 
-
 import android.app.Activity;
-import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,49 +10,29 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.bumptech.glide.Glide;
 import com.example.usans.Adapter.RouteAdapter;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.RouteItem;
-import com.example.usans.DirectionsJSONParser;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
-
 import com.example.usans.SceneFragment.HomeFragment;
-import com.example.usans.RequestHttpURLConnection;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.skt.Tmap.TMapData;
-import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapTapi;
 import com.skt.Tmap.TMapView;
-
-import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class Info extends Fragment {
     private Activity activity;
@@ -73,12 +47,10 @@ public class Info extends Fragment {
     View view;
     Button closeButton, detailButton, routineRecommendButton, startButton;
 
-
     ImageView imageView;
     ImageView imageView2;
     TextView nameView, addressView, machinesView;
     RatingBar ratingBar;
-
 
     public Info (Facility facility,TMapView tMapView) {
         this.facility = new Facility(facility);
@@ -86,7 +58,6 @@ public class Info extends Fragment {
     }
 
     public Info(){}
-
 
     @Nullable
     @Override
@@ -104,8 +75,6 @@ public class Info extends Fragment {
         detailButton = view.findViewById(R.id.detail_button);
         routineRecommendButton = view.findViewById(R.id.routine_recommend_button);
         startButton = view.findViewById(R.id.sans_navigation_start_button);
-
-
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +116,7 @@ public class Info extends Fragment {
                 pathInfo.put("rV1Y", "37.576016");
                 tMapTapi.invokeRoute(pathInfo);
 
-                /*Info.super.getActivity().onBackPressed();
+                Info.super.getActivity().onBackPressed();
 
                 fm = facilityList.getFm();
                 MainActivity main = (MainActivity) Info.super.getActivity();
@@ -162,14 +131,6 @@ public class Info extends Fragment {
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
                 getWalkDocument(new TMapPoint(37.503149,126.952264),
                         new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())));
-*/
-
-                /*String url = "https://maps.googleapis.com/maps/api/directions/" +
-                        "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
-                        "&key=AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI";
-
-                NetworkTask networkTask = new NetworkTask(url, null);
-                networkTask.execute();*/
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +142,7 @@ public class Info extends Fragment {
             }
         });
 
-        if(this.facility !=null)layout();
+        if (this.facility !=null) layout();
         return view;
     }
 
@@ -192,7 +153,6 @@ public class Info extends Fragment {
     }
 
     public void layout() {
-//        imageView = facility.getPhoto();
         nameView.setText(facility.getName());
         addressView.setText(facility.getAddress());
         StringBuilder machines = new StringBuilder();
@@ -205,7 +165,6 @@ public class Info extends Fragment {
             Glide.with(getContext()).load(facility.getPhoto()[0]).into(imageView);
         }
     }
-
 
     public void getWalkPath(TMapPoint startPoint,TMapPoint endPoint){
         TMapData tMapData = new TMapData();
@@ -220,7 +179,6 @@ public class Info extends Fragment {
                 }
             }
         });
-
     }
 
     public void getWalkDocument(TMapPoint startPoint,TMapPoint endPoint){
@@ -252,100 +210,5 @@ public class Info extends Fragment {
                 transaction.addToBackStack(null);
             }
         });
-    }
-
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-
-        private String url;
-        private ContentValues values;
-
-        public NetworkTask(String url, ContentValues values) {
-
-            this.url = url;
-            this.values = values;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            String result = "basic";
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url,values);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Log.d("길찾아",s);
-            ParserTask parserTask = new ParserTask();
-            parserTask.execute(s);
-        }
-
-    }
-
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> > {
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try {
-                jObject = new JSONObject(jsonData[0]);
-                DirectionsJSONParser parser = new DirectionsJSONParser();
-                routes = parser.parse(jObject);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
-            PolylineOptions lineOptions = null;
-
-           /* for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<LatLng>();
-                lineOptions = new PolylineOptions();
-                List<HashMap<String, String>> path = result.get(i);
-
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                lineOptions.addAll(points);
-                lineOptions.width(8);
-                lineOptions.color(Color.RED);
-            }
-
-            if (lineOptions != null) {
-                if (facilityList.getPolyline() != null) {
-                    facilityList.getPolyline().remove();
-                }
-                facilityList.setPolyline(mMap.addPolyline(lineOptions));
-            }
-
-
-            for(int i=0;i<facilityList.getArrayList().size();i++){
-                if(facilityList.getArrayList().get(i).getId()==facility.getId()){
-                    continue;
-                }
-                else{
-                    facilityList.getArrayList().get(i).getMarker().setVisible(false);
-                }
-            }
-
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((37.503149+Double.parseDouble(facility.getLat()))/2.0,
-                    (126.952264+Double.parseDouble(facility.getLng()))/2.0),11));*/
-        }
-
     }
 }

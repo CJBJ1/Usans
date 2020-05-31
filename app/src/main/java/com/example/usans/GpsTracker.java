@@ -1,4 +1,5 @@
 package com.example.usans;
+
 import android.Manifest;
 import android.app.Service;
 import android.content.Context;
@@ -12,10 +13,7 @@ import android.os.IBinder;
 import androidx.core.content.ContextCompat;
 import android.util.Log;
 
-
-
 public class GpsTracker extends Service implements LocationListener {
-
     private final Context mContext;
     Location location;
     double latitude;
@@ -29,7 +27,6 @@ public class GpsTracker extends Service implements LocationListener {
         this.mContext = context;
         getLocation();
     }
-
 
     public Location getLocation() {
         try {
@@ -48,24 +45,19 @@ public class GpsTracker extends Service implements LocationListener {
 
                 if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
                         hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
-                    ;
-                } else
-                    return null;
 
+                } else return null;
 
                 if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    if (locationManager != null)
-                    {
+                    if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null)
-                        {
+                        if (location != null) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
                         }
                     }
                 }
-
 
                 if (isGPSEnabled) {
                     if (location == null) {
@@ -89,17 +81,12 @@ public class GpsTracker extends Service implements LocationListener {
     }
 
     public double getLatitude() {
-        if(location != null) {
-            latitude = location.getLatitude();
-        }
-
+        if(location != null) latitude = location.getLatitude();
         return latitude;
     }
 
     public double getLongitude() {
-        if(location != null) {
-            longitude = location.getLongitude();
-        }
+        if(location != null) longitude = location.getLongitude();
         return longitude;
     }
 
@@ -123,7 +110,6 @@ public class GpsTracker extends Service implements LocationListener {
     public IBinder onBind(Intent arg0) {
         return null;
     }
-
 
     public void stopUsingGPS() {
         if(locationManager != null) {

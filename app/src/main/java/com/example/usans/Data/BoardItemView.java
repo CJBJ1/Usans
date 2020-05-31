@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.usans.R;
 
 public class BoardItemView extends LinearLayout {
@@ -41,7 +40,7 @@ public class BoardItemView extends LinearLayout {
         timeView = (TextView) findViewById(R.id.board_time);
         titleView = (TextView) findViewById(R.id.board_title);
         contentsView = (TextView) findViewById(R.id.board_contents);
-            }
+    }
 
     public void setItemId(int id) {id = id;}
     public void setItemImage(/*int resId*/) {writerImageView.setImageResource(R.drawable.user1);}

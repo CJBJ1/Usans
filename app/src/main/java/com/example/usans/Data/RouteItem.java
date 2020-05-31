@@ -6,7 +6,6 @@ import android.os.Parcelable;
 public class RouteItem implements Parcelable {
     public String route;
 
-
     public RouteItem(String route) {
         this.route = route;
     }
