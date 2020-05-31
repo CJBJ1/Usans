@@ -3,41 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="setting"
-        android:icon="@drawable/loglog">
-        <menu>
-            <item
-                android:id="@+id/nav_2"
-                android:icon="@drawable/loglog"
-                android:title="로그인" />
-        </menu>
-    </item>
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/trello_compass_2"
-            android:title="Home" />
+            android:title="거리 설정" />
         <item
             android:id="@+id/nav_favorite"
-            android:icon="@drawable/trello_compass"
-            android:title="자주 가는 장소" />
+            android:title="기구 설정" />
         <item
             android:id="@+id/nav_info"
-            android:icon="@drawable/trello_skull"
-            android:title="개인 정보 수정" />
-        <item
-            android:id="@+id/nav_shopReg"
-            android:icon="@drawable/trello_swimsuit"
-            android:title="시설 등록" />
+            android:title="평점" />
     </group>
 
-    <item android:title="setting">
-        <menu>
+    <item android:title="Usans">
+       <menu>
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/loglog"
-                android:title="로그인" />
+                android:title="Usans" />
         </menu>
     </item>
 

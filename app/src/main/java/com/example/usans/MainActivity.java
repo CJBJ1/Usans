@@ -31,14 +31,26 @@ import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
+import com.google.android.gms.maps.model.LatLng;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FacilityList facilityList;
     private DrawerLayout mDrawerLayout;
+    List<LatLng> latLngs;
     Button homeButton,listButton,regButton,mypageButton;
     FragmentTransaction tran;
 
@@ -54,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
-
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
 

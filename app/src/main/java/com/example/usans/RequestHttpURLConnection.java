@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 
@@ -103,9 +104,6 @@ public class RequestHttpURLConnection {
         // URL 뒤에 붙여서 보낼 파라미터.
         StringBuffer sbParams = new StringBuffer();
 
-        /**
-         * 1. StringBuffer에 파라미터 연결
-         * */
         // 보낼 데이터가 없으면 파라미터를 비운다.
         if (_params == null)
             sbParams.append("");
@@ -128,21 +126,16 @@ public class RequestHttpURLConnection {
                     e.printStackTrace();
                 }
 
-               /* if (isAnd)
+                if (isAnd)
                     sbParams.append("&");
 
                 sbParams.append(key).append("=").append(value);
-
-                // 파라미터가 2개 이상이면 isAnd를 true로 바꾸고 다음 루프부터 &를 붙인다.
                 if (!isAnd)
                     if (_params.size() >= 2)
-                        isAnd = true;*/
+                        isAnd = true;
             }
         }
 
-        /**
-         * 2. HttpURLConnection을 통해 web의 데이터를 가져온다.
-         * */
         try {
             URL url = new URL(_url);
             urlConn = (HttpURLConnection) url.openConnection();
@@ -154,9 +147,6 @@ public class RequestHttpURLConnection {
             urlConn.setDoOutput(true);
             urlConn.setDoInput(true);
             urlConn.setRequestProperty("Accept-Charset", "utf-8"); // Accept-Charset 설정.
-            if(accessToken!=null) {
-                urlConn.setRequestProperty("Authorization", "Token "+accessToken);
-            }
             urlConn.setRequestProperty("Content-Type", "application/json");
 
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(urlConn.getOutputStream()));
@@ -170,9 +160,7 @@ public class RequestHttpURLConnection {
             if (urlConn.getResponseCode() != HttpURLConnection.HTTP_OK)
                 return null;
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), "UTF-8"));
-
-            // 출력물의 라인과 그 합에 대한 변수.
+            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConn.getInputStream(), StandardCharsets.UTF_8));
             String line;
             String page = "";
 

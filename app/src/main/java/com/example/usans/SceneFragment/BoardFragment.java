@@ -22,10 +22,12 @@ import com.example.usans.Adapter.TitleAdapter;
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.TitleItem;
+import com.example.usans.FileUploadUtils;
 import com.example.usans.R;
 
 
 public class BoardFragment extends Fragment {
+    private FileUploadUtils fileUploadUtils;
     View view;
     ListView listView;
     TitleAdapter adapter;
@@ -40,16 +42,19 @@ public class BoardFragment extends Fragment {
             listView = view.findViewById(R.id.board_list_view);
             fm = getFragmentManager();
             adapter = new TitleAdapter();
+
+            adapter.addItem(new TitleItem(0, "서재훈", "05/22 14:22", "테스트","테스트"));
             adapter.addItem(new TitleItem(0, "서재훈", "05/01 12:34", "여기 좋아요","굳굳"));
             adapter.addItem(new TitleItem(0, "정재형", "05/01 12:10", "운동 같이 하실분?","컴컴"));
-            listView.setAdapter(adapter);
+
+        listView.setAdapter(adapter);
 
         writeButton = view.findViewById(R.id.write_board);
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), WriteActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,22);
             }
         });
 
