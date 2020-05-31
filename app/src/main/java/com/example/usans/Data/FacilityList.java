@@ -1,6 +1,8 @@
 package com.example.usans.Data;
 
 import android.app.Application;
+import com.example.usans.CustomLayout.Info;
+import com.example.usans.Data.Facility;
 import com.google.android.gms.maps.model.Polyline;
 import com.skt.Tmap.TMapView;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ public class FacilityList extends Application {
     private Polyline polyline;
     private TMapView tMapView;
     private FragmentManager fm;
+    private Info selectedInfo;
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;

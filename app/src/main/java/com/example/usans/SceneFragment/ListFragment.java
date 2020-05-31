@@ -45,11 +45,9 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
 
-
         sansListView = view.findViewById(R.id.sans_list_view);
         facilityList = (FacilityList) getActivity().getApplication();
         sortedList = new ArrayList<>();
-
 
         return view;
     }

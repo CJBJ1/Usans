@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.usans.AppHelper;
+import com.example.usans.Data.FacilityList;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import androidx.appcompat.app.ActionBar;
@@ -24,6 +26,7 @@ public class WriteActivity extends AppCompatActivity {
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_IMAGE = 2;
 
+    private FacilityList facilityList;
     private Uri mImageCaptureUri;
     private ImageView imageView;
     EditText waTitle, waContent;
@@ -34,6 +37,7 @@ public class WriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
+        facilityList = (FacilityList)getApplication();
         imageView = findViewById(R.id.wa_image_view);
         imageView.setVisibility(View.INVISIBLE);
         waTitle = findViewById(R.id.wa_title);
@@ -60,15 +64,17 @@ public class WriteActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.wa_add:{
+                Log.i("추가", "글쓰기 추가");
+//                contentValues.put("authorname", facilityList.getUser().getName());
                 contentValues.put("title", waTitle.getText().toString());
                 contentValues.put("board", getIntent().getIntExtra("boardNumber", 0));
-                contentValues.put("author", "8");
+                contentValues.put("author", facilityList.getUser().getId());
                 contentValues.put("text", waContent.getText().toString());
                 NetworkTask networkTask = new NetworkTask(AppHelper.Write, contentValues);
                 networkTask.execute();
 
                 Intent intent = new Intent();
-                setResult(222, intent);
+                setResult(22, null);
                 finish();
             }
         }

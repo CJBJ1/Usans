@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -165,7 +166,6 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-
             String result = "basic";
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             result = requestHttpURLConnection.request(url, values);
@@ -178,13 +178,14 @@ public class DetailActivity extends AppCompatActivity {
             try {
                 JSONArray jsArr = new JSONArray(s);
                 int index = jsArr.length() - 1;
-
+                Log.e("씨발", "onPostExecute");
                 adapter = new CommentAdapter();
                 while (index != -1) {
                     JSONObject jsonObject = jsArr.getJSONObject(index);
                     Float rating = Float.parseFloat(jsonObject.getString("rating"));
                     if (jsonObject.getString("loc").equals(facility.getId()) && rating > -1) {
-                        adapter.addItem(new CommentItem(jsonObject.getString("username"), 0, rating, jsonObject.getString("text"),  jsonObject.getString("machinestate")));
+                        Log.e("씨발", "커맨트아이템");
+                        adapter.addItem(new CommentItem(jsonObject.getString("username"), 0, rating, jsonObject.getString("text"),  ""/*jsonObject.getString("machinestate")*/));
                     }
                     index--;
                 }

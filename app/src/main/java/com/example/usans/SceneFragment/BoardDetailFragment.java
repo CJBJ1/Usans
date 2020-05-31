@@ -69,5 +69,4 @@ public class BoardDetailFragment extends Fragment {
         this.contents = contents;
     }
 
-
 }

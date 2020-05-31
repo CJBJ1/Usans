@@ -30,13 +30,13 @@ public class RegFragment extends Fragment {
         hotButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBoard(0);
+                showBoard(3);
             }
         });
         bestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBoard(1);
+                showBoard(4);
             }
         });
         freeButton.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +48,7 @@ public class RegFragment extends Fragment {
         recommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBoard(3);
+                showBoard(5);
             }
         });
 

@@ -98,6 +98,7 @@ public class HomeFragment extends Fragment {
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
         }*/
+
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         zoomPlus = view.findViewById(R.id.zoom_plus);
@@ -164,18 +165,9 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void showInfo(int index){
-        fm.popBackStack();
-        Facility facility;
-
-        facility = new Facility(facilityList.getArrayList().get(index));
-        Fragment inf = new Info(facility,tMapView);
-
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
-        transaction.add(R.id.info, inf);
-        transaction.commit();
-        transaction.addToBackStack(null);
+    public void popChild() {
+        FragmentManager ft = getChildFragmentManager();
+        ft.popBackStack();
     }
 
     public void setMap(){

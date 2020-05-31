@@ -3,6 +3,7 @@ package com.example.usans;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,12 +13,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.usans.Activity.AddSansAcitivity;
 import com.example.usans.Activity.BoardActivity;
 import com.example.usans.Activity.DetailActivity;
 import com.example.usans.Activity.ImageActivity;
 import com.example.usans.Activity.RoutineActivity;
+import com.example.usans.Adapter.RouteAdapter;
+import com.example.usans.CustomLayout.Info;
+import com.example.usans.CustomLayout.Route;
+import com.example.usans.Data.RouteItem;
 import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
@@ -26,11 +33,30 @@ import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapPolyLine;
+import com.skt.Tmap.TMapView;
 import net.danlew.android.joda.JodaTimeAndroid;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FacilityList facilityList;
+    private Facility selectedFacility;
+    private FragmentManager fm;
+    private Info selectedInfo;
     private DrawerLayout mDrawerLayout;
     List<LatLng> latLngs;
     Button homeButton,listButton,regButton,mypageButton;
@@ -45,11 +71,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     RelativeLayout homeLayout, listLayout, regLayout, mypageLayout, heartLayout;
 
+    int barMode=0;
+    private TMapView tMapView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
+        facilityList = (FacilityList)getApplication();
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
 
@@ -182,21 +211,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{ // 왼쪽 상단 버튼 눌렀을 때
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            }
-            case R.id.menu_add:{
-                homeFragment.showAddMarkerButton();
+        if(barMode==0) {
+            switch (item.getItemId()) {
+                case android.R.id.home: { // 왼쪽 상단 버튼 눌렀을 때
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                    return true;
+                }
+                case R.id.menu_add: {
+                    homeFragment.showAddMarkerButton();
+                }
             }
         }
-        return super.onOptionsItemSelected(item);
+        else if(barMode == 1) {
+            switch (item.getItemId()) {
+                case android.R.id.home: { // 왼쪽 상단 버튼 눌렀을 때
+                    onBackPressed();
+                    return true;
+                }
+                case R.id.routeBar_walk: {
+                    invalidRoute(0);
+                    return true;
+                }
+                case R.id.routeBar_car: {
+                    invalidRoute(1);
+                    return true;
+                }
+                case R.id.routeBar_ok: {
+                    onBackPressed();
+//                    homeFragment.popChild();
+
+                    setBarMode(0);
+                    invalidateOptionsMenu();
+                    int size = facilityList.getArrayList().size();
+                    TMapView tMapView = facilityList.gettMapView();
+                    for(int i=0;i<size;i++) {
+                        tMapView.addMarkerItem2(String.valueOf(i),facilityList.getArrayList().get(i).getMarker());
+                    }
+                    tMapView.removeTMapPath();
+                }
+            }
+        }
+            return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        super.onCreateOptionsMenu(menu);
+        if(barMode==0) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
+        else if(barMode==1){
+            getMenuInflater().inflate(R.menu.route, menu);
+        }
         return true;
     }
 
@@ -233,4 +299,126 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public void setBarMode(int barMode) {
+        this.barMode = barMode;
+    }
+
+    public int getBarMode() {
+        return barMode;
+    }
+
+    public void setSelectedFacility(Facility selectedFacility) {
+        this.selectedFacility = selectedFacility;
+    }
+
+    public Facility getSelectedFacility() {
+        return selectedFacility;
+    }
+
+    public void getPath(TMapPoint startPoint, TMapPoint endPoint, int isCar){
+        TMapData tMapData = new TMapData();
+        if(isCar==1) {
+            tMapData.findPathDataWithType(TMapData.TMapPathType.CAR_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
+                @Override
+                public void onFindPathData(TMapPolyLine polyLine) {
+                    polyLine.setID("result");
+                    tMapView = facilityList.gettMapView();
+                    tMapView.addTMapPath(polyLine);
+                    int mSize = facilityList.getArrayList().size();
+                    for (int i = 0; i < mSize; i++) {
+                        tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
+                    }
+                }
+            });
+        }
+        else{
+            tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
+                @Override
+                public void onFindPathData(TMapPolyLine polyLine) {
+                    polyLine.setID("result");
+                    tMapView = facilityList.gettMapView();
+                    tMapView.addTMapPath(polyLine);
+                    int mSize = facilityList.getArrayList().size();
+                    for (int i = 0; i < mSize; i++) {
+                        tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
+                    }
+                }
+            });
+        }
+
+    }
+
+    public void getPathDocument(TMapPoint startPoint, TMapPoint endPoint, int isCar){
+        TMapData tMapData = new TMapData();
+        if(isCar==1) {
+            tMapData.findPathDataAllType(TMapData.TMapPathType.CAR_PATH, startPoint, endPoint, new TMapData.FindPathDataAllListenerCallback() {
+                @Override
+                public void onFindPathDataAll(Document document) {
+                    RouteAdapter adapter = new RouteAdapter();
+                    adapter.setIsCar(1);
+                    Element root = document.getDocumentElement();
+                    NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
+                    Log.d("NodeList", nodeListPlacemark + "");
+                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
+                        NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+                        Log.d("Item", nodeListPlacemarkItem + "");
+                        for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
+                            if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
+                                adapter.addItem(new RouteItem(nodeListPlacemarkItem.item(j).getTextContent().trim()));
+                                Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim());
+                            }
+                        }
+                    }
+
+
+                    fm = getSupportFragmentManager();
+                    fm.popBackStack();
+                    Fragment Route = new Route(adapter);
+                    FragmentTransaction transaction = fm.beginTransaction();
+                    transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
+                    transaction.add(R.id.info, Route);
+                    transaction.commit();
+                    transaction.addToBackStack(null);
+                }
+            });
+        }
+        else{
+            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataAllListenerCallback() {
+                @Override
+                public void onFindPathDataAll(Document document) {
+                    RouteAdapter adapter = new RouteAdapter();
+                    Element root = document.getDocumentElement();
+                    NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
+                    Log.d("NodeList", nodeListPlacemark + "");
+                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
+                        NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+                        Log.d("Item", nodeListPlacemarkItem + "");
+                        for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
+                            if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
+                                adapter.addItem(new RouteItem(nodeListPlacemarkItem.item(j).getTextContent().trim()));
+                                Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim());
+                            }
+                        }
+                    }
+                    fm = facilityList.getFm();
+                    fm.popBackStack();
+                    Fragment Route = new Route(adapter);
+                    FragmentTransaction transaction = fm.beginTransaction();
+                    transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
+                    transaction.add(R.id.info, Route);
+                    transaction.commit();
+                    transaction.addToBackStack(null);
+                }
+            });
+        }
+    }
+
+    public void invalidRoute(int isCar){
+        getPath(new TMapPoint(37.503149,126.952264),
+                new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng())),isCar);
+        getPathDocument(new TMapPoint(37.503149,126.952264),
+                new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng())),isCar);
+        setBarMode(1);
+        invalidateOptionsMenu();
+    }
 }

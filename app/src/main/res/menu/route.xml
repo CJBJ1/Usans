@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/routeBar_walk"
+        android:title=""
+        android:icon="@drawable/walk"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/routeBar_car"
+        android:title=""
+        android:icon="@drawable/car"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/routeBar_ok"
+        android:title="도착"
+        android:background="@drawable/green_corner"
+        app:showAsAction="always"
+        />
+</menu>
