@@ -1,8 +1,10 @@
 package com.example.usans.SceneFragment;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,12 +15,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationManager;
 import android.widget.Toast;
 
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Recommend;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
+import com.example.usans.GpsTracker;
 import com.example.usans.MainActivity;
 import com.example.usans.MarkerOverlay;
 import com.example.usans.R;
@@ -35,21 +41,32 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
+import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import io.ticofab.androidgpxparser.parser.GPXParser;
+import io.ticofab.androidgpxparser.parser.domain.Gpx;
 
 public class HomeFragment extends Fragment {
     TMapView tMapView;
@@ -66,6 +83,14 @@ public class HomeFragment extends Fragment {
     public LinearLayout zoomLayout;
     public Button addMarkerButtom, zoomPlus, zoomMinus;
     public Button sansNavigationStartButton;
+    private Button gpsButton;
+    private List<LatLng> latLngs;
+    private GpsTracker gpsTracker;
+    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
+    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -87,6 +112,14 @@ public class HomeFragment extends Fragment {
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
 
+       /* try {
+            InputStream in = getActivity().getAssets().open("test.gpx");
+            XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
+            XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
+            loadGpxData(xmlPullParser,in);
+        } catch (IOException | XmlPullParserException e) {
+            e.printStackTrace();
+        }*/
         addMarker = view.findViewById(R.id.marker_image);
         addMarkerButtom = view.findViewById(R.id.add_marker_button);
         zoomPlus = view.findViewById(R.id.zoom_plus);
@@ -107,6 +140,23 @@ public class HomeFragment extends Fragment {
         });
         zoomLayout = view.findViewById(R.id.zoom_layout);
         zoomLayout.setVisibility(View.VISIBLE);
+
+        gpsButton = view.findViewById(R.id.gps_button);
+
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gpsTracker = new GpsTracker(getActivity().getApplicationContext());
+                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude()*(-1);
+
+                String address = getCurrentAddress(latitude, longitude);
+                Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+                tMapView.setCenterPoint(longitude,latitude,true);
+            }
+        });
+
+        facilityList.setFm(fm);
 
         return view;
     }
@@ -157,11 +207,9 @@ public class HomeFragment extends Fragment {
         for(int i = 0;i<size;i++){
             Facility facility = list.get(i);
             MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
-
             TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())); // SKT타워
             Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
             markerItem1.setIcon(bitmap);
-
             markerItem1.setTMapPoint( tMapPoint1 );
             markerItem1.setID(String.valueOf(i));
             markerItem1.setIcon(resizeBitmap(bitmap, 200));
@@ -169,7 +217,6 @@ public class HomeFragment extends Fragment {
             tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
             facilityList.getArrayList().get(i).setMarker(markerItem1);
         }
-
         tMapView.setCenterPoint( 126.985302, 37.570841 );
         tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
             @Override
@@ -179,22 +226,20 @@ public class HomeFragment extends Fragment {
         });
 
         facilityList.settMapView(tMapView);
+
+
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
-
         private String url;
         private ContentValues values;
-
         public NetworkTask(String url, ContentValues values) {
-
             this.url = url;
             this.values = values;
         }
 
         @Override
         protected String doInBackground(Void... params) {
-
             String result = "basic";
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             result = requestHttpURLConnection.request(url,values);
@@ -251,7 +296,6 @@ public class HomeFragment extends Fragment {
         locationB.setLatitude(LatLng2.latitude);
         locationB.setLongitude(LatLng2.longitude);
         distance = locationA.distanceTo(locationB);
-
         return distance;
     }
 
@@ -266,6 +310,81 @@ public class HomeFragment extends Fragment {
             original.recycle();
         }
         return result;
+    }
+
+    public String getCurrentAddress( double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+        List<Address> addresses;
+
+        try {
+            addresses = geocoder.getFromLocation(
+                    latitude,
+                    longitude,
+                    7);
+        } catch (IOException ioException) {
+            //네트워크 문제
+            Toast.makeText(getActivity().getApplicationContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
+            return "지오코더 서비스 사용불가";
+        } catch (IllegalArgumentException illegalArgumentException) {
+            Toast.makeText(getActivity().getApplicationContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
+            return "잘못된 GPS 좌표";
+
+        }
+        if (addresses == null || addresses.size() == 0) {
+            Toast.makeText(getActivity().getApplicationContext(), "주소 미발견", Toast.LENGTH_LONG).show();
+            return "주소 미발견";
+
+        }
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString()+"\n";
+    }
+
+
+
+    public void loadGpxData(XmlPullParser parser, InputStream gpxIn)
+            throws XmlPullParserException, IOException {
+        parser.setInput(gpxIn, null);
+        parser.nextTag();
+        int id =0;
+        ArrayList<TMapPoint> tMapPoints = new ArrayList<TMapPoint>();
+
+
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+
+            if (parser.getName().equals("trk")){
+                if(tMapPoints.size()!=0){
+                    TMapPolyLine tMapPolyLine = new TMapPolyLine();
+                    tMapPolyLine.setLineColor(Color.BLUE);
+                    tMapPolyLine.setLineWidth(2);
+                    for( int i=0; i<tMapPoints.size(); i++ ) {
+                        tMapPolyLine.addLinePoint( tMapPoints.get(i) );
+                    }
+                    tMapView.addTMapPolyLine(String.valueOf(id), tMapPolyLine);
+                    id++;
+                }
+
+                tMapPoints = new ArrayList<TMapPoint>();
+
+            }
+
+            if (parser.getName().equals("trkpt")) {
+                tMapPoints.add(new TMapPoint(
+                        Double.valueOf(parser.getAttributeValue(null, "lat")),
+                        Double.valueOf(parser.getAttributeValue(null, "lon"))));
+            }
+
+        }
+        TMapPolyLine tMapPolyLine = new TMapPolyLine();
+        tMapPolyLine.setLineColor(Color.BLUE);
+        tMapPolyLine.setLineWidth(2);
+        for( int i=0; i<tMapPoints.size(); i++ ) {
+            tMapPolyLine.addLinePoint( tMapPoints.get(i) );
+        }
+        tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
+
     }
 
     public void addSans(){

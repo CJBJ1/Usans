@@ -38,11 +38,7 @@ public class CustomActionBar {
         this.activity = _activity;
         this.actionBar = _actionBar;
         roadMode = false;
-
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -56,8 +52,8 @@ public class CustomActionBar {
                 mCustomView = LayoutInflater.from(activity).inflate(R.layout.custom_action_bar, null);
                 actionBar.setCustomView(mCustomView);
 
-                dongTextView = mCustomView.findViewById(R.id.dong_textView);
-                dongButton = mCustomView.findViewById(R.id.dong_button);
+                //dongTextView = mCustomView.findViewById(R.id.dong_textView);
+                //dongButton = mCustomView.findViewById(R.id.dong_button);
                 addButton = mCustomView.findViewById(R.id.add_button);
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -120,13 +116,12 @@ public class CustomActionBar {
                             tMapView.addMarkerItem2(String.valueOf(i),facilityList.getArrayList().get(i).getMarker());
                         }
                         tMapView.removeTMapPath();
-                        //main.homeFragment.showRecommend();
                     }
                 });
                 break;
         }
 
-        setExtend();
+        //setExtend();
     }
 
     public void setName(String name) {

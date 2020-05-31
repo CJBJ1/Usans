@@ -13,7 +13,7 @@ import java.util.List;
 public class DirectionsJSONParser {
     public List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
-        List<List<HashMap<String, String>>> routes = new ArrayList<>() ;
+        List<List<HashMap<String, String>>> routes = new ArrayList<>();
         JSONArray jRoutes = null;
         JSONArray jLegs = null;
         JSONArray jSteps = null;

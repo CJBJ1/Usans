@@ -7,6 +7,12 @@
     <ListView
         android:id="@+id/board_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"/>
+        android:layout_height="571dp"
+        android:layout_margin="10dp" />
+
+    <Button
+        android:id="@+id/write_board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="글쓰기" />
 </LinearLayout>

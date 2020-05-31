@@ -18,7 +18,6 @@ public class WebActivity extends AppCompatActivity {
 
         // 웹뷰 시작
         mWebView = (WebView) findViewById(R.id.webView);
-
         mWebView.setWebViewClient(new WebViewClient()); // 클릭시 새창 안뜨게
         mWebSettings = mWebView.getSettings(); //세부 세팅 등록
         mWebSettings.setJavaScriptEnabled(true); // 웹페이지 자바스클비트 허용 여부

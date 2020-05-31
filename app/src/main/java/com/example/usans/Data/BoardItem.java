@@ -3,12 +3,16 @@ package com.example.usans.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.net.URI;
+
 public class BoardItem  implements Parcelable {
     public int id;
     public String writer;
     public String time;
     public String title;
     public String contents;
+    public String imageURL;
+    public URI uri;
     public int views;
 
 

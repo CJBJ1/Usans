@@ -31,6 +31,14 @@
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="invisible" />
 
+    <Button
+        android:id="@+id/gps_button"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:text="GPS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/info"
         android:layout_width="match_parent"

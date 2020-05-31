@@ -2,14 +2,21 @@ package com.example.usans;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.example.usans.Activity.AddSansAcitivity;
 import com.example.usans.Activity.BoardActivity;
 import com.example.usans.Activity.DetailActivity;
@@ -23,9 +30,23 @@ import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
+import com.google.android.gms.maps.model.LatLng;
+import net.danlew.android.joda.JodaTimeAndroid;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private FacilityList facilityList;
+    private DrawerLayout mDrawerLayout;
+    List<LatLng> latLngs;
     Button homeButton,listButton,regButton,mypageButton;
     FragmentTransaction tran;
 
@@ -41,16 +62,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
-
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ca = new CustomActionBar(this, getSupportActionBar());
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         homeButton = (Button)findViewById(R.id.homebutton);
         listButton = (Button)findViewById(R.id.listbutton);
         regButton = (Button)findViewById(R.id.regbutton);
         mypageButton = (Button)findViewById(R.id.mypagebutton);
+
         homeLayout = findViewById(R.id.homelayout);
         listLayout = findViewById(R.id.listlayout);
         regLayout = findViewById(R.id.reglayout);
@@ -73,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, regFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
         setBackground(0);
-        ca.setActionBar(0);
+        //ca.setActionBar(0);
     }
 
     public void moveToRoutine(String machines) {
@@ -167,8 +193,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ // 왼쪽 상단 버튼 눌렀을 때
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            }
+            case R.id.menu_add:{
+                homeFragment.showAddMarkerButton();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
     public void setFrag(int n) {    //프래그먼트 교체 메소드
-        ca.setActionBar(n);
+        //ca.setActionBar(n);
         switch (n) {
             case 0:
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
