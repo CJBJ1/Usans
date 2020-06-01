@@ -159,13 +159,14 @@ public class AddSansAcitivity extends AppCompatActivity {
             contentValues.put("lat", centerPoint.getLatitude());
             contentValues.put("lon", centerPoint.getLongitude());
             contentValues.put("rating", sansRatingBar.getRating());
-            NetworkTask networkTask = new NetworkTask(AppHelper.Sansuzang, contentValues);
+            String sansuzang = "http://3.34.18.171.nip.io:8000/ssz/write/?name="+sansName.getText().toString()+"&address="+sansAddress.getText().toString()+"&lat="+centerPoint.getLatitude()+"&lon="+centerPoint.getLongitude();
+            NetworkTask networkTask = new NetworkTask(sansuzang, contentValues);
             networkTask.execute();
 
+            //코맨트 추가
 //            String url = "http://3.34.18.171.nip.io:8000/review/?user="+facilityList.getUser().getId()+"&loc="+facilityID+"&rating="+Math.round(sansRatingBar.getRating())+"&text="+contents;
 //            networkTask = new NetworkTask(url, null);
 //            networkTask.execute();
-
             setResult(101, null);
         }
         finish();
