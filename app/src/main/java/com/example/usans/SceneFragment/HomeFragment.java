@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment {
         LinearLayout linearLayoutTmap = (LinearLayout)view.findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(getActivity().getApplicationContext());
 
+
         tMapView.setSKTMapApiKey( "l7xxa365f1c5c3254bc19fd5f6b6442b15e5" );
         linearLayoutTmap.addView( tMapView );
 
@@ -177,7 +178,7 @@ public class HomeFragment extends Fragment {
             tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
             facilityList.getArrayList().get(i).setMarker(markerItem1);
         }
-        tMapView.setCenterPoint( 126.985302, 37.570841 );
+
         tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
             @Override
             public void onCalloutMarker2ClickEvent(String s, TMapMarkerItem2 tMapMarkerItem2) {
@@ -186,6 +187,8 @@ public class HomeFragment extends Fragment {
         });
 
         facilityList.settMapView(tMapView);
+
+        tMapView.setCenterPoint(126.952264 , 37.503149);
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
