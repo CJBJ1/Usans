@@ -134,6 +134,8 @@ public class MarkerOverlay extends TMapMarkerItem2 {
             transaction.add(R.id.info, inf);
             transaction.commit();
             transaction.addToBackStack(null);
+
+            Log.d("테스트",fm.getBackStackEntryCount()+"");
         }
         return false;
     }

@@ -232,15 +232,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return true;
                 }
                 case R.id.routeBar_walk: {
+                    if(getSupportFragmentManager().getBackStackEntryCount()==1) {
+                        onBackPressed();
+                    }
                     invalidRoute(0);
                     return true;
                 }
                 case R.id.routeBar_car: {
+                    if(getSupportFragmentManager().getBackStackEntryCount()==1) {
+                    onBackPressed();
+                }
                     invalidRoute(1);
                     return true;
                 }
                 case R.id.routeBar_ok: {
-                    onBackPressed();
+                    if(getSupportFragmentManager().getBackStackEntryCount()==1) {
+                        onBackPressed();
+                    }
 //                    homeFragment.popChild();
 
                     setBarMode(0);
