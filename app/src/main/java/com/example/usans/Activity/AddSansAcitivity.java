@@ -120,7 +120,6 @@ public class AddSansAcitivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK)
             return;
-
         switch (requestCode) {
             case PICK_FROM_ALBUM: {
                 addImageButton.setVisibility(View.INVISIBLE);
