@@ -1,6 +1,7 @@
 package com.example.usans.SceneFragment;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,12 +12,16 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.example.usans.Activity.DetailActivity;
 import com.example.usans.Activity.WriteActivity;
 import com.example.usans.Adapter.TitleAdapter;
 import com.example.usans.AppHelper;
+import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.TitleItem;
 import com.example.usans.FileUploadUtils;
 import com.example.usans.R;
@@ -35,6 +40,7 @@ public class BoardFragment extends Fragment {
 
     int boardNumber;
     NetworkTask networkTask;
+    private FacilityList facilityList;
 
     public BoardFragment () {}
     public BoardFragment (int boardNumber) {
@@ -48,6 +54,7 @@ public class BoardFragment extends Fragment {
 
         listView = view.findViewById(R.id.board_list_view);
         fm = getFragmentManager();
+        facilityList = (FacilityList) super.getActivity().getApplication();
         adapter = new TitleAdapter();
         listView.setAdapter(adapter);
 
@@ -55,9 +62,21 @@ public class BoardFragment extends Fragment {
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WriteActivity.class);
-                intent.putExtra("boardNumber", boardNumber);
-                startActivityForResult(intent,22);
+                if (facilityList.getUser()!=null) {
+                    Intent intent = new Intent(getActivity(), WriteActivity.class);
+                    intent.putExtra("boardNumber", boardNumber);
+                    startActivityForResult(intent,22);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("로그인이 필요합니다.");
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
             }
         });
 
