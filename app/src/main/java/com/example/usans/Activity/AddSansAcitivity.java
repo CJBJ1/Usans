@@ -1,12 +1,10 @@
 package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,13 +16,12 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.usans.AppHelper;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.GpsTracker;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
-
+import com.skt.Tmap.TMapPoint;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -51,16 +48,18 @@ public class AddSansAcitivity extends AppCompatActivity {
     private Button saveButton;
 
     private FacilityList facilityList;
+    private TMapPoint centerPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sans);
+        Intent intent = getIntent();
+        centerPoint = new TMapPoint((Double)intent.getExtras().get("lat"),(Double)intent.getExtras().get("lng"));
 
         facilityList = (FacilityList) getApplication();
         addImageButton = findViewById(R.id.button3);
         imageView = findViewById(R.id.sans_image_view);
-        gpsToAddress = findViewById(R.id.gps_to_address);
         sansAddress = findViewById(R.id.sans_address);
         geocoder = new Geocoder(this);
         sansName = findViewById(R.id.sans_name);
@@ -70,6 +69,9 @@ public class AddSansAcitivity extends AppCompatActivity {
         sansRatingBar = findViewById(R.id.sans_ratingBar);
         editText = findViewById(R.id.editText);
         saveButton = findViewById(R.id.save_button);
+
+        String address = getCurrentAddress(centerPoint.getLatitude(), centerPoint.getLongitude());
+        sansAddress.setText(address.substring(5));
 
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,15 +83,6 @@ public class AddSansAcitivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 doTakeAlbumAction();
-            }
-        });
-        gpsToAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gpsTracker = new GpsTracker(getApplicationContext());
-                String address = getCurrentAddress(gpsTracker.getLatitude() , gpsTracker.getLongitude());
-                Log.e("address다 이씨발", address);
-                sansAddress.setText(address.substring(5));
             }
         });
         sansAddMachineButton.setOnClickListener(new View.OnClickListener() {
@@ -163,8 +156,8 @@ public class AddSansAcitivity extends AppCompatActivity {
             ContentValues contentValues = new ContentValues();
             contentValues.put("name", sansName.getText().toString());
             contentValues.put("address", sansAddress.getText().toString());
-            contentValues.put("lat", gpsTracker.getLatitude());
-            contentValues.put("lon", gpsTracker.getLongitude());
+            contentValues.put("lat", centerPoint.getLatitude());
+            contentValues.put("lon", centerPoint.getLongitude());
             contentValues.put("rating", sansRatingBar.getRating());
             NetworkTask networkTask = new NetworkTask(AppHelper.Sansuzang, contentValues);
             networkTask.execute();
