@@ -151,7 +151,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Log.i("addMarkerButton", "클릭");
                 MainActivity main = (MainActivity) getActivity();
-                main.moveToAddSans();   // 맵의 중앙 위치 전송
+                //main.moveToAddSans();   // 맵의 중앙 위치 전송
             }
         });
     }

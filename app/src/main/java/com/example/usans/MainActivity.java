@@ -138,8 +138,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void moveToAddSans() {
+    public void moveToAddSans(double lat,double lng) {
         Intent intent = new Intent(this, AddSansAcitivity.class);
+        intent.putExtra("lat",lat);
+        intent.putExtra("lng",lng);
         startActivity(intent);
     }
 

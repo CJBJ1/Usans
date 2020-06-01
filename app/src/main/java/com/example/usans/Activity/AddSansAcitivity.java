@@ -59,11 +59,7 @@ public class AddSansAcitivity extends AppCompatActivity {
         gpsToAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gpsTracker = new GpsTracker(getApplicationContext());
-                String address = getCurrentAddress(37.570841 , 126.985302);
-                Log.d("현주소",address.substring(5));
-                sansAddress.setText(address.substring(5));
-               Toast.makeText(getApplicationContext(),address,Toast.LENGTH_LONG);
+
             }
         });
     }
