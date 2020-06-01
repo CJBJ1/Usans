@@ -132,6 +132,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+
     public void showRecommend(String machines){
         infoFm.popBackStack();
 
@@ -152,7 +153,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Log.i("addMarkerButton", "클릭");
                 MainActivity main = (MainActivity) getActivity();
-                //main.moveToAddSans();   // 맵의 중앙 위치 전송
+                main.moveToAddSans(tMapView.getCenterPoint());   // 맵의 중앙 위치 전송
             }
         });
     }
@@ -186,8 +187,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        facilityList.settMapView(tMapView);
+        tMapView.setOnDisableScrollWithZoomLevelListener(new TMapView.OnDisableScrollWithZoomLevelCallback() {
+            @Override
+            public void onDisableScrollWithZoomLevelEvent(float zoom, TMapPoint centerPoint) {
 
+            }
+        });
+
+        facilityList.settMapView(tMapView);
         tMapView.setCenterPoint(126.952264 , 37.503149);
     }
 

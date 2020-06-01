@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.usans.GpsTracker;
 import com.example.usans.R;
+import com.skt.Tmap.TMapPoint;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -31,17 +33,23 @@ public class AddSansAcitivity extends AppCompatActivity {
     private GpsTracker gpsTracker;
     private Geocoder geocoder;
     private TextView sansAddress;
+    private TMapPoint centerPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sans);
+        Intent intent = getIntent();
+        centerPoint = new TMapPoint((Double)intent.getExtras().get("lat"),(Double)intent.getExtras().get("lng"));
 
         addButton = findViewById(R.id.button3);
         imageView = findViewById(R.id.sans_image_view);
-        gpsToAddress = findViewById(R.id.gps_to_address);
         sansAddress = findViewById(R.id.sans_address);
         geocoder = new Geocoder(this);
+
+        String address = getCurrentAddress(centerPoint.getLatitude() , centerPoint.getLongitude());
+        sansAddress.setText(address.substring(5));
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,12 +64,7 @@ public class AddSansAcitivity extends AppCompatActivity {
             }
         });
 
-        gpsToAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
     }
 
     public void doTakeAlbumAction() {
