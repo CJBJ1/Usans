@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,19 +23,18 @@ import com.example.usans.Activity.DetailActivity;
 import com.example.usans.Activity.ImageActivity;
 import com.example.usans.Activity.RoutineActivity;
 import com.example.usans.Adapter.RouteAdapter;
+import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Route;
-import com.example.usans.Data.RouteItem;
-import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
+import com.example.usans.Data.RouteItem;
 import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.skt.Tmap.TMapData;
-import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
@@ -46,42 +44,31 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    private FacilityList facilityList;
-    private Facility selectedFacility;
-    private FragmentManager fm;
-    private Info selectedInfo;
-    private DrawerLayout mDrawerLayout;
-    List<LatLng> latLngs;
-    Button homeButton,listButton,regButton,mypageButton;
-    FragmentTransaction tran;
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public HomeFragment homeFragment;
+    public CustomActionBar ca;
+    Button homeButton, listButton, regButton, mypageButton;
     ListFragment listFragment;
     MypageFragment mypageFragment;
     RegFragment regFragment;
-
-    public CustomActionBar ca;
-
     RelativeLayout homeLayout, listLayout, regLayout, mypageLayout, heartLayout;
-
-    int barMode=0;
+    int barMode = 0;
+    private FacilityList facilityList;
+    private Facility selectedFacility;
+    private DrawerLayout mDrawerLayout;
     private TMapView tMapView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
-        facilityList = (FacilityList)getApplication();
+        facilityList = (FacilityList) getApplication();
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
 
@@ -90,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ca = new CustomActionBar(this, getSupportActionBar());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        homeButton = (Button)findViewById(R.id.homebutton);
-        listButton = (Button)findViewById(R.id.listbutton);
-        regButton = (Button)findViewById(R.id.regbutton);
-        mypageButton = (Button)findViewById(R.id.mypagebutton);
+        homeButton = (Button) findViewById(R.id.homebutton);
+        listButton = (Button) findViewById(R.id.listbutton);
+        regButton = (Button) findViewById(R.id.regbutton);
+        mypageButton = (Button) findViewById(R.id.mypagebutton);
 
         homeLayout = findViewById(R.id.homelayout);
         listLayout = findViewById(R.id.listlayout);
@@ -152,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.homebutton:
                 setBackground(0);
                 setFrag(0);
@@ -216,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(barMode==0) {
+        if (barMode == 0) {
             switch (item.getItemId()) {
                 case android.R.id.home: { // 왼쪽 상단 버튼 눌렀을 때
                     mDrawerLayout.openDrawer(GravityCompat.START);
@@ -226,56 +213,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     homeFragment.showAddMarkerButton();
                 }
             }
-        }
-        else if(barMode == 1) {
+        } else if (barMode == 1) {
             switch (item.getItemId()) {
                 case android.R.id.home: { // 왼쪽 상단 버튼 눌렀을 때
                     onBackPressed();
                     return true;
                 }
                 case R.id.routeBar_walk: {
-                    for(int i=0;i<getSupportFragmentManager().getBackStackEntryCount();i++) {
+                    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
                         onBackPressed();
                     }
                     invalidRoute(0);
                     return true;
                 }
                 case R.id.routeBar_car: {
-                    for(int i=0;i<getSupportFragmentManager().getBackStackEntryCount();i++) {
+                    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
                         onBackPressed();
                     }
                     invalidRoute(1);
                     return true;
                 }
                 case R.id.routeBar_ok: {
-                    for(int i=0;i<getSupportFragmentManager().getBackStackEntryCount();i++) {
+                    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
                         onBackPressed();
                     }
-//                    homeFragment.popChild();
-
                     setBarMode(0);
                     invalidateOptionsMenu();
                     tMapView.removeMarkerItem2("temp");
                     int size = facilityList.getArrayList().size();
                     TMapView tMapView = facilityList.gettMapView();
-                    for(int i=0;i<size;i++) {
-                        tMapView.addMarkerItem2(String.valueOf(i),facilityList.getArrayList().get(i).getMarker());
+                    for (int i = 0; i < size; i++) {
+                        tMapView.addMarkerItem2(String.valueOf(i), facilityList.getArrayList().get(i).getMarker());
                     }
                     tMapView.removeAllTMapPolyLine();
                     tMapView.removeTMapPath();
                 }
             }
         }
-            return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        if(barMode==0) {
+        if (barMode == 0) {
             getMenuInflater().inflate(R.menu.main, menu);
-        }
-        else if(barMode==1){
+        } else if (barMode == 1) {
             getMenuInflater().inflate(R.menu.route, menu);
         }
         return true;
@@ -314,172 +297,115 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void setBarMode(int barMode) {
-        this.barMode = barMode;
-    }
-
     public int getBarMode() {
         return barMode;
     }
 
-    public void setSelectedFacility(Facility selectedFacility) {
-        this.selectedFacility = selectedFacility;
+    public void setBarMode(int barMode) {
+        this.barMode = barMode;
     }
 
     public Facility getSelectedFacility() {
         return selectedFacility;
     }
 
-    public void getPath(TMapPoint startPoint, TMapPoint endPoint, int isCar){
-        TMapData tMapData = new TMapData();
-        if(isCar==1) {
-            tMapData.findPathDataWithType(TMapData.TMapPathType.CAR_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
-                @Override
-                public void onFindPathData(TMapPolyLine polyLine) {
-                    polyLine.setID("result");
-                    tMapView = facilityList.gettMapView();
-                    tMapView.addTMapPath(polyLine);
-                    int mSize = facilityList.getArrayList().size();
-                    for (int i = 0; i < mSize; i++) {
-                        tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
-                    }
-                    MarkerOverlay markerItem1 = new MarkerOverlay(getApplicationContext(),"hi","hi",fm,tMapView);
-                    TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng()));
-                    Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
-                    markerItem1.setIcon(bitmap);
-                    markerItem1.setTMapPoint( tMapPoint1 );
-                    markerItem1.setID("temp");
-                    markerItem1.setPosition(0.5f, 0.8f);
-                    markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
-                    tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
-                }
-            });
-        }
-        else{
-            tMapData.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
-                @Override
-                public void onFindPathData(TMapPolyLine polyLine) {
-                    polyLine.setID("result");
-                    tMapView = facilityList.gettMapView();
-                    tMapView.addTMapPath(polyLine);
-                    int mSize = facilityList.getArrayList().size();
-                    for (int i = 0; i < mSize; i++) {
-                        tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
-                    }
-                    MarkerOverlay markerItem1 = new MarkerOverlay(getApplicationContext(),"hi","hi",fm,tMapView);
-                    TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng()));
-                    Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
-                    markerItem1.setIcon(bitmap);
-                    markerItem1.setTMapPoint( tMapPoint1 );
-                    markerItem1.setID("temp");
-                    markerItem1.setPosition(0.5f, 0.8f);
-                    markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
-                    tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
-                }
-            });
-        }
-
+    public void setSelectedFacility(Facility selectedFacility) {
+        this.selectedFacility = selectedFacility;
     }
 
-    public void getPathDocument(TMapPoint startPoint, TMapPoint endPoint, int isCar){
+    public void getPath(TMapPoint startPoint, TMapPoint endPoint, int isCar) {
         TMapData tMapData = new TMapData();
-        if(isCar==1) {
-            tMapData.findPathDataAllType(TMapData.TMapPathType.CAR_PATH, startPoint, endPoint, new TMapData.FindPathDataAllListenerCallback() {
-                @Override
-                public void onFindPathDataAll(Document document) {
-                    RouteAdapter adapter = new RouteAdapter();
-                    adapter.setIsCar(1);
-                    Element root = document.getDocumentElement();
-                    NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
-                    Log.d("NodeList", nodeListPlacemark + "");
-                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
-                        NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
-                        Log.d("Item", nodeListPlacemarkItem + "");
-                        for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
-                            if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
-                                adapter.addItem(new RouteItem(nodeListPlacemarkItem.item(j).getTextContent().trim()));
-                                Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim());
-                            }
-                        }
-                    }
-
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment Route = new Route(adapter);
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
-                    transaction.add(R.id.info, Route);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+        TMapData.TMapPathType pathType;
+        if (isCar == 1) pathType = TMapData.TMapPathType.CAR_PATH;
+        else pathType = TMapData.TMapPathType.PEDESTRIAN_PATH;
+        tMapData.findPathDataWithType(pathType, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
+            @Override
+            public void onFindPathData(TMapPolyLine polyLine) {
+                polyLine.setID("result");
+                tMapView = facilityList.gettMapView();
+                tMapView.addTMapPath(polyLine);
+                int mSize = facilityList.getArrayList().size();
+                for (int i = 0; i < mSize; i++) {
+                    tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
                 }
-            });
-        }
-        else{
-            tMapData.findPathDataAllType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, endPoint, new TMapData.FindPathDataAllListenerCallback() {
-                @Override
-                public void onFindPathDataAll(Document document) {
-                    RouteAdapter adapter = new RouteAdapter();
-                    Element root = document.getDocumentElement();
-                    NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
-                    Log.d("NodeList", nodeListPlacemark + "");
-                    for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
-                        NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
-                        Log.d("Item", nodeListPlacemarkItem + "");
-                        for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
-                            if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
-                                adapter.addItem(new RouteItem(nodeListPlacemarkItem.item(j).getTextContent().trim()));
-                                Log.d("debug", nodeListPlacemarkItem.item(j).getTextContent().trim());
-                            }
-                        }
-                    }
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment Route = new Route(adapter);
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
-                    transaction.add(R.id.info, Route);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
-            });
-        }
+                MarkerOverlay markerItem1 = new MarkerOverlay(getApplicationContext(), "hi", "hi", null, tMapView);
+                TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(selectedFacility.getLat()), Double.parseDouble(selectedFacility.getLng()));
+                Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
+                markerItem1.setIcon(bitmap);
+                markerItem1.setTMapPoint(tMapPoint1);
+                markerItem1.setID("temp");
+                markerItem1.setPosition(0.5f, 0.8f);
+                markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
+                tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+            }
+        });
     }
 
-    public void invalidRoute(int isCar){
-        getPath(new TMapPoint(37.503149,126.952264),
-                new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng())),isCar);
-        getPathDocument(new TMapPoint(37.503149,126.952264),
-                new TMapPoint(Double.parseDouble(selectedFacility.getLat()),Double.parseDouble(selectedFacility.getLng())),isCar);
+    public void getPathDocument(TMapPoint startPoint, TMapPoint endPoint, int isCar) {
+        TMapData tMapData = new TMapData();
+        final RouteAdapter adapter = new RouteAdapter();
+        TMapData.TMapPathType pathType;
+        if (isCar == 1) {
+            adapter.setIsCar(1);
+            pathType = TMapData.TMapPathType.CAR_PATH;
+        } else {
+            pathType = TMapData.TMapPathType.PEDESTRIAN_PATH;
+        }
+        tMapData.findPathDataAllType(pathType, startPoint, endPoint, new TMapData.FindPathDataAllListenerCallback() {
+            @Override
+            public void onFindPathDataAll(Document document) {
+                Element root = document.getDocumentElement();
+                NodeList nodeListPlacemark = root.getElementsByTagName("Placemark");
+                for (int i = 0; i < nodeListPlacemark.getLength(); i++) {
+                    NodeList nodeListPlacemarkItem = nodeListPlacemark.item(i).getChildNodes();
+                    for (int j = 0; j < nodeListPlacemarkItem.getLength(); j++) {
+                        if (nodeListPlacemarkItem.item(j).getNodeName().equals("description")) {
+                            adapter.addItem(new RouteItem(nodeListPlacemarkItem.item(j).getTextContent().trim()));
+                        }
+                    }
+                }
+                Fragment Route = new Route(adapter);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
+                transaction.add(R.id.info, Route);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+    }
+
+    public void invalidRoute(int isCar) {
+        getPath(new TMapPoint(37.503149, 126.952264),
+                new TMapPoint(Double.parseDouble(selectedFacility.getLat()), Double.parseDouble(selectedFacility.getLng())), isCar);
+        getPathDocument(new TMapPoint(37.503149, 126.952264),
+                new TMapPoint(Double.parseDouble(selectedFacility.getLat()), Double.parseDouble(selectedFacility.getLng())), isCar);
         setBarMode(1);
         invalidateOptionsMenu();
     }
 
-    public void loadGpxData(XmlPullParser parser, InputStream gpxIn)
-            throws XmlPullParserException, IOException {
+    public void loadGpxData(XmlPullParser parser, InputStream gpxIn) throws XmlPullParserException, IOException {
         tMapView = facilityList.gettMapView();
         parser.setInput(gpxIn, null);
         parser.nextTag();
-        int id =0;
+        int id = 0;
         ArrayList<TMapPoint> tMapPoints = new ArrayList<TMapPoint>();
 
-
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG)
                 continue;
-            }
 
-            if (parser.getName().equals("trk")){
-                if(tMapPoints.size()!=0){
+            if (parser.getName().equals("trk")) {
+                if (tMapPoints.size() != 0) {
                     TMapPolyLine tMapPolyLine = new TMapPolyLine();
                     tMapPolyLine.setLineColor(Color.BLUE);
                     tMapPolyLine.setLineWidth(2);
-                    for( int i=0; i<tMapPoints.size(); i++ ) {
-                        tMapPolyLine.addLinePoint( tMapPoints.get(i) );
+                    for (int i = 0; i < tMapPoints.size(); i++) {
+                        tMapPolyLine.addLinePoint(tMapPoints.get(i));
                     }
                     tMapView.addTMapPolyLine(String.valueOf(id), tMapPolyLine);
                     id++;
                 }
-
-                tMapPoints = new ArrayList<TMapPoint>();
-
+                tMapPoints = new ArrayList<>();
             }
 
             if (parser.getName().equals("trkpt")) {
@@ -487,15 +413,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Double.valueOf(parser.getAttributeValue(null, "lat")),
                         Double.valueOf(parser.getAttributeValue(null, "lon"))));
             }
-
         }
         TMapPolyLine tMapPolyLine = new TMapPolyLine();
         tMapPolyLine.setLineColor(Color.BLUE);
         tMapPolyLine.setLineWidth(2);
-        for( int i=0; i<tMapPoints.size(); i++ ) {
-            tMapPolyLine.addLinePoint( tMapPoints.get(i) );
+        for (int i = 0; i < tMapPoints.size(); i++) {
+            tMapPolyLine.addLinePoint(tMapPoints.get(i));
         }
         tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
-
     }
 }
