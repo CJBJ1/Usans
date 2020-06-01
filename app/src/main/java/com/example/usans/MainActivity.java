@@ -232,21 +232,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return true;
                 }
                 case R.id.routeBar_walk: {
-                    if(getSupportFragmentManager().getBackStackEntryCount()==1) {
+                    for(int i=0;i<getSupportFragmentManager().getBackStackEntryCount();i++) {
                         onBackPressed();
                     }
                     invalidRoute(0);
                     return true;
                 }
                 case R.id.routeBar_car: {
-                    if(getSupportFragmentManager().getBackStackEntryCount()==1) {
-                    onBackPressed();
-                }
+                    for(int i=0;i<getSupportFragmentManager().getBackStackEntryCount();i++) {
+                        onBackPressed();
+                    }
                     invalidRoute(1);
                     return true;
                 }
                 case R.id.routeBar_ok: {
-                    if(getSupportFragmentManager().getBackStackEntryCount()==1) {
+                    for(int i=0;i<getSupportFragmentManager().getBackStackEntryCount();i++) {
                         onBackPressed();
                     }
 //                    homeFragment.popChild();
@@ -406,8 +406,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
                     transaction.add(R.id.info, Route);
-                    transaction.commit();
                     transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             });
         }
@@ -434,8 +434,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
                     transaction.add(R.id.info, Route);
-                    transaction.commit();
                     transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             });
         }

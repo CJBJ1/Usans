@@ -104,6 +104,7 @@ public class Info extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("에",main.getSupportFragmentManager().getBackStackEntryCount()+"");
                 main.onBackPressed();
                 main.setSelectedFacility(facility);
                 main.invalidRoute(0);
