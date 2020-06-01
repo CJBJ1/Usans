@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-
 import com.example.usans.Data.FacilityList;
 import com.example.usans.MainActivity;
 import com.example.usans.R;

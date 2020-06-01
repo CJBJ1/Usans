@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.usans.R;
 
 public class TitleItemView extends LinearLayout {
@@ -26,7 +25,6 @@ public class TitleItemView extends LinearLayout {
         super(context, attrs);
         init(context);
     }
-
 
     @Override
     protected void onDetachedFromWindow() {

@@ -2,7 +2,6 @@ package com.example.usans.Activity;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,45 +9,40 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.usans.CustomLayout.CustomActionBar;
-import com.example.usans.GpsTracker;
+import com.example.usans.AppHelper;
+import com.example.usans.Data.FacilityList;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 
 public class WriteActivity extends AppCompatActivity {
-
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_IMAGE = 2;
 
+    private FacilityList facilityList;
     private Uri mImageCaptureUri;
     private ImageView imageView;
+    EditText waTitle, waContent;
+    ContentValues contentValues;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
 
+        facilityList = (FacilityList)getApplication();
         imageView = findViewById(R.id.wa_image_view);
         imageView.setVisibility(View.INVISIBLE);
-       ContentValues contentValues = new ContentValues();
-        contentValues.put("title", "테스트");
-        contentValues.put("board", "2");
-        contentValues.put("author", "8");
-        contentValues.put("text", "테스트");
-
-        String url = "http://3.34.18.171.nip.io:8000/arti/write/";
-        NetworkTask networkTask = new NetworkTask(url, contentValues);
-        networkTask.execute();
+        waTitle = findViewById(R.id.wa_title);
+        waContent = findViewById(R.id.wa_content);
+        contentValues = new ContentValues();
 
         Toolbar toolbar = findViewById(R.id.toolbar_write);
         setSupportActionBar(toolbar);
@@ -69,10 +63,18 @@ public class WriteActivity extends AppCompatActivity {
                 doTakeAlbumAction();
                 return true;
             }
-
             case R.id.wa_add:{
+                Log.i("추가", "글쓰기 추가");
+//                contentValues.put("authorname", facilityList.getUser().getName());
+                contentValues.put("title", waTitle.getText().toString());
+                contentValues.put("board", getIntent().getIntExtra("boardNumber", 0));
+                contentValues.put("author", facilityList.getUser().getId());
+                contentValues.put("text", waContent.getText().toString());
+                NetworkTask networkTask = new NetworkTask(AppHelper.Write, contentValues);
+                networkTask.execute();
+
                 Intent intent = new Intent();
-                setResult(222, intent);
+                setResult(22, null);
                 finish();
             }
         }
@@ -92,7 +94,6 @@ public class WriteActivity extends AppCompatActivity {
     }
 
     @Override
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK)
@@ -107,12 +108,10 @@ public class WriteActivity extends AppCompatActivity {
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
-
         private String url;
         private ContentValues values;
 
         public NetworkTask(String url, ContentValues values) {
-
             this.url = url;
             this.values = values;
         }
@@ -121,7 +120,6 @@ public class WriteActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             String result = "basic";
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            Log.d("실행","실행");
             result = requestHttpURLConnection.requestBody(url,values);
             return result;
         }
@@ -129,7 +127,7 @@ public class WriteActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("POST","POST");
         }
     }
+
 }

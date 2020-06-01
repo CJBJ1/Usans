@@ -1,12 +1,6 @@
 package com.example.usans.CustomLayout;
 
-
 import android.app.Activity;
-import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,45 +10,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.bumptech.glide.Glide;
 import com.example.usans.Adapter.RouteAdapter;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.RouteItem;
-import com.example.usans.DirectionsJSONParser;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
-
 import com.example.usans.SceneFragment.HomeFragment;
-import com.example.usans.RequestHttpURLConnection;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.skt.Tmap.TMapData;
-import com.skt.Tmap.TMapMarkerItem2;
-import com.skt.Tmap.TMapPoint;
-import com.skt.Tmap.TMapPolyLine;
-import com.skt.Tmap.TMapTapi;
 import com.skt.Tmap.TMapView;
-
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -64,10 +33,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class Info extends Fragment {
-    private Activity activity;
     private MainActivity main;
     private Facility facility;
     private FacilityList facilityList;
@@ -80,12 +47,10 @@ public class Info extends Fragment {
     View view;
     Button closeButton, detailButton, routineRecommendButton, startButton;
 
-
     ImageView imageView;
     ImageView imageView2;
     TextView nameView, addressView, machinesView;
     RatingBar ratingBar;
-
 
     public Info (Facility facility,TMapView tMapView) {
         this.facility = new Facility(facility);
@@ -94,13 +59,13 @@ public class Info extends Fragment {
 
     public Info(){}
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.info_view, container, false);
         facilityList = (FacilityList)getActivity().getApplication();
         fm = facilityList.getFm();
+
         main = (MainActivity) getActivity();
         imageView = view.findViewById(R.id.sans_image_view);
         imageView2 = (ImageView)view.findViewById(R.id.sans_sub_image_view);
@@ -113,8 +78,6 @@ public class Info extends Fragment {
         detailButton = view.findViewById(R.id.detail_button);
         routineRecommendButton = view.findViewById(R.id.routine_recommend_button);
         startButton = view.findViewById(R.id.sans_navigation_start_button);
-
-
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,8 +104,6 @@ public class Info extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Info.super.getActivity().onBackPressed();
                 main.setSelectedFacility(facility);
                 main.invalidRoute(0);
                 if(facility.getId().equals("10002")){
@@ -155,12 +116,7 @@ public class Info extends Fragment {
                         e.printStackTrace();
                     }
                 }
-                /*String url = "https://maps.googleapis.com/maps/api/directions/" +
-                        "json?origin=37.503149,126.952264&destination="+facility.getLat()+","+facility.getLng()+"&mode=transit"+
-                        "&key=AIzaSyCaqvwkL7Ho0RgE5yACxhSpQyGE7rXo2YI";
 
-                NetworkTask networkTask = new NetworkTask(url, null);
-                networkTask.execute();*/
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +128,7 @@ public class Info extends Fragment {
             }
         });
 
-        if(this.facility !=null)layout();
+        if (this.facility !=null) layout();
         return view;
     }
 
@@ -183,7 +139,6 @@ public class Info extends Fragment {
     }
 
     public void layout() {
-//        imageView = facility.getPhoto();
         nameView.setText(facility.getName());
         addressView.setText(facility.getAddress());
         StringBuilder machines = new StringBuilder();

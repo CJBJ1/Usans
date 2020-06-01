@@ -1,23 +1,14 @@
 package com.example.usans;
 
-import android.content.ContentValues;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 
 public class SplashActivity extends AppCompatActivity {
-
     private FacilityList facilityList;
     private JSONArray jsArr;
 
@@ -29,7 +20,6 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         facilityList = (FacilityList) getApplication();
-
 
         Handler delayHandler = new Handler();
         delayHandler.postDelayed(new Runnable() {

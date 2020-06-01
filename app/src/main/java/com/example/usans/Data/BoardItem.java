@@ -2,7 +2,6 @@ package com.example.usans.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.net.URI;
 
 public class BoardItem  implements Parcelable {
@@ -14,7 +13,6 @@ public class BoardItem  implements Parcelable {
     public String imageURL;
     public URI uri;
     public int views;
-
 
     public BoardItem(int id, String writer, String time, String title, String contents) {
         this.id = id;
@@ -36,7 +34,6 @@ public class BoardItem  implements Parcelable {
         public BoardItem createFromParcel(Parcel src) {
             return new BoardItem(src);
         }
-
         public BoardItem[] newArray(int size) {
             return new BoardItem[size];
         }

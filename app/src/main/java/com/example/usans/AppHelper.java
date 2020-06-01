@@ -1,15 +1,12 @@
 package com.example.usans;
 
-import com.android.volley.RequestQueue;
-
 public class AppHelper {
-    public static RequestQueue requestQueue;
-
-    public static String host = "boostcourse-appapi.connect.or.kr";
-    public static String readMovieList = "/movie/readMovieList";
-    public static String readMovie = "/movie/readMovie";
-    public static String readCommentList = "/movie/readCommentList";
-    public static String createComment = "/movie/createComment";
-
-    public static int port = 10000;
+    public static String Sansuzang = "http://3.34.18.171:8000/api/Sansuzang/";
+    public static String User = "http://3.34.18.171:8000/api/User/";
+    public static String Post = "http://3.34.18.171:8000/api/Post/";
+    public static String Board = "http://3.34.18.171:8000/api/Board/";
+    public static String Machine = "http://3.34.18.171:8000/api/Machine/";
+    public static String Review = "http://3.34.18.171:8000/api/Review/";
+    public static String Report = "http://3.34.18.171:8000/api/Report/";
+    public static String Write = "http://3.34.18.171.nip.io:8000/arti/write/";
 }

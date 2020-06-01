@@ -1,7 +1,6 @@
 package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,11 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.volobot.stringchooser.StringChooser;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +83,6 @@ public class ReportActivity extends AppCompatActivity {
             contentValues.put("mach", "testmachine");
             contentValues.put("stat", picked);
 
-
             String url = "http://3.34.18.171.nip.io:8000/review/?user="+userID+"&loc="+facilityID+"&rating=-1&text="+contents+"&mach=testmachine"+
                     "&stat="+picked;
             NetworkTask networkTask = new NetworkTask(url, null);
@@ -98,7 +94,6 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
-
         private String url;
         private ContentValues values;
 
@@ -121,6 +116,6 @@ public class ReportActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Log.d("POST","POST");
         }
-
     }
+
 }

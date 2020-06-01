@@ -1,17 +1,10 @@
 package com.example.usans.Adapter;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
-import com.example.usans.Data.BoardItem;
-import com.example.usans.Data.BoardItemView;
-import com.example.usans.Data.CommentItem;
-import com.example.usans.Data.CommentItemView;
 import com.example.usans.Data.TitleItem;
 import com.example.usans.Data.TitleItemView;
-
 import java.util.ArrayList;
 
 public class TitleAdapter extends BaseAdapter {

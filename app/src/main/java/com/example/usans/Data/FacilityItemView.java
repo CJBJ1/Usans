@@ -7,19 +7,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.example.usans.AppHelper;
 import com.example.usans.R;
-
 import java.util.ArrayList;
-import java.util.Random;
-
 
 public class FacilityItemView extends LinearLayout {
     String facilityId;
@@ -66,53 +56,12 @@ public class FacilityItemView extends LinearLayout {
     public void setItemName(String name) { nameView.setText(name); }
     public void setItemAddress(String address) { addressView.setText(address); }
     public void setItemMachines(String machines) { machinesView.setText(machines); }
-    public void setItemMachineList(ArrayList<String> machineList){
+    public void setItemMachineList(ArrayList<String> machineList) {
         int surplus = machineList.size()-2;
         String lists = machineList.get(0) + " " + machineList.get(1)+" "+ "외 " + surplus  + "종";
         machinesView.setText(lists);
     }
     public void setItemRating(float userRating) { ratingBar.setRating(userRating); }
     public void setItemDistance(double distance){distanceView.setText(String.valueOf((Math.round(distance)/1000.0))+ "km");}
-
-    public void requestIncreaseRecommend(final int id) {
-        String url = "http://" + AppHelper.host + ":" + AppHelper.port + "/movie/increaseRecommend";
-        url += "?" + "review_id=" + id;
-
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                url,    //GET 방식은 요청 path가 필요
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-//                        processResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "에러발생", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        request.setShouldCache(false);
-//        AppHelper.requestQueue.add(request);
-
-    }
-
-//    public void processResponse(String response) {
-//        Gson gson = new Gson();
-//
-//        ResponseInfo info = gson.fromJson(response, ResponseInfo.class);
-//        if (info.code == 200) {
-//            try {
-//                recommendCallback.resetComment();
-//                Toast.makeText(getContext(), "추천 완료", Toast.LENGTH_SHORT).show();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
 
 }

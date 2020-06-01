@@ -1,39 +1,20 @@
 package com.example.usans.Activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.usans.Adapter.TitleAdapter;
-import com.example.usans.Data.TitleItem;
 import com.example.usans.R;
 import com.example.usans.SceneFragment.BoardFragment;
-import com.example.usans.SceneFragment.HomeFragment;
-import com.example.usans.SceneFragment.ListFragment;
-import com.example.usans.SceneFragment.MypageFragment;
-import com.example.usans.SceneFragment.RegFragment;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 public class BoardActivity extends AppCompatActivity {
     private Button writeButton;
@@ -46,7 +27,7 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        boardFragment = new BoardFragment();
+        boardFragment = new BoardFragment(getIntent().getIntExtra("boardNumber", 0));
         getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
     }
 
@@ -66,8 +47,8 @@ public class BoardActivity extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }
+
 }

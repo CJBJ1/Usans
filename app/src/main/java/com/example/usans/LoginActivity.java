@@ -23,9 +23,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class LoginActivity extends AppCompatActivity implements
-        View.OnClickListener {
-
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "ServerAuthCodeActivity";
     private static final int RC_GET_AUTH_CODE = 9003;
     private FacilityList facilityList;
@@ -37,14 +35,11 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //mAuthCodeTextView = findViewById(R.id.detail);
-
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         facilityList = (FacilityList) getApplication();
 
         validateServerClientID();
-        //OAuth serverClientId
         updateUI();
 
         String serverClientId = getString(R.string.server_client_id);
@@ -89,15 +84,13 @@ public class LoginActivity extends AppCompatActivity implements
         if (requestCode == RC_GET_AUTH_CODE) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-               GoogleSignInAccount account = task.getResult(ApiException.class);
-               String authCode = account.getServerAuthCode();
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                String authCode = account.getServerAuthCode();
 
                 //String url = "http://3.34.18.171.nip.io:8000/complete/google-oauth2/?auth_code=" + authCode;
                 String url = "http://3.34.18.171.nip.io:8000/get-code/?state=state_parameter_passthrough_value&code="+authCode+"&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.metadata.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=none#";
                 NetworkTaskAuth networkTaskAuth = new NetworkTaskAuth(url, null);
                 networkTaskAuth.execute();
-                Log.d("된다",authCode);
-
             } catch (ApiException e) {
                 Log.w(TAG, "안된다 안돼", e);
                 updateUI();
@@ -115,7 +108,6 @@ public class LoginActivity extends AppCompatActivity implements
         String suffix = ".apps.googleusercontent.com";
         if (!serverClientId.trim().endsWith(suffix)) {
             String message = "Invalid server client ID in strings.xml, must end with " + suffix;
-
             Log.w(TAG, message);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
@@ -130,19 +122,14 @@ public class LoginActivity extends AppCompatActivity implements
             case R.id.sign_out_button:
                 signOut();
                 break;
-            /*case R.id.disconnect_button:
-                revokeAccess();
-                break;*/
         }
     }
 
     public class NetworkTaskAuth extends AsyncTask<Void, Void, String> {
-
         private String url;
         private ContentValues values;
 
         public NetworkTaskAuth(String url, ContentValues values) {
-
             this.url = url;
             this.values = values;
         }

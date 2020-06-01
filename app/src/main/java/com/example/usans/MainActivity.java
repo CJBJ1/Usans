@@ -4,18 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
-import androidx.activity.OnBackPressedDispatcherOwner;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -32,7 +27,6 @@ import com.example.usans.Adapter.RouteAdapter;
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Route;
 import com.example.usans.Data.RouteItem;
-import com.example.usans.SceneFragment.RoutineFragment;
 import com.example.usans.CustomLayout.CustomActionBar;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
@@ -46,9 +40,7 @@ import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
-
 import net.danlew.android.joda.JodaTimeAndroid;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -140,8 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void moveToBoard() {
+    public void moveToBoard(int boardNumber) {
         Intent intent = new Intent(this, BoardActivity.class);
+        intent.putExtra("boardNumber", boardNumber);
         startActivity(intent);
     }
 
@@ -248,6 +241,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 case R.id.routeBar_ok: {
                     onBackPressed();
+//                    homeFragment.popChild();
+
                     setBarMode(0);
                     invalidateOptionsMenu();
                     tMapView.removeMarkerItem2("temp");
@@ -266,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         if(barMode==0) {
             getMenuInflater().inflate(R.menu.main, menu);
         }
@@ -397,9 +393,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
 
-
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    //fm.popBackStack();
                     Fragment Route = new Route(adapter);
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);

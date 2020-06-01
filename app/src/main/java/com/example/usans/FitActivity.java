@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -13,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
@@ -30,16 +28,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 public class FitActivity extends AppCompatActivity {
-
     public static final String TAG = "테스트";
     private int step_count = 0;
 
@@ -56,7 +51,6 @@ public class FitActivity extends AppCompatActivity {
         } else {
             requestRuntimePermissions();
         }
-
     }
 
     private void findFitnessDataSourcesWrapper() {
@@ -100,6 +94,7 @@ public class FitActivity extends AppCompatActivity {
             }
         }
     }
+
     private void findFitnessDataSources() {
         Fitness.getSensorsClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .findDataSources(
@@ -170,7 +165,6 @@ public class FitActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
     }
 
     private void unregisterFitnessDataListener() {
@@ -204,7 +198,6 @@ public class FitActivity extends AppCompatActivity {
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-
 
     private boolean hasRuntimePermissions() {
         int permissionState =

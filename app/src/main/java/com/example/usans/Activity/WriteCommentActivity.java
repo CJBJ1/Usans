@@ -1,10 +1,8 @@
 package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
-import android.media.Rating;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,17 +12,8 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.usans.Data.Facility;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
-import com.example.usans.SceneFragment.HomeFragment;
-import com.google.android.gms.maps.model.LatLng;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class WriteCommentActivity extends AppCompatActivity {
     Button saveButton, cancelButton;
@@ -39,7 +28,6 @@ public class WriteCommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_comment);
-
 
         Intent intent = getIntent();
         saveButton = findViewById(R.id.save_button);
@@ -63,7 +51,6 @@ public class WriteCommentActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Log.d("점수",ratingBar.getRating()+ "");
                 onBackPressed();
             }
@@ -78,7 +65,7 @@ public class WriteCommentActivity extends AppCompatActivity {
             finish();
             return false;
         } else {
-            Log.d("userID",userID);
+            Log.d("userID", userID);
             String url = "http://3.34.18.171.nip.io:8000/review/?user="+userID+"&loc="+facilityID+"&rating="+Math.round(ratingBar.getRating())+"&text="+contents;
             NetworkTask networkTask = new NetworkTask(url, null);
             networkTask.execute();
@@ -89,12 +76,10 @@ public class WriteCommentActivity extends AppCompatActivity {
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
-
         private String url;
         private ContentValues values;
 
         public NetworkTask(String url, ContentValues values) {
-
             this.url = url;
             this.values = values;
         }
@@ -110,7 +95,6 @@ public class WriteCommentActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("POST","POST");
         }
     }
 

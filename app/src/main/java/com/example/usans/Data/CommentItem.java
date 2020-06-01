@@ -7,9 +7,7 @@ public class CommentItem implements Parcelable {
     public int id;
     public String writer;
     public int sansId;
-    //public String writer_image;
     public String time;
-    //public int timestamp;
     public float rating;
     public String contents;
     public String machine;
@@ -18,9 +16,7 @@ public class CommentItem implements Parcelable {
         this.id = id;
         this.writer = writer;
         this.sansId = sansId;
-        //this.writer_image = writer_image;
         this.time = time;
-        //this.timestamp = timestamp;
         this.rating = rating;
         this.contents = contents;
         this.machine = machine;
@@ -30,9 +26,7 @@ public class CommentItem implements Parcelable {
         id = src.readInt();
         writer = src.readString();
         sansId = src.readInt();
-        //writer_image = src.readString();
         time = src.readString();
-        //timestamp = src.readInt();
         rating = src.readFloat();
         contents = src.readString();
         machine = src.readString();
@@ -58,9 +52,7 @@ public class CommentItem implements Parcelable {
         dest.writeInt(id);
         dest.writeString(writer);
         dest.writeInt(sansId);
-        //dest.writeString(writer_image);
         dest.writeString(time);
-        //dest.writeInt(timestamp);
         dest.writeFloat(rating);
         dest.writeString(contents);
         dest.writeString(machine);
@@ -78,47 +70,19 @@ public class CommentItem implements Parcelable {
         return writer;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public int getSansId() {
-        return sansId;
-    }
-
-    public void setSansId(int sansId) {
-        this.sansId = sansId;
-    }
-
     public String getTime() {
         return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public float getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
     public String getContents() {
         return contents;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
     public String getMachine() {
         return machine;
-    }
-
-    public void setMachine(String machine) {
-        this.machine = machine;
     }
 }

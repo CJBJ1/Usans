@@ -8,7 +8,6 @@ public class TitleItem  {
     public String contents;
     public int views;
 
-
     public TitleItem(int id, String writer, String time, String title, String contents) {
         this.id = id;
         this.writer = writer;

@@ -42,7 +42,6 @@ public class BoardDetailFragment extends Fragment {
     String title;
     String contents;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +68,5 @@ public class BoardDetailFragment extends Fragment {
         this.title = title;
         this.contents = contents;
     }
-
 
 }

@@ -8,8 +8,6 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.usans.Data.Facility;
 import com.example.usans.MainActivity;
 import com.example.usans.R;
 

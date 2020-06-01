@@ -30,34 +30,34 @@ public class RegFragment extends Fragment {
         hotButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBoard();
+                showBoard(3);
             }
         });
         bestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBoard();
+                showBoard(4);
             }
         });
         freeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBoard();
+                showBoard(2);
             }
         });
         recommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBoard();
+                showBoard(5);
             }
         });
 
         return view;
     }
 
-    public void showBoard() {
+    public void showBoard(int n) {
         MainActivity main = (MainActivity) getActivity();
-        main.moveToBoard();
+        main.moveToBoard(n);
     }
 
 }

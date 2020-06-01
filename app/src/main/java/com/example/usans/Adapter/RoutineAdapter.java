@@ -3,11 +3,8 @@ package com.example.usans.Adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.example.usans.Data.RoutineItem;
 import com.example.usans.Data.RoutineItemView;
-import com.example.usans.Data.TitleItem;
-
 import java.util.ArrayList;
 
 public class RoutineAdapter extends BaseAdapter {

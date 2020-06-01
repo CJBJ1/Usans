@@ -7,7 +7,6 @@ public class RouteItem implements Parcelable {
     public String route;
     int isCar;
 
-
     public RouteItem(String route) {
         this.route = route;
     }
