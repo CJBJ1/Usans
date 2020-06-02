@@ -9,4 +9,5 @@ public class AppHelper {
     public static String Review = "http://3.34.18.171:8000/api/Review/";
     public static String Report = "http://3.34.18.171:8000/api/Report/";
     public static String Write = "http://3.34.18.171.nip.io:8000/arti/write/";
+    public static String Routine = "http://3.34.18.171:8000/api/Routine/";
 }

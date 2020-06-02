@@ -4,6 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.ContentValues;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +14,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.example.usans.Adapter.RoutineAdapter;
+import com.example.usans.Adapter.TitleAdapter;
+import com.example.usans.AppHelper;
 import com.example.usans.Data.RoutineItem;
+import com.example.usans.Data.TitleItem;
 import com.example.usans.R;
+import com.example.usans.RequestHttpURLConnection;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RoutineFragment extends Fragment {
     View view;
@@ -22,6 +33,7 @@ public class RoutineFragment extends Fragment {
 
     FragmentManager fm;
     String machines;
+    String[] machine;
 
     public RoutineFragment(String machines) {
         this.machines = machines;
@@ -36,11 +48,9 @@ public class RoutineFragment extends Fragment {
         adapter = new RoutineAdapter();
         fm = getFragmentManager();
 
-        String machine[] = machines.split(" ");
-        //machines 로 기구 목록 뽑아내고 가능한 루틴 구하기
-        //임시 데이터
-        adapter.addItem(new RoutineItem(0, "가슴", "벤치프레스 -> 체스트프레스머신 -> 딥스 -> 버터플라이머신"));
-        adapter.addItem(new RoutineItem(2, "등", "풀업 -> 랫풀다운 -> 친업"));
+        machine = machines.split(" ");
+        NetworkTask networkTask = new NetworkTask(AppHelper.Routine, null);
+        networkTask.execute();
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -59,6 +69,53 @@ public class RoutineFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public boolean check(String routine) {
+        for (String mach : machine) {
+            if (routine.contains(mach))
+                return true;
+        }
+        return false;
+    }
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = "basic";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONArray jsArr = new JSONArray(s);
+                int index = jsArr.length() - 1;
+                while (index != -1) {
+                    JSONObject jsonObject = jsArr.getJSONObject(index);
+                    if (check(jsonObject.getString("helptext"))) {
+                        adapter.addItem(new RoutineItem(jsonObject.getInt("id"), jsonObject.getString("name"), jsonObject.getString("helptext")));
+                    }
+                    index--;
+                }
+
+                listView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

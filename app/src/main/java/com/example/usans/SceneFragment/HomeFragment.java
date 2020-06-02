@@ -173,12 +173,18 @@ public class HomeFragment extends Fragment {
         int size = facilityList.getArrayList().size();
         for(int i = 0;i<size;i++){
             Facility facility = list.get(i);
+            Bitmap bitmap;
             MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
             TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())); // SKT타워
-            Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
-            markerItem1.setIcon(bitmap);
             markerItem1.setTMapPoint( tMapPoint1 );
             markerItem1.setID(String.valueOf(i));
+            if(Integer.parseInt(facility.getId())>=10005) {
+                bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
+            }
+            else{
+                bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
+            }
+            markerItem1.setIcon(bitmap);
             markerItem1.setIcon(resizeBitmap(bitmap, 200));
             markerItem1.setPosition(0.5f, 0.8f);
             tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
@@ -242,13 +248,20 @@ public class HomeFragment extends Fragment {
                 addSans();
                 int index=0;
                 if (s != null) {
-                    jsArr = new JSONArray(s);
+                    jsArr = new JSONArray(s); //1539
+                    int jsLen = jsArr.length();
+                    int rIndex = 1538;
+
                     while (index != 10) {
                         parseJS(jsArr, index);
                         index++;
                     }
-                }
 
+                    while(jsLen-rIndex!=0){
+                        parseJS(jsArr,rIndex);
+                        rIndex++;
+                    }
+                }
                 setMap();
             } catch (JSONException e) {
                 e.printStackTrace();

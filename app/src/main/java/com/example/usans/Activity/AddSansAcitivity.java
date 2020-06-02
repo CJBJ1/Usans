@@ -1,21 +1,27 @@
 package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.usans.AppHelper;
+import com.example.usans.Data.FacilityList;
 import com.example.usans.GpsTracker;
 import com.example.usans.R;
+import com.example.usans.RequestHttpURLConnection;
 import com.skt.Tmap.TMapPoint;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -28,11 +34,20 @@ public class AddSansAcitivity extends AppCompatActivity {
 
     private Uri mImageCaptureUri;
     private ImageView imageView;
-    private Button addButton;
+    private Button addImageButton;
     private Button gpsToAddress;
     private GpsTracker gpsTracker;
     private Geocoder geocoder;
     private TextView sansAddress;
+    EditText sansName;
+    TextView sansMachines;
+    EditText sansAddMachine;
+    Button sansAddMachineButton;
+    RatingBar sansRatingBar;
+    EditText editText;
+    private Button saveButton;
+
+    private FacilityList facilityList;
     private TMapPoint centerPoint;
 
     @Override
@@ -42,31 +57,50 @@ public class AddSansAcitivity extends AppCompatActivity {
         Intent intent = getIntent();
         centerPoint = new TMapPoint((Double)intent.getExtras().get("lat"),(Double)intent.getExtras().get("lng"));
 
-        addButton = findViewById(R.id.button3);
+        facilityList = (FacilityList) getApplication();
+        addImageButton = findViewById(R.id.button3);
         imageView = findViewById(R.id.sans_image_view);
         sansAddress = findViewById(R.id.sans_address);
         geocoder = new Geocoder(this);
+
+        sansName = findViewById(R.id.sans_name);
+        sansMachines = findViewById(R.id.sans_machines);
+        sansAddMachine = findViewById(R.id.sans_add_machine);
+        sansAddMachineButton = findViewById(R.id.sans_add_machine_button);
+        sansRatingBar = findViewById(R.id.sans_ratingBar);
+        editText = findViewById(R.id.editText);
+        saveButton = findViewById(R.id.save_button);
 
         String address = getCurrentAddress(centerPoint.getLatitude() , centerPoint.getLongitude());
         address = address.substring(5,address.length()-1);
         sansAddress.setText(address);
 
-
-        addButton.setOnClickListener(new View.OnClickListener() {
+        addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 doTakeAlbumAction();
             }
         });
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 doTakeAlbumAction();
             }
         });
+        sansAddMachineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sansMachines.append(sansAddMachine.getText()+" ");
+                sansAddMachine.setText("");
+            }
+        });
 
-
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
     }
 
     public void doTakeAlbumAction() {
@@ -81,10 +115,9 @@ public class AddSansAcitivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK)
             return;
-
         switch (requestCode) {
             case PICK_FROM_ALBUM: {
-                addButton.setVisibility(View.INVISIBLE);
+                addImageButton.setVisibility(View.INVISIBLE);
                 mImageCaptureUri = data.getData();
                 imageView.setImageURI(mImageCaptureUri);
             }
@@ -115,6 +148,54 @@ public class AddSansAcitivity extends AppCompatActivity {
         }
         Address address = addresses.get(0);
         return address.getAddressLine(0).toString()+"\n";
+    }
+
+    public boolean save() {
+        String contents = editText.getText().toString();
+        if (contents.length() == 0) {
+            setResult(200, null);
+        } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", sansName.getText().toString());
+            contentValues.put("address", sansAddress.getText().toString());
+            contentValues.put("lat", centerPoint.getLatitude());
+            contentValues.put("lon", centerPoint.getLongitude());
+            contentValues.put("rating", sansRatingBar.getRating());
+            String sansuzang = "http://3.34.18.171.nip.io:8000/ssz/write/?name="+sansName.getText().toString()+"&address="+sansAddress.getText().toString()+"&lat="+centerPoint.getLatitude()+"&lon="+centerPoint.getLongitude();
+            NetworkTask networkTask = new NetworkTask(sansuzang, contentValues);
+            networkTask.execute();
+
+            //코맨트 추가
+//            String url = "http://3.34.18.171.nip.io:8000/review/?user="+facilityList.getUser().getId()+"&loc="+facilityID+"&rating="+Math.round(sansRatingBar.getRating())+"&text="+contents;
+//            networkTask = new NetworkTask(url, null);
+//            networkTask.execute();
+            setResult(101, null);
+        }
+        finish();
+        return false;
+    }
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = "basic";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url,values);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 
 }
