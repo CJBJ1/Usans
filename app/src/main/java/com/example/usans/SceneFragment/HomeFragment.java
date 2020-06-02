@@ -162,12 +162,7 @@ public class HomeFragment extends Fragment {
             TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())); // SKT타워
             markerItem1.setTMapPoint( tMapPoint1 );
             markerItem1.setID(String.valueOf(i));
-            if(Integer.parseInt(facility.getId())>=10010) {
-                bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
-            }
-            else{
-                bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
-            }
+            bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_blue);
             markerItem1.setIcon(bitmap);
             markerItem1.setIcon(resizeBitmap(bitmap, 200));
             markerItem1.setPosition(0.5f, 0.8f);
