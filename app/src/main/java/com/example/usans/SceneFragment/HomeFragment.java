@@ -29,6 +29,7 @@ import com.example.usans.MarkerOverlay;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPOIItem;
@@ -52,6 +53,7 @@ import androidx.fragment.app.FragmentManager;
 public class HomeFragment extends Fragment {
     TMapView tMapView;
     private View view;
+    public int jsLen;
     private FragmentManager fm;
     private FacilityList facilityList;
     private JSONArray jsArr;
@@ -62,6 +64,8 @@ public class HomeFragment extends Fragment {
     public Button addMarkerButtom, zoomPlus, zoomMinus;
     public Button sansNavigationStartButton;
     private Button gpsButton;
+    private List<LatLng> latLngs;
+    private ArrayList<TMapMarkerItem2> mountainList;
     private GpsTracker gpsTracker;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -124,16 +128,28 @@ public class HomeFragment extends Fragment {
     }
 
     public void showAddMarkerButton(){
-        addMarker.setVisibility(View.VISIBLE);
-        addMarkerButtom.setVisibility(View.VISIBLE);
-        addMarkerButtom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("addMarkerButton", "클릭");
-                MainActivity main = (MainActivity) getActivity();
-                main.moveToAddSans(tMapView.getCenterPoint());   // 맵의 중앙 위치 전송
-            }
-        });
+        if(addMarker.getVisibility()==View.INVISIBLE) {
+            addMarker.setVisibility(View.VISIBLE);
+            addMarkerButtom.setVisibility(View.VISIBLE);
+            addMarkerButtom.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("addMarkerButton", "클릭");
+                    MainActivity main = (MainActivity) getActivity();
+                    main.moveToAddSans(tMapView.getCenterPoint());
+                    addMarker.setVisibility(View.INVISIBLE);
+                    addMarkerButtom.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+        else{
+            addMarker.setVisibility(View.INVISIBLE);
+            addMarkerButtom.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public TMapView gettMapView() {
+        return tMapView;
     }
 
     public void setMap(){
@@ -146,7 +162,7 @@ public class HomeFragment extends Fragment {
             TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng())); // SKT타워
             markerItem1.setTMapPoint( tMapPoint1 );
             markerItem1.setID(String.valueOf(i));
-            if(Integer.parseInt(facility.getId())>=10005) {
+            if(Integer.parseInt(facility.getId())>=10010) {
                 bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
             }
             else{
@@ -174,8 +190,6 @@ public class HomeFragment extends Fragment {
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                Log.d("위도",tMapPoint.getLatitude()+ "");
-                Log.d("경도",tMapPoint.getLongitude()+"");
                 return false;
             }
             @Override
@@ -191,6 +205,7 @@ public class HomeFragment extends Fragment {
     public class NetworkTask extends AsyncTask<Void, Void, String> {
         private String url;
         private ContentValues values;
+
         public NetworkTask(String url, ContentValues values) {
             this.url = url;
             this.values = values;
@@ -212,20 +227,16 @@ public class HomeFragment extends Fragment {
                 int index=0;
                 if (s != null) {
                     jsArr = new JSONArray(s); //1539
-                    int jsLen = jsArr.length();
-                    int rIndex = 1538;
+                    jsLen = jsArr.length();
 
-                    while (index != 10) {
+                    while (index != jsLen) {
                         parseJS(jsArr, index);
                         index++;
                     }
 
-                    while(jsLen-rIndex!=0){
-                        parseJS(jsArr,rIndex);
-                        rIndex++;
-                    }
                 }
                 setMap();
+                setMountain();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -233,23 +244,27 @@ public class HomeFragment extends Fragment {
         }
 
         public void parseJS(JSONArray jsonArray, int index){
-            Facility facility = new Facility();
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(index);
-                facility.setId(jsonObject.getString("id"));
-                facility.setName(jsonObject.getString("name"));
-                facility.setAddress(jsonObject.getString("address"));
-                facility.setLat(jsonObject.getString("lat"));
-                facility.setLng(jsonObject.getString("lon"));
-                facility.setDistance(getDistance(userLocation,
-                        new LatLng(Double.parseDouble(jsonObject.getString("lat")),
-                                Double.parseDouble(jsonObject.getString("lon")))));
-                facilityList.getArrayList().add(facility);
+                if(Integer.parseInt(jsonObject.getString("id"))>=10013) {
+                    Facility facility = new Facility();
+                    facility.setId(jsonObject.getString("id"));
+                    facility.setName(jsonObject.getString("name"));
+                    facility.setAddress(jsonObject.getString("address"));
+                    facility.setLat(jsonObject.getString("lat"));
+                    facility.setLng(jsonObject.getString("lon"));
+                    facility.setRating((float)jsonObject.getDouble("rating"));
+                    facility.setDistance(getDistance(userLocation,
+                            new LatLng(Double.parseDouble(jsonObject.getString("lat")),
+                                    Double.parseDouble(jsonObject.getString("lon")))));
+                    facilityList.getArrayList().add(facility);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     public double getDistance(LatLng LatLng1, LatLng LatLng2) {
         double distance = 0;
@@ -344,6 +359,8 @@ public class HomeFragment extends Fragment {
         tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
     }
 
+
+
     public void addSans(){
         Facility facility = new Facility("10000", "분당중앙공원", "경기 성남시 분당구 성남대로 550",
                 new String[]{"https://img.theqoo.net/img/cipEd.jpg",
@@ -400,4 +417,109 @@ public class HomeFragment extends Fragment {
                         new LatLng(37.507585, 126.954684)));
         facilityList.getArrayList().add(facility);
     }
+
+    public void setMountain(){
+        Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
+        mountainList = new ArrayList<>();
+
+        Facility facility = new Facility();
+        facility.setId("산");
+        facility.setName("산");
+        facility.setAddress("산");
+        facility.setLat("37.443239");
+        facility.setLng("126.965960");
+        facility.setRating(4);
+
+        Facility facility1 = new Facility(facility);
+        facility1.setLat("37.443239");
+        facility1.setLng("126.965960");
+        MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
+        TMapPoint tMapPoint1 = new TMapPoint(37.443239, 126.965960);
+        markerItem1.setTMapPoint(tMapPoint1);
+        markerItem1.setID("90000");
+        markerItem1.setIcon(bitmap);
+        markerItem1.setIcon(resizeBitmap(bitmap, 150));
+        markerItem1.setPosition(0.5f, 0.8f);
+        tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+        facility1.setMarker(markerItem1);
+        facilityList.getMountainList().add(facility1);
+
+        Facility facility2 = new Facility(facility);
+        facility2.setLat("37.582398");
+        facility2.setLng("126.806163");
+        Bitmap bitmap2 = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
+        markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
+        tMapPoint1 = new TMapPoint(37.582398, 126.806163);
+        markerItem1.setTMapPoint(tMapPoint1);
+        markerItem1.setID("90001");
+        markerItem1.setIcon(bitmap2);
+        markerItem1.setIcon(resizeBitmap(bitmap2, 150));
+        markerItem1.setPosition(0.5f, 0.8f);
+        tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+        facility2.setMarker(markerItem1);
+        facilityList.getMountainList().add(facility2);
+
+        Facility facility3 = new Facility(facility);
+        facility3.setLat("37.584807");
+        facility3.setLng("126.959132");
+        Bitmap bitmap3 = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
+        markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
+        tMapPoint1 = new TMapPoint(37.584807, 126.959132);
+        markerItem1.setTMapPoint(tMapPoint1);
+        markerItem1.setID("90002");
+        markerItem1.setIcon(bitmap3);
+        markerItem1.setIcon(resizeBitmap(bitmap3, 150));
+        markerItem1.setPosition(0.5f, 0.8f);
+        tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+        facility3.setMarker(markerItem1);
+        facilityList.getMountainList().add(facility3);
+
+        Facility facility4 = new Facility(facility);
+        facility4.setLat("37.474586");
+        facility4.setLng("127.078161");
+        Bitmap bitmap4 = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
+        markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
+        tMapPoint1 = new TMapPoint(37.474586, 127.078161);
+        markerItem1.setTMapPoint(tMapPoint1);
+        markerItem1.setID("90003");
+        markerItem1.setIcon(bitmap4);
+        markerItem1.setIcon(resizeBitmap(bitmap4, 150));
+        markerItem1.setPosition(0.5f, 0.8f);
+        tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+        facility4.setMarker(markerItem1);
+        facilityList.getMountainList().add(facility4);
+
+        Facility facility5 = new Facility(facility);
+        facility5.setLat("37.571299");
+        facility5.setLng("127.103676");
+        Bitmap bitmap5 = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
+        markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
+        tMapPoint1 = new TMapPoint(37.571299, 127.103676);
+        markerItem1.setTMapPoint(tMapPoint1);
+        markerItem1.setID("90004");
+        markerItem1.setIcon(bitmap5);
+        markerItem1.setIcon(resizeBitmap(bitmap5, 150));
+        markerItem1.setPosition(0.5f, 0.8f);
+        tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+        facility5.setMarker(markerItem1);
+        facilityList.getMountainList().add(facility5);
+
+        Facility facility6 = new Facility(facility);
+        facility6.setLat("37.569141");
+        facility6.setLng("126.923233");
+        Bitmap bitmap6 = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
+        markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
+        tMapPoint1 = new TMapPoint(37.569141, 126.923233);
+        markerItem1.setTMapPoint(tMapPoint1);
+        markerItem1.setID("90005");
+        markerItem1.setIcon(bitmap6);
+        markerItem1.setIcon(resizeBitmap(bitmap6, 150));
+        markerItem1.setPosition(0.5f, 0.8f);
+        tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+        facility6.setMarker(markerItem1);
+        facilityList.getMountainList().add(facility6);
+
+
+    }
+
 }

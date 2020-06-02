@@ -46,7 +46,7 @@ public class Facility implements Parcelable {
         if(facility.getPhoto()==null) setPhoto(new String[]{});
         else setPhoto(facility.getPhoto());
 
-        if(Integer.parseInt(facility.getId())<10000) setMachines("철봉 허리돌리기 평행봉");
+        if(facility.getMachines()==null) setMachines("철봉 허리돌리기 평행봉");
         else {
             setMachines(facility.getMachines());
             machineList = new ArrayList<>();
@@ -57,7 +57,12 @@ public class Facility implements Parcelable {
         }
         setLat(facility.getLat());
         setLng(facility.getLng());
-        setRating(Integer.parseInt(facility.getId())%3+2);
+        if(facility.getRating()==0) {
+            setRating(Integer.parseInt(facility.getId()) % 3 + 2);
+        }
+        else{
+            setRating(facility.getRating());
+        }
         setDistance(facility.getDistance());
     }
 

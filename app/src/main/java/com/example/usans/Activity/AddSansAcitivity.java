@@ -163,7 +163,8 @@ public class AddSansAcitivity extends AppCompatActivity {
 //            String url = "http://3.34.18.171.nip.io:8000/review/?user="+facilityList.getUser().getId()+"&loc="+facilityID+"&rating="+Math.round(sansRatingBar.getRating())+"&text="+contents;
 //            networkTask = new NetworkTask(url, null);
 //            networkTask.execute();
-            setResult(101, null);
+
+            setResult(10101, null);
         }
         finish();
         return false;
