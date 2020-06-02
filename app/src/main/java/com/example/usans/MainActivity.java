@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout mDrawerLayout;
     private TMapView tMapView;
 
-    private String[] navItems = {"Brown", "Cadet Blue", "Dark Olive Green", "Dark Orange", "Golden Rod"};
+    private String[] navItems = {"500m", "1km", "2km", "5km", "10km"};
     ListView navView;
 
     @Override
@@ -431,28 +431,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
     }
-}
 
-class DrawerItemClickListener implements ListView.OnItemClickListener {
-    @Override
-    public void onItemClick(AdapterView<?> adapter, View view, int position,
-                            long id) {
-        switch (position) {
-            case 0:
-                Log.e("시발", "1");
-                break;
-            case 1:
-                Log.e("시발", "2");
-                break;
-            case 2:
-                Log.e("시발", "3");
-                break;
-            case 3:
-                Log.e("시발", "4");
-                break;
-            case 4:
-                Log.e("시발", "5");
-                break;
+    class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+            Log.e("시발", "클릭");
+            tMapView = facilityList.gettMapView();
+            double range = 0;
+            switch (position) {
+                case 0:
+                    range = 500;
+                    break;
+                case 1:
+                    range = 1000;
+                    break;
+                case 2:
+                    range = 2000;
+                    break;
+                case 3:
+                    range = 5000;
+                    break;
+                case 4:
+                    range = 10000;
+                    break;
+            }
+            for (Facility facility : facilityList.getArrayList()) {
+                if (facility.getDistance() <= range)
+                    tMapView.addMarkerItem2(facility.getMarker().getID(), facility.getMarker());
+                else
+                    tMapView.removeMarkerItem2(facility.getMarker().getID());
+            }
         }
     }
 }
+
