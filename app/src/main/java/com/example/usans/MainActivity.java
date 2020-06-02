@@ -44,6 +44,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, regFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
         setBackground(0);
+
         //ca.setActionBar(0);
     }
 

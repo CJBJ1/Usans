@@ -20,9 +20,11 @@ import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.RouteItem;
 import com.example.usans.MainActivity;
+import com.example.usans.MountainPathDrawer;
 import com.example.usans.R;
 import com.example.usans.SceneFragment.HomeFragment;
 
+import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -108,16 +110,8 @@ public class Info extends Fragment {
                 main.onBackPressed();
                 main.setSelectedFacility(facility);
                 main.invalidRoute(0);
-                if(facility.getId().equals("10002")){
-                    try {
-                        InputStream in = getActivity().getAssets().open("test.gpx");
-                        XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
-                        XmlPullParser xmlPullParser = xmlPullParserFactory.newPullParser();
-                        main.loadGpxData(xmlPullParser,in);
-                    } catch (IOException | XmlPullParserException e) {
-                        e.printStackTrace();
-                    }
-                }
+                MountainPathDrawer mountainPathDrawer = new MountainPathDrawer();
+                mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(Double.parseDouble(facility.getLat()), Double.parseDouble(facility.getLng())),getContext());
 
             }
         });

@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,7 +31,9 @@ import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapMarkerItem2;
+import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
@@ -39,6 +42,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -193,6 +198,21 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
+            @Override
+            public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                Log.d("위도",tMapPoint.getLatitude()+ "");
+                Log.d("경도",tMapPoint.getLongitude()+"");
+                return false;
+            }
+
+            @Override
+            public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                return false;
+            }
+        });
+
 
         facilityList.settMapView(tMapView);
         tMapView.setCenterPoint(126.952264 , 37.503149);

@@ -48,7 +48,9 @@ public class AddSansAcitivity extends AppCompatActivity {
         geocoder = new Geocoder(this);
 
         String address = getCurrentAddress(centerPoint.getLatitude() , centerPoint.getLongitude());
-        sansAddress.setText(address.substring(5));
+        address = address.substring(5,address.length()-1);
+        sansAddress.setText(address);
+
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
