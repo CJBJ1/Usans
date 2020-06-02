@@ -85,9 +85,9 @@ public class MountainPathDrawer {
         lng<=127.10458517074585){
             fileName = "아차산.gpx";
         }
-        else if(lat<=37.56726967170568&&
+        else if(lat>=37.56906967170568&&
         lng>=126.91919088363647&&
-        lat>=37.5757732700577&&
+        lat<=37.5757732700577&&
         lng<=126.93506956100464){
             fileName = "궁동산.gpx";
         }

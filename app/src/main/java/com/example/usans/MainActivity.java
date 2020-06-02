@@ -1,9 +1,11 @@
 package com.example.usans;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +41,10 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Facility selectedFacility;
     private DrawerLayout mDrawerLayout;
     private TMapView tMapView;
+    private LatLng userLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         facilityList = (FacilityList) getApplication();
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
+        userLocation = new LatLng(37.503149, 126.952264);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -132,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, AddSansAcitivity.class);
         intent.putExtra("lat",centerPoint.getLatitude());
         intent.putExtra("lng",centerPoint.getLongitude());
-        startActivity(intent);
+        startActivityForResult(intent,10000);
     }
 
     public void moveToDetail(Facility facility) {
@@ -248,6 +256,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (int i = 0; i < size; i++) {
                         tMapView.addMarkerItem2(String.valueOf(i), facilityList.getArrayList().get(i).getMarker());
                     }
+                    for(int i =0;i<6;i++){
+                        tMapView.addMarkerItem2(String.valueOf(90000+i),facilityList.getMountainList().get(i).getMarker());
+                    }
                     tMapView.removeAllTMapPolyLine();
                     tMapView.removeTMapPath();
                 }
@@ -331,6 +342,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (int i = 0; i < mSize; i++) {
                     tMapView.removeMarkerItem2(facilityList.getArrayList().get(i).getMarker().getID());
                 }
+                for(int i =0;i<6;i++){
+                    tMapView.removeMarkerItem2(facilityList.getMountainList().get(i).getMarker().getID());
+                }
+
                 MarkerOverlay markerItem1 = new MarkerOverlay(getApplicationContext(), "hi", "hi", null, tMapView);
                 TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(selectedFacility.getLat()), Double.parseDouble(selectedFacility.getLng()));
                 Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
@@ -424,5 +439,89 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tMapPolyLine.addLinePoint(tMapPoints.get(i));
         }
         tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10000) {
+            if (resultCode == 10101) {
+                String url = "http://3.34.18.171:8000/api/Sansuzang";
+                NetworkTaskPlus networkTask = new NetworkTaskPlus(url, null);
+                networkTask.execute();
+            }
+        }
+    }
+
+    public class NetworkTaskPlus extends AsyncTask<Void, Void, String> {
+        private String url;
+        private ContentValues values;
+        public NetworkTaskPlus(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = "basic";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url,values);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                if (s != null) {
+                    JSONArray jsArr = new JSONArray(s); //1539
+                    int invalidLen = jsArr.length();
+
+                    while(invalidLen-homeFragment.jsLen!=0){
+                        parseJS2(jsArr,homeFragment.jsLen);
+                        homeFragment.jsLen++;
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void parseJS2(JSONArray jsonArray, int index){
+            Facility facility = new Facility();
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(index);
+                facility.setId(jsonObject.getString("id"));
+                facility.setName(jsonObject.getString("name"));
+                facility.setAddress(jsonObject.getString("address"));
+                facility.setLat(jsonObject.getString("lat"));
+                facility.setLng(jsonObject.getString("lon"));
+                facility.setDistance(homeFragment.getDistance(userLocation,
+                        new LatLng(Double.parseDouble(jsonObject.getString("lat")),
+                                Double.parseDouble(jsonObject.getString("lon")))));
+
+                facilityList.getArrayList().add(facility);
+                Bitmap bitmap;
+                MarkerOverlay markerItem1 = new MarkerOverlay(getApplicationContext(),"hi","hi",facilityList.getFm(),tMapView);
+                TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng()));
+                markerItem1.setTMapPoint( tMapPoint1 );
+                markerItem1.setID(String.valueOf(facilityList.getArrayList().size()-1));
+                if(Integer.parseInt(facility.getId())>=10005) {
+                    bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_red);
+                }
+                else{
+                    bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
+                }
+                markerItem1.setIcon(bitmap);
+                markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
+                markerItem1.setPosition(0.5f, 0.8f);
+                homeFragment.gettMapView().addMarkerItem2(markerItem1.getID(), markerItem1);
+                facilityList.getArrayList().get(facilityList.getArrayList().size()-1).setMarker(markerItem1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

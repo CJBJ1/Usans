@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
+import com.google.android.gms.maps.model.LatLng;
 import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
@@ -122,20 +123,32 @@ public class MarkerOverlay extends TMapMarkerItem2 {
 
     public boolean onSingleTapUp(PointF point, TMapView mapView) {
         if(!getID().equals("temp")) {
-            Log.d("클릭", "클리이익");
-            fm.popBackStack();
-            Facility facility;
+            if(Integer.parseInt(getID())<90000) {
+                Log.d("클릭", point.x + " " + point.y);
+                fm.popBackStack();
+                Facility facility;
 
-            facility = new Facility(facilityList.getArrayList().get(Integer.parseInt(getID())));
-            Fragment inf = new Info(facility, tMapView);
+                facility = new Facility(facilityList.getArrayList().get(Integer.parseInt(getID())));
+                Fragment inf = new Info(facility, tMapView);
 
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
-            transaction.add(R.id.info, inf);
-            transaction.commit();
-            transaction.addToBackStack(null);
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
+                transaction.add(R.id.info, inf);
+                transaction.commit();
+                transaction.addToBackStack(null);
+            }
+            else{
+               fm.popBackStack();
+                Facility facility = facilityList.getMountainList().get(Integer.parseInt(getID())-90000);
+                Fragment inf = new Info(facility, tMapView);
 
-            Log.d("테스트",fm.getBackStackEntryCount()+"");
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
+                transaction.add(R.id.info, inf);
+                transaction.commit();
+                transaction.addToBackStack(null);
+            }
+
         }
         return false;
     }

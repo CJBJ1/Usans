@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 public class FacilityList extends Application {
     private String accessToken;
     private ArrayList<Facility> faArrayList = new ArrayList<>(100);
+    private ArrayList<Facility> mountainList = new ArrayList<>(10);
     private User user;
     private Polyline polyline;
     private TMapView tMapView;
@@ -53,5 +54,13 @@ public class FacilityList extends Application {
     }
     public FragmentManager getFm() {
         return fm;
+    }
+
+    public ArrayList<Facility> getMountainList() {
+        return mountainList;
+    }
+
+    public void setMountainList(ArrayList<Facility> mountainList) {
+        this.mountainList = mountainList;
     }
 }
