@@ -3,10 +3,8 @@ package com.example.usans.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import com.example.usans.R;
 import com.example.usans.SceneFragment.BoardFragment;
 import java.io.File;
@@ -17,8 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BoardActivity extends AppCompatActivity {
-    private Button writeButton;
-    FragmentTransaction tran;
     BoardFragment boardFragment;
     File tempSelectFile;
 

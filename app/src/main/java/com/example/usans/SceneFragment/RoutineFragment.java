@@ -72,11 +72,20 @@ public class RoutineFragment extends Fragment {
     }
 
     public boolean check(String routine) {
-        for (String mach : machine) {
-            if (routine.contains(mach))
-                return true;
+        if (routine.length() == 0) return false;
+        for (String mach : routine.split(" -> ")) {
+            if (mach.equals("풀업") || mach.equals("친업") && machines.contains("철봉"))
+                continue;
+            if (mach.equals("딥스") && machines.contains("평행봉"))
+                continue;
+            if (mach.equals("벤치프레스") && machines.contains("스미스머신"))
+                continue;
+            if (mach.equals("스쿼트"))
+                continue;
+            if (!machines.contains(mach))
+                return false;
         }
-        return false;
+        return true;
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {

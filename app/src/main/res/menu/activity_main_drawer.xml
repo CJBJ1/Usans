@@ -7,20 +7,7 @@
         <item
             android:id="@+id/nav_home"
             android:title="거리 설정" />
-        <item
-            android:id="@+id/nav_favorite"
-            android:title="기구 설정" />
-        <item
-            android:id="@+id/nav_info"
-            android:title="평점" />
-    </group>
 
-    <item android:title="Usans">
-       <menu>
-            <item
-                android:id="@+id/nav_send"
-                android:title="Usans" />
-        </menu>
-    </item>
+    </group>
 
 </menu>

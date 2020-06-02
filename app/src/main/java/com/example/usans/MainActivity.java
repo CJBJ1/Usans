@@ -5,17 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.usans.Activity.AddSansAcitivity;
 import com.example.usans.Activity.BoardActivity;
@@ -24,7 +27,6 @@ import com.example.usans.Activity.ImageActivity;
 import com.example.usans.Activity.RoutineActivity;
 import com.example.usans.Adapter.RouteAdapter;
 import com.example.usans.CustomLayout.CustomActionBar;
-import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Route;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
@@ -33,7 +35,7 @@ import com.example.usans.SceneFragment.HomeFragment;
 import com.example.usans.SceneFragment.ListFragment;
 import com.example.usans.SceneFragment.MypageFragment;
 import com.example.usans.SceneFragment.RegFragment;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.navigation.NavigationView;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
@@ -44,12 +46,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public HomeFragment homeFragment;
@@ -64,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Facility selectedFacility;
     private DrawerLayout mDrawerLayout;
     private TMapView tMapView;
+
+    private String[] navItems = {"Brown", "Cadet Blue", "Dark Olive Green", "Dark Orange", "Golden Rod"};
+    ListView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listFragment = new ListFragment();
         mypageFragment = new MypageFragment();
         regFragment = new RegFragment();
+
+        navView = findViewById(R.id.nav_view);
+        navView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, navItems));
+        navView.setOnItemClickListener(new DrawerItemClickListener());
 
 //        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, heartFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, listFragment).commit();
@@ -424,5 +430,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tMapPolyLine.addLinePoint(tMapPoints.get(i));
         }
         tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
+    }
+}
+
+class DrawerItemClickListener implements ListView.OnItemClickListener {
+    @Override
+    public void onItemClick(AdapterView<?> adapter, View view, int position,
+                            long id) {
+        switch (position) {
+            case 0:
+                Log.e("시발", "1");
+                break;
+            case 1:
+                Log.e("시발", "2");
+                break;
+            case 2:
+                Log.e("시발", "3");
+                break;
+            case 3:
+                Log.e("시발", "4");
+                break;
+            case 4:
+                Log.e("시발", "5");
+                break;
+        }
     }
 }

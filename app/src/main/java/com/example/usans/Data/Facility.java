@@ -50,8 +50,10 @@ public class Facility implements Parcelable {
         else {
             setMachines(facility.getMachines());
             machineList = new ArrayList<>();
-            for (String machine : facility.getMachines().split(" "))
-                machineList.add(machine);
+            if (facility.getMachines() != null) {
+                for (String machine : facility.getMachines().split(" "))
+                    machineList.add(machine);
+            }
         }
         setLat(facility.getLat());
         setLng(facility.getLng());

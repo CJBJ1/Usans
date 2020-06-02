@@ -1,6 +1,5 @@
 package com.example.usans.CustomLayout;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,23 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
-import com.example.usans.Adapter.RouteAdapter;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
-import com.example.usans.Data.RouteItem;
 import com.example.usans.MainActivity;
 import com.example.usans.MountainPathDrawer;
 import com.example.usans.R;
-import com.example.usans.SceneFragment.HomeFragment;
-
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,11 +29,8 @@ public class Info extends Fragment {
     private MainActivity main;
     private Facility facility;
     private FacilityList facilityList;
-    private ArrayList<Facility> list;
     private TMapView tMapView;
     private FragmentManager fm;
-    private Button tAppButton;
-    List<List<HashMap<String, String>>> routes = null;
 
     View view;
     Button closeButton, detailButton, routineRecommendButton, startButton;
@@ -98,9 +84,8 @@ public class Info extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity act = (MainActivity) getActivity();
-                HomeFragment homeF =  act.homeFragment;
-                homeF.showRecommend(facility.getMachines());
-                closeInfo();
+                act.moveToRoutine(facility.getMachines());
+//                closeInfo();
             }
         });
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +97,6 @@ public class Info extends Fragment {
                 main.invalidRoute(0);
                 MountainPathDrawer mountainPathDrawer = new MountainPathDrawer();
                 mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(Double.parseDouble(facility.getLat()), Double.parseDouble(facility.getLng())),getContext());
-
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -138,8 +122,10 @@ public class Info extends Fragment {
         nameView.setText(facility.getName());
         addressView.setText(facility.getAddress());
         StringBuilder machines = new StringBuilder();
-        for (String machine : facility.getMachines().split(" ")) {
-            machines.append(machine + "\t   ");
+        if (facility.getMachines() != null) {
+            for (String machine : facility.getMachines().split(" ")) {
+                machines.append(machine + "\t   ");
+            }
         }
         machinesView.setText(machines.toString());
         ratingBar.setRating(facility.getRating());

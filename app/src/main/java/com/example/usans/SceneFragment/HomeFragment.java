@@ -19,8 +19,8 @@ import android.widget.LinearLayout;
 import android.location.Address;
 import android.location.Geocoder;
 import android.widget.Toast;
-import com.example.usans.CustomLayout.Info;
-import com.example.usans.CustomLayout.Recommend;
+
+import com.example.usans.AppHelper;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.GpsTracker;
@@ -28,8 +28,6 @@ import com.example.usans.MainActivity;
 import com.example.usans.MarkerOverlay;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapMarkerItem2;
@@ -42,8 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -52,17 +48,13 @@ import java.util.Locale;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 public class HomeFragment extends Fragment {
     TMapView tMapView;
     private View view;
     private FragmentManager fm;
-    private FragmentManager infoFm;
-    private SupportMapFragment mapFragment;
     private FacilityList facilityList;
     private JSONArray jsArr;
-    private GoogleMap mMap;
     private LatLng userLocation;
 
     public ImageView addMarker;
@@ -70,7 +62,6 @@ public class HomeFragment extends Fragment {
     public Button addMarkerButtom, zoomPlus, zoomMinus;
     public Button sansNavigationStartButton;
     private Button gpsButton;
-    private List<LatLng> latLngs;
     private GpsTracker gpsTracker;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -83,17 +74,13 @@ public class HomeFragment extends Fragment {
         userLocation = new LatLng(37.503149, 126.952264);
         facilityList = (FacilityList)getActivity().getApplicationContext();
         fm = getFragmentManager();
-        infoFm = getFragmentManager();
 
         LinearLayout linearLayoutTmap = (LinearLayout)view.findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(getActivity().getApplicationContext());
-
-
         tMapView.setSKTMapApiKey( "l7xxa365f1c5c3254bc19fd5f6b6442b15e5" );
         linearLayoutTmap.addView( tMapView );
 
-        String url = "http://3.34.18.171:8000/api/Sansuzang";
-        NetworkTask networkTask = new NetworkTask(url, null);
+        NetworkTask networkTask = new NetworkTask(AppHelper.Sansuzang, null);
         networkTask.execute();
 
         addMarker = view.findViewById(R.id.marker_image);
@@ -133,21 +120,7 @@ public class HomeFragment extends Fragment {
         });
 
         facilityList.setFm(fm);
-
         return view;
-    }
-
-
-    public void showRecommend(String machines){
-        infoFm.popBackStack();
-
-        Recommend recommend = new Recommend();
-        recommend.machines = machines;
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_bottom,R.anim.enter_to_bottom,R.anim.enter_from_bottom,R.anim.enter_to_bottom);
-        transaction.replace(R.id.info, recommend);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     public void showAddMarkerButton(){
@@ -161,11 +134,6 @@ public class HomeFragment extends Fragment {
                 main.moveToAddSans(tMapView.getCenterPoint());   // 맵의 중앙 위치 전송
             }
         });
-    }
-
-    public void popChild() {
-        FragmentManager ft = getChildFragmentManager();
-        ft.popBackStack();
     }
 
     public void setMap(){
@@ -197,14 +165,12 @@ public class HomeFragment extends Fragment {
                 Log.d("클릭","클릭");
             }
         });
-
         tMapView.setOnDisableScrollWithZoomLevelListener(new TMapView.OnDisableScrollWithZoomLevelCallback() {
             @Override
             public void onDisableScrollWithZoomLevelEvent(float zoom, TMapPoint centerPoint) {
 
             }
         });
-
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
@@ -212,13 +178,11 @@ public class HomeFragment extends Fragment {
                 Log.d("경도",tMapPoint.getLongitude()+"");
                 return false;
             }
-
             @Override
             public boolean onPressUpEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
                 return false;
             }
         });
-
 
         facilityList.settMapView(tMapView);
         tMapView.setCenterPoint(126.952264 , 37.503149);
@@ -244,7 +208,6 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                Log.d("결과",s);
                 addSans();
                 int index=0;
                 if (s != null) {

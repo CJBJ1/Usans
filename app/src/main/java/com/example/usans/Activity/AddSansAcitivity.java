@@ -8,7 +8,6 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.usans.AppHelper;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.GpsTracker;
 import com.example.usans.R;
@@ -35,9 +33,6 @@ public class AddSansAcitivity extends AppCompatActivity {
     private Uri mImageCaptureUri;
     private ImageView imageView;
     private Button addImageButton;
-    private Button gpsToAddress;
-    private GpsTracker gpsTracker;
-    private Geocoder geocoder;
     private TextView sansAddress;
     EditText sansName;
     TextView sansMachines;
@@ -61,7 +56,6 @@ public class AddSansAcitivity extends AppCompatActivity {
         addImageButton = findViewById(R.id.button3);
         imageView = findViewById(R.id.sans_image_view);
         sansAddress = findViewById(R.id.sans_address);
-        geocoder = new Geocoder(this);
 
         sansName = findViewById(R.id.sans_name);
         sansMachines = findViewById(R.id.sans_machines);
@@ -186,10 +180,8 @@ public class AddSansAcitivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            String result = "basic";
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.request(url,values);
-            return result;
+            return requestHttpURLConnection.request(url,values);
         }
 
         @Override

@@ -117,14 +117,39 @@
 
 </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/nav_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        app:itemTextAppearance="@style/DrawerTextStyle"-->
+<!--        app:headerLayout="@layout/nav_header_main"-->
+<!--        app:menu="@menu/activity_main_drawer" />-->
+
+    <LinearLayout
+        android:layout_width="240dp"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:itemTextAppearance="@style/DrawerTextStyle"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#EDEDED">
+        <RelativeLayout
+            android:layout_width="240dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:src="@drawable/mainic"/>
+        </RelativeLayout>
+        <ListView
+            android:id="@+id/nav_view"
+            android:layout_width="240dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
