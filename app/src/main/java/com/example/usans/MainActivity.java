@@ -58,6 +58,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final int LOGIN_IS_REQUIRED = 0;
+    public static final int PICK_FROM_ALBUM = 1;
+    public static final int CROP_FROM_IMAGE = 2;
+
     public HomeFragment homeFragment;
     public CustomActionBar ca;
     Button homeButton, listButton, regButton, mypageButton;
@@ -81,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
         facilityList = (FacilityList) getApplication();
-        facilityList.setMainActivity(this);
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
         userLocation = new LatLng(37.503149, 126.952264);
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, regFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, homeFragment).commit();
         setBackground(0);
-
+        facilityList.setMainActivity(this);
         //ca.setActionBar(0);
     }
 
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void moveToDetail(Facility facility) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("facility", facility);
-        startActivity(intent);
+        startActivityForResult(intent,10001);
     }
 
     @Override
@@ -489,6 +492,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String url = "http://3.34.18.171:8000/api/Sansuzang";
                 NetworkTaskPlus networkTask = new NetworkTaskPlus(url, null);
                 networkTask.execute();
+            }
+        }
+        else if (requestCode ==10001){
+            if (resultCode == LOGIN_IS_REQUIRED) {
+                setBackground(3);
+                setFrag(3);
             }
         }
     }

@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.example.usans.MainActivity.LOGIN_IS_REQUIRED;
+
 public class DetailActivity extends AppCompatActivity {
     Intent intent;
     Facility facility;
@@ -97,9 +99,17 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
             builder.setTitle("로그인이 필요합니다.");
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent();
+                    setResult(LOGIN_IS_REQUIRED,intent);
+                    finish();
+                }
+            });
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
                 }
             });
             AlertDialog alertDialog = builder.create();
@@ -117,9 +127,17 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
             builder.setTitle("로그인이 필요합니다.");
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
+                    Intent intent =new Intent();
+                    setResult(LOGIN_IS_REQUIRED,intent);
+                    finish();
+                }
+            });
+            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
                 }
             });
             AlertDialog alertDialog = builder.create();
