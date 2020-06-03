@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         JodaTimeAndroid.init(this);
         setContentView(R.layout.activity_main);
         facilityList = (FacilityList) getApplication();
+        facilityList.setMainActivity(this);
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
         userLocation = new LatLng(37.503149, 126.952264);

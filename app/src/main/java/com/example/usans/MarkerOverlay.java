@@ -140,13 +140,13 @@ public class MarkerOverlay extends TMapMarkerItem2 {
             else{
                fm.popBackStack();
                 Facility facility = facilityList.getMountainList().get(Integer.parseInt(getID())-90000);
-                Fragment inf = new Info(facility, tMapView);
+                tMapView.setCenterPoint(126.952264 , 37.503149,true);
+                MainActivity mainActivity = facilityList.getMainActivity();
+                mainActivity.setSelectedFacility(facility);
+                mainActivity.invalidRoute(0);
+                MountainPathDrawer mountainPathDrawer = new MountainPathDrawer();
+                mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(Double.parseDouble(facility.getLat()), Double.parseDouble(facility.getLng())),mContext);
 
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
-                transaction.add(R.id.info, inf);
-                transaction.commit();
-                transaction.addToBackStack(null);
             }
 
         }
