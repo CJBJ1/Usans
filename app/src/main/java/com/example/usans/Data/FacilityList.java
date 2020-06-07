@@ -20,6 +20,8 @@ public class FacilityList extends Application {
     private TMapView tMapView;
     private FragmentManager fm;
     private Info selectedInfo;
+    private int goToComment = -1;
+    private int goToBoard = -1;
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
@@ -73,5 +75,21 @@ public class FacilityList extends Application {
 
     public MainActivity getMainActivity() {
         return mainActivity;
+    }
+
+    public void setGoToBoard(int goToBoard) {
+        this.goToBoard = goToBoard;
+    }
+
+    public int getGoToBoard() {
+        return goToBoard;
+    }
+
+    public void setGoToComment(int goToComment) {
+        this.goToComment = goToComment;
+    }
+
+    public int getGoToComment() {
+        return goToComment;
     }
 }
