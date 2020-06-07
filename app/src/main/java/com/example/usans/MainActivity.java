@@ -492,12 +492,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         else if (requestCode ==10001){
-            if (resultCode == LOGIN_IS_REQUIRED) {
+            if (resultCode == 10001) {
                 setBackground(3);
                 setFrag(3);
                 String id = data.getStringExtra("facilityID");
                 facilityList.setGoToComment(Integer.parseInt(id));
                 Log.d("id",id);
+            }
+            else{
+                setBackground(0);
+                setFrag(0);
+                setBarMode(0);
+                invalidateOptionsMenu();g
             }
         }
     }
