@@ -124,8 +124,7 @@ public class MountainPathDrawer {
                         tMapPolyLine.addLinePoint(tMapPoints.get(i));
                     }
                     tMapView.addTMapPolyLine(String.valueOf(id), tMapPolyLine);
-                    id++;
-                }
+                    id++;q
                 tMapPoints = new ArrayList<>();
             }
 

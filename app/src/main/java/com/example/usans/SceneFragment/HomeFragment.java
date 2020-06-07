@@ -127,8 +127,8 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void showAddMarkerButton(){
-        if(addMarker.getVisibility()==View.INVISIBLE) {
+    public boolean showAddMarkerButton(){
+        if (addMarker.getVisibility()==View.INVISIBLE) {
             addMarker.setVisibility(View.VISIBLE);
             addMarkerButtom.setVisibility(View.VISIBLE);
             addMarkerButtom.setOnClickListener(new View.OnClickListener() {
@@ -141,10 +141,11 @@ public class HomeFragment extends Fragment {
                     addMarkerButtom.setVisibility(View.INVISIBLE);
                 }
             });
-        }
-        else{
+            return true;
+        } else {
             addMarker.setVisibility(View.INVISIBLE);
             addMarkerButtom.setVisibility(View.INVISIBLE);
+            return false;
         }
     }
 

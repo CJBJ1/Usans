@@ -167,19 +167,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.homebutton:
                 setBackground(0);
                 setFrag(0);
+                setBarMode(0);
+                invalidateOptionsMenu();
                 break;
             case R.id.listbutton:
                 setBackground(1);
                 setFrag(1);
+                setBarMode(2);
+                invalidateOptionsMenu();
                 listFragment.updateAdapter();
                 break;
             case R.id.regbutton:
                 setBackground(2);
                 setFrag(2);
+                setBarMode(2);
+                invalidateOptionsMenu();
                 break;
             case R.id.mypagebutton:
                 setBackground(3);
                 setFrag(3);
+                setBarMode(2);
+                invalidateOptionsMenu();
                 break;
         }
     }
@@ -233,7 +241,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return true;
                 }
                 case R.id.menu_add: {
-                    homeFragment.showAddMarkerButton();
+                    if (homeFragment.showAddMarkerButton())
+                        item.setIcon(R.drawable.cancel);
+                    else
+                        item.setIcon(R.drawable.plus);
                 }
             }
         } else if (barMode == 1) {
@@ -287,6 +298,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getMenuInflater().inflate(R.menu.main, menu);
         } else if (barMode == 1) {
             getMenuInflater().inflate(R.menu.route, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.main2, menu);
         }
         return true;
     }
