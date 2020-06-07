@@ -105,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent();
                     intent.putExtra("facilityID", facility.getId());
-                    setResult(LOGIN_IS_REQUIRED,intent);
+                    setResult(10001,intent);
                     finish();
                 }
             });
@@ -134,7 +134,7 @@ public class DetailActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent();
                     intent.putExtra("facilityID", facility.getId());
-                    setResult(LOGIN_IS_REQUIRED,intent);
+                    setResult(10001,intent);
                     finish();
                 }
             });
@@ -199,13 +199,11 @@ public class DetailActivity extends AppCompatActivity {
             try {
                 JSONArray jsArr = new JSONArray(s);
                 int index = jsArr.length() - 1;
-                Log.e("씨발", "onPostExecute");
                 adapter = new CommentAdapter();
                 while (index != -1) {
                     JSONObject jsonObject = jsArr.getJSONObject(index);
                     Float rating = Float.parseFloat(jsonObject.getString("rating"));
                     if (jsonObject.getString("loc").equals(facility.getId()) && rating > -1) {
-                        Log.e("씨발", "커맨트아이템");
                         adapter.addItem(new CommentItem(jsonObject.getString("username"), 0, rating, jsonObject.getString("text"),  ""/*jsonObject.getString("machinestate")*/));
                     }
                     index--;
