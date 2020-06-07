@@ -37,7 +37,7 @@ public class CustomActionBar {
         this.activity = _activity;
         this.actionBar = _actionBar;
         roadMode = false;
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setDisplayHomeAsUpEnabled(false);
 
     }
 

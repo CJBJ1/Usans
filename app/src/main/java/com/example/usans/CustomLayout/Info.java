@@ -95,8 +95,8 @@ public class Info extends Fragment {
                 main.onBackPressed();
                 main.setSelectedFacility(facility);
                 main.invalidRoute(0);
-                MountainPathDrawer mountainPathDrawer = new MountainPathDrawer();
-                mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(Double.parseDouble(facility.getLat()), Double.parseDouble(facility.getLng())),getContext());
+                //MountainPathDrawer mountainPathDrawer = new MountainPathDrawer(); 여깁니다
+                //mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(Double.parseDouble(facility.getLat()), Double.parseDouble(facility.getLng())),getContext(),facilityList);
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {

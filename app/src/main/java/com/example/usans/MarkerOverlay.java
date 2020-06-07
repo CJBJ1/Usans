@@ -144,8 +144,8 @@ public class MarkerOverlay extends TMapMarkerItem2 {
                 MainActivity mainActivity = facilityList.getMainActivity();
                 mainActivity.setSelectedFacility(facility);
                 mainActivity.invalidRoute(0);
-                MountainPathDrawer mountainPathDrawer = new MountainPathDrawer();
-                mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(Double.parseDouble(facility.getLat()), Double.parseDouble(facility.getLng())),mContext);
+                //MountainPathDrawer mountainPathDrawer = new MountainPathDrawer(); 여깁니다
+                //mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(Double.parseDouble(facility.getLat()), Double.parseDouble(facility.getLng())),mContext,facilityList);
 
             }
 

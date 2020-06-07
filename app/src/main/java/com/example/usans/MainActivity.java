@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ca = new CustomActionBar(this, getSupportActionBar());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         homeButton = (Button) findViewById(R.id.homebutton);
@@ -289,6 +290,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -310,12 +312,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(homeFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 break;
             case 1:
                 getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(listFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
             case 2:
@@ -323,6 +329,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(regFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
             case 3:
@@ -330,6 +338,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(mypageFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
         }
@@ -351,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.selectedFacility = selectedFacility;
     }
 
-    public void getPath(TMapPoint startPoint, TMapPoint endPoint, int isCar) {
+    public void getPath(TMapPoint startPoint, final TMapPoint endPoint, final int isCar) {
         TMapData tMapData = new TMapData();
         TMapData.TMapPathType pathType;
         if (isCar == 1) pathType = TMapData.TMapPathType.CAR_PATH;
@@ -359,7 +369,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tMapData.findPathDataWithType(pathType, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
+                if(isCar ==1){
+                    tMapView.removeAllTMapPolyLine();
+                }
                 polyLine.setID("result");
+                facilityList.setPolyline(polyLine);
                 tMapView = facilityList.gettMapView();
                 tMapView.addTMapPath(polyLine);
                 int mSize = facilityList.getArrayList().size();
@@ -379,6 +393,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 markerItem1.setPosition(0.5f, 0.8f);
                 markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
                 tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+                MarkerOverlay markerItem2 = new MarkerOverlay(getApplicationContext(), "hi", "hi", null, tMapView);
+
+                MountainPathDrawer mountainPathDrawer = new MountainPathDrawer();
+                mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(endPoint.getLatitude(), endPoint.getLongitude()),getApplicationContext(),facilityList);
+
+
             }
         });
     }
