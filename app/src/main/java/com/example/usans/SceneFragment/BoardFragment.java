@@ -88,7 +88,7 @@ public class BoardFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 fm.popBackStack();
                 TitleItem data = (TitleItem) adapterView.getItemAtPosition(i);
-                BoardDetailFragment detail = new BoardDetailFragment(data.getWriter(),data.getTime(),data.getTitle(),data.getContents());
+                BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents());
 
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.enter_to_left,R.anim.enter_from_left,R.anim.enter_to_right);
