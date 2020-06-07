@@ -47,8 +47,18 @@ public class RoutineDetailFragment extends Fragment {
         for (String exercise : routine.split(" -> "))
             list.add(exercise);
 
-        adapter.addItem(new RoutineDetailItem(0,list.get(0),howToMachine.getThumbnail1(),howToMachine.getTitle1(),howToMachine.getUrl1(),
-                howToMachine.getThumbnail2(),howToMachine.getTitle2(),howToMachine.getUrl2()));
+        for(int i =0;i<list.size();i++){
+            if(list.get(i).equals("풀업")){
+                howToMachine.setPullUp();
+                adapter.addItem(new RoutineDetailItem(i,list.get(i),howToMachine.getThumbnail1(),howToMachine.getTitle1(),howToMachine.getUrl1(),
+                        howToMachine.getThumbnail2(),howToMachine.getTitle2(),howToMachine.getUrl2()));
+            }
+            else{
+                howToMachine.setChinUp();
+                adapter.addItem(new RoutineDetailItem(i,list.get(i),howToMachine.getThumbnail1(),howToMachine.getTitle1(),howToMachine.getUrl1(),
+                        howToMachine.getThumbnail2(),howToMachine.getTitle2(),howToMachine.getUrl2()));
+            }
+        }
         return view;
     }
 }
