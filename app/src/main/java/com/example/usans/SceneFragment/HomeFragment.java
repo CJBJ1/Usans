@@ -186,6 +186,7 @@ public class HomeFragment extends Fragment {
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
+                Log.d("좌표", tMapPoint.getLatitude() + " " + tMapPoint.getLongitude());
                 return false;
             }
             @Override
@@ -422,15 +423,15 @@ public class HomeFragment extends Fragment {
         facility.setId("산");
         facility.setName("산");
         facility.setAddress("산");
-        facility.setLat("37.443239");
-        facility.setLng("126.965960");
+        facility.setLat("37.453239");
+        facility.setLng("126.985960");
         facility.setRating(4);
 
         Facility facility1 = new Facility(facility);
-        facility1.setLat("37.443239");
+        facility1.setLat("37.444239");
         facility1.setLng("126.965960");
         MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
-        TMapPoint tMapPoint1 = new TMapPoint(37.443239, 126.965960);
+        TMapPoint tMapPoint1 = new TMapPoint(37.444239, 126.965960);
         markerItem1.setTMapPoint(tMapPoint1);
         markerItem1.setID("90000");
         markerItem1.setIcon(bitmap);
@@ -456,11 +457,11 @@ public class HomeFragment extends Fragment {
         facilityList.getMountainList().add(facility2);
 
         Facility facility3 = new Facility(facility);
-        facility3.setLat("37.584807");
+        facility3.setLat("37.586807");
         facility3.setLng("126.959132");
         Bitmap bitmap3 = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
         markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
-        tMapPoint1 = new TMapPoint(37.584807, 126.959132);
+        tMapPoint1 = new TMapPoint(37.586807, 126.959132);
         markerItem1.setTMapPoint(tMapPoint1);
         markerItem1.setID("90002");
         markerItem1.setIcon(bitmap3);
@@ -486,11 +487,11 @@ public class HomeFragment extends Fragment {
         facilityList.getMountainList().add(facility4);
 
         Facility facility5 = new Facility(facility);
-        facility5.setLat("37.571299");
-        facility5.setLng("127.103676");
+        facility5.setLat("37.556128");
+        facility5.setLng("127.102074");
         Bitmap bitmap5 = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.marker_icon_red);
         markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
-        tMapPoint1 = new TMapPoint(37.571299, 127.103676);
+        tMapPoint1 = new TMapPoint(37.556128, 127.102074);
         markerItem1.setTMapPoint(tMapPoint1);
         markerItem1.setID("90004");
         markerItem1.setIcon(bitmap5);

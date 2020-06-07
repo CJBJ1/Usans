@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.selectedFacility = selectedFacility;
     }
 
-    public void getPath(TMapPoint startPoint, TMapPoint endPoint, int isCar) {
+    public void getPath(TMapPoint startPoint, final TMapPoint endPoint, final int isCar) {
         TMapData tMapData = new TMapData();
         TMapData.TMapPathType pathType;
         if (isCar == 1) pathType = TMapData.TMapPathType.CAR_PATH;
@@ -369,7 +369,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tMapData.findPathDataWithType(pathType, startPoint, endPoint, new TMapData.FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
+                if(isCar ==1){
+                    tMapView.removeAllTMapPolyLine();
+                }
                 polyLine.setID("result");
+                facilityList.setPolyline(polyLine);
                 tMapView = facilityList.gettMapView();
                 tMapView.addTMapPath(polyLine);
                 int mSize = facilityList.getArrayList().size();
@@ -389,6 +393,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 markerItem1.setPosition(0.5f, 0.8f);
                 markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
                 tMapView.addMarkerItem2(markerItem1.getID(), markerItem1);
+                MarkerOverlay markerItem2 = new MarkerOverlay(getApplicationContext(), "hi", "hi", null, tMapView);
+
+                MountainPathDrawer mountainPathDrawer = new MountainPathDrawer();
+                mountainPathDrawer.drawMountainPath(tMapView,new TMapPoint(endPoint.getLatitude(), endPoint.getLongitude()),getApplicationContext(),facilityList);
+
+
             }
         });
     }

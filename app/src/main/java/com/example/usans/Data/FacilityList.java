@@ -5,6 +5,7 @@ import com.example.usans.CustomLayout.Info;
 import com.example.usans.Data.Facility;
 import com.example.usans.MainActivity;
 import com.google.android.gms.maps.model.Polyline;
+import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
 import java.util.ArrayList;
 import androidx.fragment.app.FragmentManager;
@@ -15,7 +16,7 @@ public class FacilityList extends Application {
     private ArrayList<Facility> faArrayList = new ArrayList<>(100);
     private ArrayList<Facility> mountainList = new ArrayList<>(10);
     private User user;
-    private Polyline polyline;
+    private TMapPolyLine polyline;
     private TMapView tMapView;
     private FragmentManager fm;
     private Info selectedInfo;
@@ -32,10 +33,10 @@ public class FacilityList extends Application {
     public void setArrayList(ArrayList<Facility> faArrayList) {
         this.faArrayList = faArrayList;
     }
-    public void setPolyline(Polyline polyline) {
+    public void setPolyline(TMapPolyLine polyline) {
         this.polyline = polyline;
     }
-    public Polyline getPolyline() {
+    public TMapPolyLine getPolyline() {
         return polyline;
     }
     public void removePolyline(){polyline=null;}
