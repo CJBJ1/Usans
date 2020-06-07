@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.usans.Adapter.TitleCommentAdapter;
 import com.example.usans.Data.FacilityList;
+import com.example.usans.Data.TitleItem;
 import com.example.usans.R;
 
 public class BoardDetailFragment extends Fragment {
@@ -30,6 +33,9 @@ public class BoardDetailFragment extends Fragment {
     String passTime;
     String title;
     String contents;
+
+    ListView listView;
+    TitleCommentAdapter adapter;
 
     @Nullable
     @Override
@@ -48,6 +54,12 @@ public class BoardDetailFragment extends Fragment {
         timeView.setText(passTime);
         titleView.setText(title);
         contentsView.setText(contents);
+
+        listView = view.findViewById(R.id.title_list_view);
+        adapter = new TitleCommentAdapter();
+        listView.setAdapter(adapter);
+
+        adapter.addItem(new TitleItem("조범준", "주민 분들이 예뻐해주시나 보네요 애웅이들 얼굴이 편해보여요 ㅋㅋㅋ"));
 
         EditText contentEditText = view.findViewById(R.id.editText);
         Button writeCommentButton = view.findViewById(R.id.save_button);
