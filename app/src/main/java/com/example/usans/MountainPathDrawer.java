@@ -108,6 +108,7 @@ public class MountainPathDrawer {
         parser.setInput(gpxIn, null);
         parser.nextTag();
         int id = 0;
+        int c =0;
         ArrayList<TMapPoint> tMapPoints = new ArrayList<TMapPoint>();
 
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
@@ -140,6 +141,7 @@ public class MountainPathDrawer {
         for (int i = 0; i < tMapPoints.size(); i++) {
             tMapPolyLine.addLinePoint(tMapPoints.get(i));
         }
+
         tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
     }
 

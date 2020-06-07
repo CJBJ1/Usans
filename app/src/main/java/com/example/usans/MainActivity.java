@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ca = new CustomActionBar(this, getSupportActionBar());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         homeButton = (Button) findViewById(R.id.homebutton);
@@ -278,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -297,12 +299,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(homeFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 break;
             case 1:
                 getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(listFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
             case 2:
@@ -310,6 +316,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(mypageFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(regFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
             case 3:
@@ -317,6 +325,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getSupportFragmentManager().beginTransaction().hide(listFragment).commit();
                 getSupportFragmentManager().beginTransaction().hide(regFragment).commit();
                 getSupportFragmentManager().beginTransaction().show(mypageFragment).commit();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
                 break;
         }
