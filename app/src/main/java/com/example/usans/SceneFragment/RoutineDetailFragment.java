@@ -9,6 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.usans.Adapter.RoutineAdapter;
+import com.example.usans.Adapter.RoutineDetailAdapter;
+import com.example.usans.Data.HowToMachine;
+import com.example.usans.Data.RoutineDetailItem;
 import com.example.usans.R;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +23,7 @@ public class RoutineDetailFragment extends Fragment {
     ListView listView;
     String category = "";
     String routine = "";
+    RoutineDetailAdapter adapter;
 
     public RoutineDetailFragment(String category, String routine) {
         this.category = category;
@@ -28,10 +34,12 @@ public class RoutineDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_routine_detail, container, false);
 
+        HowToMachine howToMachine = new HowToMachine();
+        howToMachine.setPullUp();
         TextView categoryView = view.findViewById(R.id.category_view);
         listView = view.findViewById(R.id.listView);
+        adapter = new RoutineDetailAdapter();
         List<String> list = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
         Button routineStart = view.findViewById(R.id.routine_start);
         categoryView.setText(this.category);
@@ -39,6 +47,8 @@ public class RoutineDetailFragment extends Fragment {
         for (String exercise : routine.split(" -> "))
             list.add(exercise);
 
+        adapter.addItem(new RoutineDetailItem(0,list.get(0),howToMachine.getThumbnail1(),howToMachine.getTitle1(),howToMachine.getUrl1(),
+                howToMachine.getThumbnail2(),howToMachine.getTitle2(),howToMachine.getUrl2()));
         return view;
     }
 }

@@ -113,9 +113,10 @@ public class HomeFragment extends Fragment {
         gpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 gpsTracker = new GpsTracker(getActivity().getApplicationContext());
                 double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude()*(-1);
+                double longitude = gpsTracker.getLongitude();
 
                 String address = getCurrentAddress(latitude, longitude);
                 Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();

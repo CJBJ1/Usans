@@ -503,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setBackground(0);
                 setFrag(0);
                 setBarMode(0);
-                invalidateOptionsMenu();g
+                invalidateOptionsMenu();
             }
         }
     }
