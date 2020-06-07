@@ -56,6 +56,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final int LOGIN_IS_REQUIRED = 0;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout mDrawerLayout;
     private TMapView tMapView;
     private LatLng userLocation;
+    private int goToWrite=0;
 
     private String[] navItems = {"500m", "1km", "2km", "5km", "10km"};
     ListView navView;
@@ -163,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        facilityList.setGoToComment(-1);
+        facilityList.setGoToBoard(-1);
         switch (v.getId()) {
             case R.id.homebutton:
                 setBackground(0);
@@ -445,46 +449,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         invalidateOptionsMenu();
     }
 
-    public void loadGpxData(XmlPullParser parser, InputStream gpxIn) throws XmlPullParserException, IOException {
-        tMapView = facilityList.gettMapView();
-        parser.setInput(gpxIn, null);
-        parser.nextTag();
-        int id = 0;
-        ArrayList<TMapPoint> tMapPoints = new ArrayList<TMapPoint>();
-
-        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.START_TAG)
-                continue;
-
-            if (parser.getName().equals("trk")) {
-                if (tMapPoints.size() != 0) {
-                    TMapPolyLine tMapPolyLine = new TMapPolyLine();
-                    tMapPolyLine.setLineColor(Color.BLUE);
-                    tMapPolyLine.setLineWidth(2);
-                    for (int i = 0; i < tMapPoints.size(); i++) {
-                        tMapPolyLine.addLinePoint(tMapPoints.get(i));
-                    }
-                    tMapView.addTMapPolyLine(String.valueOf(id), tMapPolyLine);
-                    id++;
-                }
-                tMapPoints = new ArrayList<>();
-            }
-
-            if (parser.getName().equals("trkpt")) {
-                tMapPoints.add(new TMapPoint(
-                        Double.valueOf(parser.getAttributeValue(null, "lat")),
-                        Double.valueOf(parser.getAttributeValue(null, "lon"))));
-            }
-        }
-        TMapPolyLine tMapPolyLine = new TMapPolyLine();
-        tMapPolyLine.setLineColor(Color.BLUE);
-        tMapPolyLine.setLineWidth(2);
-        for (int i = 0; i < tMapPoints.size(); i++) {
-            tMapPolyLine.addLinePoint(tMapPoints.get(i));
-        }
-        tMapView.addTMapPolyLine(String.valueOf(++id), tMapPolyLine);
-    }
-
     class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
@@ -531,6 +495,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (resultCode == LOGIN_IS_REQUIRED) {
                 setBackground(3);
                 setFrag(3);
+                String id = data.getStringExtra("facilityID");
+                facilityList.setGoToComment(Integer.parseInt(id));
+                Log.d("id",id);
             }
         }
     }

@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.usans.Adapter.CommentAdapter;
 import com.example.usans.Data.CommentItem;
 import com.example.usans.Data.Facility;
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.RequestHttpURLConnection;
@@ -103,6 +104,7 @@ public class DetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent();
+                    intent.putExtra("facilityID", facility.getId());
                     setResult(LOGIN_IS_REQUIRED,intent);
                     finish();
                 }
@@ -130,7 +132,8 @@ public class DetailActivity extends AppCompatActivity {
             builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    Intent intent =new Intent();
+                    Intent intent = new Intent();
+                    intent.putExtra("facilityID", facility.getId());
                     setResult(LOGIN_IS_REQUIRED,intent);
                     finish();
                 }

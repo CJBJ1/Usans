@@ -18,9 +18,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.User;
 import com.example.usans.LoginActivity;
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -40,6 +42,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 
 public class MypageFragment extends Fragment implements View.OnClickListener {
@@ -127,10 +131,8 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 String url = "http://3.34.18.171.nip.io:8000/get-code/?state=state_parameter_passthrough_value&code="+authCode+"&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.metadata.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&prompt=none#";
                 NetworkTaskAuth networkTaskAuth = new NetworkTaskAuth(url, null);
                 networkTaskAuth.execute();
-                Log.d("code",authCode);
 
             } catch (ApiException e) {
-                Log.w(TAG, "안된다 안돼", e);
                 updateUI();
             }
         }
@@ -207,6 +209,19 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
 
                 view.findViewById(R.id.sign_in_button).setVisibility(View.GONE);
                 view.findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+                if(facilityList.getGoToComment()!=-1){
+                    Facility facility = new Facility();
+                    ArrayList<Facility> fl = facilityList.getArrayList();
+                    int listSize = fl.size();
+                    for(int i=0;i<listSize;i++) {
+                        if(Integer.parseInt(fl.get(i).getId())==facilityList.getGoToComment()){
+                            MainActivity ma = (MainActivity) getActivity();
+                            ma.moveToDetail(facility);
+                            facilityList.setGoToComment(-1);
+                            break;
+                        }
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

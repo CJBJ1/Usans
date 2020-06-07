@@ -428,10 +428,10 @@ public class HomeFragment extends Fragment {
         facility.setRating(4);
 
         Facility facility1 = new Facility(facility);
-        facility1.setLat("37.444239");
-        facility1.setLng("126.965960");
+        facility1.setLat("37.440366");
+        facility1.setLng("126.980538");
         MarkerOverlay markerItem1 = new MarkerOverlay(getActivity().getApplicationContext(),"hi","hi",fm,tMapView);
-        TMapPoint tMapPoint1 = new TMapPoint(37.444239, 126.965960);
+        TMapPoint tMapPoint1 = new TMapPoint(37.440366, 126.980538);
         markerItem1.setTMapPoint(tMapPoint1);
         markerItem1.setID("90000");
         markerItem1.setIcon(bitmap);
