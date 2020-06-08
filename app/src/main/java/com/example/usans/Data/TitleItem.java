@@ -16,6 +16,11 @@ public class TitleItem  {
         this.contents = contents;
     }
 
+    public TitleItem(String writer, String contents) {
+        this.writer = writer;
+        this.contents = contents;
+    }
+
     public int getId() {
         return id;
     }

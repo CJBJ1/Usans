@@ -1,6 +1,8 @@
 package com.example.usans.SceneFragment;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +10,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.usans.Adapter.TitleCommentAdapter;
 import com.example.usans.Data.FacilityList;
+import com.example.usans.Data.TitleItem;
 import com.example.usans.R;
+import com.example.usans.RequestHttpURLConnection;
 
 public class BoardDetailFragment extends Fragment {
     View view;
@@ -30,6 +36,9 @@ public class BoardDetailFragment extends Fragment {
     String passTime;
     String title;
     String contents;
+
+    ListView listView;
+    TitleCommentAdapter adapter;
 
     @Nullable
     @Override
@@ -49,13 +58,22 @@ public class BoardDetailFragment extends Fragment {
         titleView.setText(title);
         contentsView.setText(contents);
 
-        EditText contentEditText = view.findViewById(R.id.editText);
+        listView = view.findViewById(R.id.title_list_view);
+        adapter = new TitleCommentAdapter();
+        listView.setAdapter(adapter);
+
+        adapter.addItem(new TitleItem("조범준", "주민 분들이 예뻐해주시나 보네요 애웅이들 얼굴이 편해보여요 ㅋㅋㅋ"));
+
+        final EditText contentEditText = view.findViewById(R.id.editText);
         Button writeCommentButton = view.findViewById(R.id.save_button);
         writeCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (facilityList.getUser()!=null) {
-                    //networktask 전송
+                    String url = "http://3.34.18.171.nip.io:8000/reply/?post="+titleId+"&user="+facilityList.getUser().getId()+"&text="+contentEditText.getText().toString();
+                    NetworkTask networkTask = new NetworkTask(url, null);
+                    networkTask.execute();
+                    contentEditText.setText("");
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("로그인이 필요합니다.");
@@ -81,4 +99,26 @@ public class BoardDetailFragment extends Fragment {
         this.contents = contents;
     }
 
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = "basic";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.requestBody(url,values);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
 }

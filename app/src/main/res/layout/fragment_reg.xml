@@ -6,6 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/mainic" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -20,15 +29,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="HOT 게시판"
-            android:background="@drawable/shadow"/>
+            android:text="🔥HOT 게시판"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/green_corner_5dp"/>
 
         <Button
             android:id="@+id/best_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="BEST 게시판"
+            android:text="🏆BEST 게시판"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/shadow"/>
 
         <Button
@@ -36,15 +51,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="자유 게시판"
-            android:background="@drawable/shadow"/>
+            android:text="🗽자유 게시판"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/green_corner_5dp"/>
 
         <Button
             android:id="@+id/recommend_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="추천 게시판"
+            android:text="👍추천 게시판"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/shadow"/>
 
     </LinearLayout>

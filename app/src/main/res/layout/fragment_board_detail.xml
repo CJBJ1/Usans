@@ -62,16 +62,20 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginBottom="5dp"
-            android:text="TextView"
+            android:text="제목"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/board_contents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="TextView" />
+            android:layout_marginStart="5dp"
+            android:textColor="@android:color/black"
+            android:textSize="17dp"
+            android:text="내용" />
 
         <ListView
             android:id="@+id/title_list_view"
