@@ -76,11 +76,8 @@ public class BoardDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (facilityList.getUser()!=null) {
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("post", titleId);
-                    contentValues.put("user", facilityList.getUser().getId());
-                    contentValues.put("text", contentEditText.getText().toString());
-                    CommentNetworkTask commentNetworkTask = new CommentNetworkTask(AppHelper.Reply, contentValues);
+                    String url = "http://3.34.18.171:8000/reply/?post="+titleId+"&user="+facilityList.getUser().getId()+"&text="+contentEditText.getText().toString();
+                    CommentNetworkTask commentNetworkTask = new CommentNetworkTask(url, null);
                     commentNetworkTask.execute();
                     contentEditText.setText("");
                 } else {
@@ -170,13 +167,12 @@ public class BoardDetailFragment extends Fragment {
                 JSONArray jsArr = jsonObject.getJSONArray("reply");
                 int index = jsArr.length() - 1;
                 adapter = new TitleCommentAdapter();
-                System.out.println("확인"+jsArr);
 
-//                while (index != -1) {
-//                    JSONObject jsonObject = jsArr.getJSONObject(index);
-//                    adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text")));
-//                    index--;
-//                }
+                while (index != -1) {
+                    JSONObject titlejson = jsArr.getJSONObject(index);
+                    adapter.addItem(new TitleItem(titlejson.getString("username"), titlejson.getString("text"), titlejson.getString("time")));
+                    index--;
+                }
 
                 listView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

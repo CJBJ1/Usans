@@ -16,9 +16,10 @@ public class TitleItem  {
         this.contents = contents;
     }
 
-    public TitleItem(String writer, String contents) {
+    public TitleItem(String writer, String contents, String time) {
         this.writer = writer;
         this.contents = contents;
+        this.time = time;
     }
 
     public int getId() {
