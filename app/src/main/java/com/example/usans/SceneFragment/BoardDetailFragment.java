@@ -16,11 +16,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.usans.Adapter.TitleAdapter;
 import com.example.usans.Adapter.TitleCommentAdapter;
+import com.example.usans.AppHelper;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.Data.TitleItem;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class BoardDetailFragment extends Fragment {
     View view;
@@ -62,17 +68,18 @@ public class BoardDetailFragment extends Fragment {
         adapter = new TitleCommentAdapter();
         listView.setAdapter(adapter);
 
-        adapter.addItem(new TitleItem("조범준", "주민 분들이 예뻐해주시나 보네요 애웅이들 얼굴이 편해보여요 ㅋㅋㅋ"));
-
         final EditText contentEditText = view.findViewById(R.id.editText);
         Button writeCommentButton = view.findViewById(R.id.save_button);
         writeCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (facilityList.getUser()!=null) {
-                    String url = "http://3.34.18.171.nip.io:8000/reply/?post="+titleId+"&user="+facilityList.getUser().getId()+"&text="+contentEditText.getText().toString();
-                    NetworkTask networkTask = new NetworkTask(url, null);
-                    networkTask.execute();
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("post", titleId);
+                    contentValues.put("user", facilityList.getUser().getId());
+                    contentValues.put("text", contentEditText.getText().toString());
+                    CommentNetworkTask commentNetworkTask = new CommentNetworkTask(AppHelper.Reply, contentValues);
+                    commentNetworkTask.execute();
                     contentEditText.setText("");
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -88,6 +95,9 @@ public class BoardDetailFragment extends Fragment {
             }
         });
 
+        String url = "http://3.34.18.171:8000/arti/read/?id=";
+        NetworkTask networkTask = new NetworkTask(url+titleId, null);
+        networkTask.execute();
         return view;
     }
 
@@ -99,11 +109,11 @@ public class BoardDetailFragment extends Fragment {
         this.contents = contents;
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class CommentNetworkTask extends AsyncTask<Void, Void, String> {
         private String url;
         private ContentValues values;
 
-        public NetworkTask(String url, ContentValues values) {
+        public CommentNetworkTask(String url, ContentValues values) {
             this.url = url;
             this.values = values;
         }
@@ -119,6 +129,47 @@ public class BoardDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+        }
+    }
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+        private String url;
+        private ContentValues values;
+
+        public NetworkTask(String url, ContentValues values) {
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result = "basic";
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            result = requestHttpURLConnection.request(url, values);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray jsArr = jsonObject.getJSONArray("reply");
+                int index = jsArr.length() - 1;
+                adapter = new TitleCommentAdapter();
+                System.out.println("확인"+jsArr);
+
+//                while (index != -1) {
+//                    JSONObject jsonObject = jsArr.getJSONObject(index);
+//                    adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text")));
+//                    index--;
+//                }
+
+                listView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
