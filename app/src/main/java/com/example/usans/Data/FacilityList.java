@@ -22,6 +22,8 @@ public class FacilityList extends Application {
     private Info selectedInfo;
     private int goToComment = -1;
     private int goToBoard = -1;
+    private int goToBoardComment = -1;
+    private TitleItem goToTitleItem;
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
@@ -91,5 +93,21 @@ public class FacilityList extends Application {
 
     public int getGoToComment() {
         return goToComment;
+    }
+
+    public void setGoToBoardComment(int goToBoardComment) {
+        this.goToBoardComment = goToBoardComment;
+    }
+
+    public int getGoToBoardComment() {
+        return goToBoardComment;
+    }
+
+    public void setGoToTitleItem(TitleItem goToTitleItem) {
+        this.goToTitleItem = goToTitleItem;
+    }
+
+    public TitleItem getGoToTitleItem() {
+        return goToTitleItem;
     }
 }

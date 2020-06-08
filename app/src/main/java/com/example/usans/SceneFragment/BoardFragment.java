@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 public class BoardFragment extends Fragment {
     private FileUploadUtils fileUploadUtils;
+    int goToComment;
     View view;
     ListView listView;
     TitleAdapter adapter;
@@ -43,14 +44,16 @@ public class BoardFragment extends Fragment {
     private FacilityList facilityList;
 
     public BoardFragment () {}
-    public BoardFragment (int boardNumber) {
+    public BoardFragment (int boardNumber,int goToComment) {
         this.boardNumber = boardNumber;
+        this.goToComment = goToComment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_board, container, false);
+
 
         listView = view.findViewById(R.id.board_list_view);
         fm = getFragmentManager();
@@ -69,9 +72,18 @@ public class BoardFragment extends Fragment {
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("로그인이 필요합니다.");
-                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent();
+                            facilityList.setGoToBoard(boardNumber);
+                            getActivity().setResult(10002,intent);
+                            getActivity().finish();
+                        }
+                    });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                         }
                     });
                     AlertDialog alertDialog = builder.create();
@@ -88,7 +100,7 @@ public class BoardFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 fm.popBackStack();
                 TitleItem data = (TitleItem) adapterView.getItemAtPosition(i);
-                BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents());
+                BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents(),boardNumber);
 
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.enter_to_left,R.anim.enter_from_left,R.anim.enter_to_right);
@@ -98,6 +110,18 @@ public class BoardFragment extends Fragment {
             }
         });
 
+        if(goToComment ==1){
+            fm.popBackStack();
+            TitleItem data = facilityList.getGoToTitleItem();
+            BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents(),boardNumber);
+
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.enter_to_left,R.anim.enter_from_left,R.anim.enter_to_right);
+            transaction.replace(R.id.board_frameLayout, detail);
+            transaction.commit();
+            transaction.addToBackStack(null);
+            goToComment=0;
+        }
         return view;
     }
 

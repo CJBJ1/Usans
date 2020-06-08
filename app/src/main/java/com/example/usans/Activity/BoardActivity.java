@@ -16,6 +16,7 @@ import java.util.Date;
 
 public class BoardActivity extends AppCompatActivity {
     BoardFragment boardFragment;
+    int goToComment;
     File tempSelectFile;
 
     @Override
@@ -23,7 +24,8 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        boardFragment = new BoardFragment(getIntent().getIntExtra("boardNumber", 0));
+        goToComment = getIntent().getIntExtra("goToComment",0);
+        boardFragment = new BoardFragment(getIntent().getIntExtra("boardNumber", 0),goToComment);
         getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
     }
 

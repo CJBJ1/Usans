@@ -223,6 +223,18 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                         }
                     }
                 }
+
+                if(facilityList.getGoToBoard()!=-1){
+                    MainActivity ma = (MainActivity) getActivity();
+                    ma.moveToBoard(facilityList.getGoToBoard(),0);
+                    facilityList.setGoToBoard(-1);
+                }
+
+                if(facilityList.getGoToBoardComment()!=-1){
+                    MainActivity ma = (MainActivity) getActivity();
+                    ma.moveToBoard(facilityList.getGoToBoardComment(),1);
+                    facilityList.setGoToBoardComment(-1);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

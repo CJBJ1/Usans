@@ -104,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent();
-                    intent.putExtra("facilityID", facility.getId());
+                    facilityList.setGoToComment(Integer.parseInt(facility.getId()));
                     setResult(10001,intent);
                     finish();
                 }
@@ -133,7 +133,7 @@ public class DetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                     Intent intent = new Intent();
-                    intent.putExtra("facilityID", facility.getId());
+                    facilityList.setGoToComment(Integer.parseInt(facility.getId()));
                     setResult(10001,intent);
                     finish();
                 }
