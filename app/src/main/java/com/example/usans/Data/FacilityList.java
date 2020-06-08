@@ -20,6 +20,7 @@ public class FacilityList extends Application {
     private TMapView tMapView;
     private FragmentManager fm;
     private Info selectedInfo;
+    private int isList = 0;
     private int goToComment = -1;
     private int goToBoard = -1;
     private int goToBoardComment = -1;
@@ -109,5 +110,13 @@ public class FacilityList extends Application {
 
     public TitleItem getGoToTitleItem() {
         return goToTitleItem;
+    }
+
+    public int getIsList() {
+        return isList;
+    }
+
+    public void setIsList(int isList) {
+        this.isList = isList;
     }
 }

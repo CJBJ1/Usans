@@ -75,10 +75,10 @@ public class ListFragment extends Fragment {
         sansListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity().getApplicationContext(),DetailActivity.class);
-                intent.putExtra("facility", (Facility) adapterView.getItemAtPosition(i));
-                startActivity(intent);
-
+                facility = (Facility)adapterView.getItemAtPosition(i) ;
+                MainActivity main = (MainActivity) getActivity();
+                main.moveToDetail(facility);
+                facilityList.setIsList(1);
             }
         });
     }

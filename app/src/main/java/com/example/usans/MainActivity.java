@@ -499,18 +499,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setFrag(3);
             }
             else{
-                setBackground(0);
-                setFrag(0);
-                setBarMode(0);
-                invalidateOptionsMenu();
+                if(facilityList.getIsList()==0) {
+                    setBackground(0);
+                    setFrag(0);
+                    setBarMode(0);
+                    invalidateOptionsMenu();
+                }
+                else{
+                    setBackground(1);
+                    setFrag(1);
+                    setBarMode(2);
+                    invalidateOptionsMenu();
+                    listFragment.updateAdapter();
+                    facilityList.setIsList(0);
+                }
             }
         }
         else if (requestCode ==10002){ // 게시판
-            if(resultCode == 10002){
-                setBackground(3);
-                setFrag(3);
-            }
-            else if(resultCode == 10003){
+            if(resultCode == 10002 || resultCode == 10003) {
                 setBackground(3);
                 setFrag(3);
             }
