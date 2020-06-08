@@ -2,6 +2,7 @@ package com.example.usans.SceneFragment;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class BoardDetailFragment extends Fragment {
     String passTime;
     String title;
     String contents;
+    int boardNumber;
 
     ListView listView;
     TitleCommentAdapter adapter;
@@ -84,9 +86,19 @@ public class BoardDetailFragment extends Fragment {
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("로그인이 필요합니다.");
-                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent();
+                            facilityList.setGoToBoardComment(boardNumber);
+                            facilityList.setGoToTitleItem(new TitleItem(titleId,userId,passTime,title,contents));
+                            getActivity().setResult(10003,intent);
+                            getActivity().finish();
+                        }
+                    });
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                         }
                     });
                     AlertDialog alertDialog = builder.create();
@@ -101,12 +113,13 @@ public class BoardDetailFragment extends Fragment {
         return view;
     }
 
-    public BoardDetailFragment(int titleId, String userId,String passTime,String title,String contents){
+    public BoardDetailFragment(int titleId, String userId,String passTime,String title,String contents,int boardNumber){
         this.titleId = titleId;
         this.userId = userId;
         this.passTime = passTime;
         this.title = title;
         this.contents = contents;
+        this.boardNumber = boardNumber;
     }
 
     public class CommentNetworkTask extends AsyncTask<Void, Void, String> {

@@ -144,10 +144,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void moveToBoard(int boardNumber) {
+    public void moveToBoard(int boardNumber,int goToComment) {
         Intent intent = new Intent(this, BoardActivity.class);
         intent.putExtra("boardNumber", boardNumber);
-        startActivity(intent);
+        intent.putExtra("goToComment",goToComment);
+        startActivityForResult(intent,10002);
     }
 
     public void moveToAddSans(TMapPoint centerPoint) {
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         facilityList.setGoToComment(-1);
         facilityList.setGoToBoard(-1);
+        facilityList.setGoToBoardComment(-1);
         switch (v.getId()) {
             case R.id.homebutton:
                 setBackground(0);
@@ -484,26 +486,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10000) {
+        if (requestCode == 10000) { // 산스장 추가
             if (resultCode == 10101) {
                 String url = "http://3.34.18.171:8000/api/Sansuzang";
                 NetworkTaskPlus networkTask = new NetworkTaskPlus(url, null);
                 networkTask.execute();
             }
         }
-        else if (requestCode ==10001){
+        else if (requestCode ==10001){ // 산스장 상세화면
             if (resultCode == 10001) {
                 setBackground(3);
                 setFrag(3);
-                String id = data.getStringExtra("facilityID");
-                facilityList.setGoToComment(Integer.parseInt(id));
-                Log.d("id",id);
             }
             else{
                 setBackground(0);
                 setFrag(0);
                 setBarMode(0);
                 invalidateOptionsMenu();
+            }
+        }
+        else if (requestCode ==10002){ // 게시판
+            if(resultCode == 10002){
+                setBackground(3);
+                setFrag(3);
+            }
+            else if(resultCode == 10003){
+                setBackground(3);
+                setFrag(3);
             }
         }
     }

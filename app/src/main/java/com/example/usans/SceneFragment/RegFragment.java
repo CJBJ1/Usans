@@ -57,7 +57,7 @@ public class RegFragment extends Fragment {
 
     public void showBoard(int n) {
         MainActivity main = (MainActivity) getActivity();
-        main.moveToBoard(n);
+        main.moveToBoard(n,0);
     }
 
 }
