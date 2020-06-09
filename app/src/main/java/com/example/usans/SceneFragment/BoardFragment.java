@@ -63,9 +63,9 @@ public class BoardFragment extends Fragment {
         adapter = new TitleAdapter();
         listView.setAdapter(adapter);
 
+        writeButton = view.findViewById(R.id.write_board);
         if (userId != 0) writeButton.setVisibility(View.INVISIBLE);
         else {
-            writeButton = view.findViewById(R.id.write_board);
             writeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -165,7 +165,7 @@ public class BoardFragment extends Fragment {
                     while (index != -1) {
                         JSONObject jsonObject = jsArr.getJSONObject(index);
                         if (boardNumber == jsonObject.getInt("board")) {
-                            adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text"), jsonObject.getInt("boardNumber")));
+                            adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text"), jsonObject.getInt("board")));
                         }
                         index--;
                     }
@@ -183,7 +183,7 @@ public class BoardFragment extends Fragment {
                     while (index != -1) {
                         JSONObject jsonObject = jsArr.getJSONObject(index);
                         if (userId == jsonObject.getInt("author")) {
-                            adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text"), jsonObject.getInt("boardNumber")));
+                            adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text"), jsonObject.getInt("board")));
                         }
                         index--;
                     }
