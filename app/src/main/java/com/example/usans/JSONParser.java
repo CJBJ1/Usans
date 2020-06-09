@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -23,18 +24,17 @@ public class JSONParser {
         final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
         try {
             File sourceFile = new File(sourceImageFile);
-            Log.d("파일", "File...::::" + sourceFile + " : " + sourceFile.exists());
+            Log.d("파일", sourceFile + " : " + sourceFile.exists());
             String filename = sourceImageFile.substring(sourceImageFile.lastIndexOf("/")+1);
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("image", filename, RequestBody.create(MEDIA_TYPE_PNG, sourceFile))
-                    //.addFormDataPart("result", "photo_image")
-                    //.addFormDataPart("authorname", facilityList.getUser().getName())
+                    .addFormDataPart("authorname", facilityList.getUser().getName())
                     //.addFormDataPart("title", "test")
                     //.addFormDataPart("board", "2")
                     //.addFormDataPart("author", facilityList.getUser().getId())
                     //.addFormDataPart("text", "이미지")
+                    //.addFormDataPart("image", filename, RequestBody.create(MEDIA_TYPE_PNG, sourceFile))
                     .build();
 
             Request request = new Request.Builder()

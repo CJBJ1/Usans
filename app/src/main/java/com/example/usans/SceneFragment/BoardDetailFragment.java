@@ -29,6 +29,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class BoardDetailFragment extends Fragment {
     View view;
     ImageView writerImageView;
@@ -62,7 +66,7 @@ public class BoardDetailFragment extends Fragment {
         facilityList = (FacilityList) super.getActivity().getApplication();
         writerImageView.setImageResource(R.drawable.user1);
         writerView.setText(userId);
-        timeView.setText(passTime);
+        timeView.setText(switchDateFormat(passTime));
         titleView.setText(title);
         contentsView.setText(contents);
 
@@ -75,14 +79,14 @@ public class BoardDetailFragment extends Fragment {
         writeCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (facilityList.getUser()!=null) {
-                    String url = "http://3.34.18.171:8000/reply/?post="+titleId+"&user="+facilityList.getUser().getId()+"&text="+contentEditText.getText().toString();
+                if (facilityList.getUser() != null) {
+                    String url = "http://3.34.18.171:8000/reply/?post=" + titleId + "&user=" + facilityList.getUser().getId() + "&text=" + contentEditText.getText().toString();
                     CommentNetworkTask commentNetworkTask = new CommentNetworkTask(url, null);
                     commentNetworkTask.execute();
                     contentEditText.setText("");
 
                     String url2 = "http://3.34.18.171:8000/arti/read/?id=";
-                    NetworkTask networkTask = new NetworkTask(url2+titleId, null);
+                    NetworkTask networkTask = new NetworkTask(url2 + titleId, null);
                     networkTask.execute();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -92,8 +96,8 @@ public class BoardDetailFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent();
                             facilityList.setGoToBoardComment(boardNumber);
-                            facilityList.setGoToTitleItem(new TitleItem(titleId,userId,passTime,title,contents, boardNumber));
-                            getActivity().setResult(10003,intent);
+                            facilityList.setGoToTitleItem(new TitleItem(titleId, userId, passTime, title, contents, boardNumber));
+                            getActivity().setResult(10003, intent);
                             getActivity().finish();
                         }
                     });
@@ -109,12 +113,12 @@ public class BoardDetailFragment extends Fragment {
         });
 
         String url = "http://3.34.18.171:8000/arti/read/?id=";
-        NetworkTask networkTask = new NetworkTask(url+titleId, null);
+        NetworkTask networkTask = new NetworkTask(url + titleId, null);
         networkTask.execute();
         return view;
     }
 
-    public BoardDetailFragment(int titleId, String userId,String passTime,String title,String contents,int boardNumber){
+    public BoardDetailFragment(int titleId, String userId, String passTime, String title, String contents, int boardNumber) {
         this.titleId = titleId;
         this.userId = userId;
         this.passTime = passTime;
@@ -136,7 +140,7 @@ public class BoardDetailFragment extends Fragment {
         protected String doInBackground(Void... params) {
             String result = "basic";
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            result = requestHttpURLConnection.requestBody(url,values);
+            result = requestHttpURLConnection.requestBody(url, values);
             return result;
         }
 
@@ -184,5 +188,26 @@ public class BoardDetailFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String switchDateFormat(String date) {
+        // SimpleDateFormat의 형식을 선언한다.
+        SimpleDateFormat original_format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat new_format = new SimpleDateFormat("yyyy-MM-dd");
+        String new_date = "";
+        // 날짜 형식 변환시 파싱 오류를 try.. catch..로 체크한다.
+        try {
+            // 문자열 타입을 날짜 타입으로 변환한다.
+            Date original_date = original_format.parse(date);
+
+            // 날짜 형식을 원하는 타입으로 변경한다.
+            new_date = new_format.format(original_date);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+
+        }
+        return new_date;
     }
 }

@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TMapView tMapView;
     private LatLng userLocation;
     private int goToWrite=0;
+    private Menu menu;
 
     private String[] navItems = {"500m", "1km", "2km", "5km", "10km"};
     ListView navView;
@@ -318,6 +319,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreateOptionsMenu(menu);
         if (barMode == 0) {
             getMenuInflater().inflate(R.menu.main, menu);
+            this.menu = menu;
         } else if (barMode == 1) {
             getMenuInflater().inflate(R.menu.route, menu);
         } else {
@@ -508,6 +510,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 NetworkTaskPlus networkTask = new NetworkTaskPlus(url, null);
                 networkTask.execute();
             }
+            homeFragment.addMarker.setVisibility(View.INVISIBLE);
+            homeFragment.addMarkerButtom.setVisibility(View.INVISIBLE);
+            MenuItem menuItem = menu.getItem(0);
+            menuItem.setIcon(R.drawable.plus);
+
         }
         else if (requestCode ==10001){ // 산스장 상세화면
             if (resultCode == 10001) {

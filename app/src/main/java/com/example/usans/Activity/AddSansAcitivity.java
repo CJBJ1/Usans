@@ -105,8 +105,7 @@ public class AddSansAcitivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ImageUploadURL = "http://192.168.0.100/upload/upload.php";
-                new ImageUploadTask().execute(ImageUploadURL, imagePath);
+                save();
             }
         });
     }

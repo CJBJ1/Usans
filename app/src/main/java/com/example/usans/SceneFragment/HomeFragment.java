@@ -138,8 +138,6 @@ public class HomeFragment extends Fragment {
                     Log.i("addMarkerButton", "클릭");
                     MainActivity main = (MainActivity) getActivity();
                     main.moveToAddSans(tMapView.getCenterPoint());
-                    addMarker.setVisibility(View.INVISIBLE);
-                    addMarkerButtom.setVisibility(View.INVISIBLE);
                 }
             });
             return true;

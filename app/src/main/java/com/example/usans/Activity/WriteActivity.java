@@ -87,7 +87,7 @@ public class WriteActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 setResult(22, null);*/
-                new ImageUploadTask().execute(AppHelper.Test, imagePath);
+                new ImageUploadTask().execute(AppHelper.Write, imagePath);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -161,7 +161,7 @@ public class WriteActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(WriteActivity.this);
-            progressDialog.setMessage("이미지 업로드중....");
+            progressDialog.setMessage("게시글 업로드중....");
             progressDialog.show();
         }
 
