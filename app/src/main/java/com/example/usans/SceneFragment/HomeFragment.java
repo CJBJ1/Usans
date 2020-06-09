@@ -254,6 +254,9 @@ public class HomeFragment extends Fragment {
                     facility.setDistance(getDistance(userLocation,
                             new LatLng(Double.parseDouble(jsonObject.getString("lat")),
                                     Double.parseDouble(jsonObject.getString("lon")))));
+                    if(!jsonObject.getString("info").equals("Default_info") &&jsonObject.getString("info").equals("") ){
+                        facility.setMachines(jsonObject.getString("info"));
+                    }
                     facilityList.getArrayList().add(facility);
                 }
             } catch (JSONException e) {

@@ -603,6 +603,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 facility.setDistance(homeFragment.getDistance(userLocation,
                         new LatLng(Double.parseDouble(jsonObject.getString("lat")),
                                 Double.parseDouble(jsonObject.getString("lon")))));
+                if(!jsonObject.getString("info").equals("Default_info") &&jsonObject.getString("info").equals("")){
+                    facility.setMachines(jsonObject.getString("info"));
+                }
 
                 facilityList.getArrayList().add(facility);
                 Bitmap bitmap;
@@ -610,12 +613,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TMapPoint tMapPoint1 = new TMapPoint(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng()));
                 markerItem1.setTMapPoint( tMapPoint1 );
                 markerItem1.setID(String.valueOf(facilityList.getArrayList().size()-1));
-                if(Integer.parseInt(facility.getId())>=10005) {
-                    bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_red);
-                }
-                else{
-                    bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
-                }
+                bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.marker_icon_blue);
                 markerItem1.setIcon(bitmap);
                 markerItem1.setIcon(homeFragment.resizeBitmap(bitmap, 200));
                 markerItem1.setPosition(0.5f, 0.8f);
