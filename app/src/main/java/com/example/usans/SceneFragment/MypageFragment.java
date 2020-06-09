@@ -85,6 +85,19 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+
+        Button my_title_button = view.findViewById(R.id.my_title_button);
+        if (facilityList.getUser() != null) {
+            my_title_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity main = (MainActivity) getActivity();
+                    System.out.println("id 확인 : " + facilityList.getUser().getId());
+                    main.moveToBoard(0, 0, Integer.parseInt(facilityList.getUser().getId()));
+                }
+            });
+        }
+
         return view;
     }
 
@@ -226,13 +239,13 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
 
                 if(facilityList.getGoToBoard()!=-1){
                     MainActivity ma = (MainActivity) getActivity();
-                    ma.moveToBoard(facilityList.getGoToBoard(),0);
+                    ma.moveToBoard(facilityList.getGoToBoard(),0, 0);
                     facilityList.setGoToBoard(-1);
                 }
 
                 if(facilityList.getGoToBoardComment()!=-1){
                     MainActivity ma = (MainActivity) getActivity();
-                    ma.moveToBoard(facilityList.getGoToBoardComment(),1);
+                    ma.moveToBoard(facilityList.getGoToBoardComment(),1, 0);
                     facilityList.setGoToBoardComment(-1);
                 }
             } catch (JSONException e) {

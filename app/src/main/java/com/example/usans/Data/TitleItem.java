@@ -6,14 +6,16 @@ public class TitleItem  {
     public String time;
     public String title;
     public String contents;
+    public int boardNumber;
     public int views;
 
-    public TitleItem(int id, String writer, String time, String title, String contents) {
+    public TitleItem(int id, String writer, String time, String title, String contents, int boardNumber) {
         this.id = id;
         this.writer = writer;
         this.time = time;
         this.title = title;
         this.contents = contents;
+        this.boardNumber = boardNumber;
     }
 
     public TitleItem(String writer, String contents, String time) {
@@ -61,4 +63,6 @@ public class TitleItem  {
     public void setContents(String contents) {
         this.contents = contents;
     }
+
+    public int getBoardNumber() {return boardNumber;}
 }

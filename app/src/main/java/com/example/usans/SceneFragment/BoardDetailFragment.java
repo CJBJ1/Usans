@@ -92,7 +92,7 @@ public class BoardDetailFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent();
                             facilityList.setGoToBoardComment(boardNumber);
-                            facilityList.setGoToTitleItem(new TitleItem(titleId,userId,passTime,title,contents));
+                            facilityList.setGoToTitleItem(new TitleItem(titleId,userId,passTime,title,contents, boardNumber));
                             getActivity().setResult(10003,intent);
                             getActivity().finish();
                         }

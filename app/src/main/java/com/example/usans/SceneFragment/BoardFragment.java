@@ -43,7 +43,9 @@ public class BoardFragment extends Fragment {
     NetworkTask networkTask;
     private FacilityList facilityList;
 
-    public BoardFragment () {}
+    int userId = 0;
+
+    public BoardFragment (int userId) {this.userId = userId;}
     public BoardFragment (int boardNumber,int goToComment) {
         this.boardNumber = boardNumber;
         this.goToComment = goToComment;
@@ -61,36 +63,39 @@ public class BoardFragment extends Fragment {
         adapter = new TitleAdapter();
         listView.setAdapter(adapter);
 
-        writeButton = view.findViewById(R.id.write_board);
-        writeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (facilityList.getUser()!=null) {
-                    Intent intent = new Intent(getActivity(), WriteActivity.class);
-                    intent.putExtra("boardNumber", boardNumber);
-                    startActivityForResult(intent,22);
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("로그인이 필요합니다.");
-                    builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent();
-                            facilityList.setGoToBoard(boardNumber);
-                            getActivity().setResult(10002,intent);
-                            getActivity().finish();
-                        }
-                    });
-                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+        if (userId != 0) writeButton.setVisibility(View.INVISIBLE);
+        else {
+            writeButton = view.findViewById(R.id.write_board);
+            writeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (facilityList.getUser() != null) {
+                        Intent intent = new Intent(getActivity(), WriteActivity.class);
+                        intent.putExtra("boardNumber", boardNumber);
+                        startActivityForResult(intent, 22);
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("로그인이 필요합니다.");
+                        builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent();
+                                facilityList.setGoToBoard(boardNumber);
+                                getActivity().setResult(10002, intent);
+                                getActivity().finish();
+                            }
+                        });
+                        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         networkTask = new NetworkTask(AppHelper.Post, null);
         networkTask.execute();
@@ -100,7 +105,7 @@ public class BoardFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 fm.popBackStack();
                 TitleItem data = (TitleItem) adapterView.getItemAtPosition(i);
-                BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents(),boardNumber);
+                BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents(), data.getBoardNumber());
 
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.enter_to_left,R.anim.enter_from_left,R.anim.enter_to_right);
@@ -113,7 +118,7 @@ public class BoardFragment extends Fragment {
         if(goToComment ==1){
             fm.popBackStack();
             TitleItem data = facilityList.getGoToTitleItem();
-            BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents(),boardNumber);
+            BoardDetailFragment detail = new BoardDetailFragment(data.id, data.getWriter(),data.getTime(),data.getTitle(),data.getContents(), data.getBoardNumber());
 
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.setCustomAnimations(R.anim.enter_from_right,R.anim.enter_to_left,R.anim.enter_from_left,R.anim.enter_to_right);
@@ -152,22 +157,42 @@ public class BoardFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            try {
-                JSONArray jsArr = new JSONArray(s);
-                int index = jsArr.length() - 1;
-                adapter = new TitleAdapter();
-                while (index != -1) {
-                    JSONObject jsonObject = jsArr.getJSONObject(index);
-                    if (boardNumber == jsonObject.getInt("board")) {
-                        adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text")));
+            if (userId == 0) {
+                try {
+                    JSONArray jsArr = new JSONArray(s);
+                    int index = jsArr.length() - 1;
+                    adapter = new TitleAdapter();
+                    while (index != -1) {
+                        JSONObject jsonObject = jsArr.getJSONObject(index);
+                        if (boardNumber == jsonObject.getInt("board")) {
+                            adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text"), jsonObject.getInt("boardNumber")));
+                        }
+                        index--;
                     }
-                    index--;
-                }
 
-                listView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    JSONArray jsArr = new JSONArray(s);
+                    int index = jsArr.length() - 1;
+                    adapter = new TitleAdapter();
+                    while (index != -1) {
+                        JSONObject jsonObject = jsArr.getJSONObject(index);
+                        if (userId == jsonObject.getInt("author")) {
+                            adapter.addItem(new TitleItem(jsonObject.getInt("id"), jsonObject.getString("authorname"), jsonObject.getString("editdate"), jsonObject.getString("title"), jsonObject.getString("text"), jsonObject.getInt("boardNumber")));
+                        }
+                        index--;
+                    }
+
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
