@@ -41,6 +41,7 @@ public class RoutineDetailFragment extends Fragment {
         List<String> list = new ArrayList<>();
         listView.setAdapter(adapter);
         Button routineStart = view.findViewById(R.id.routine_start);
+        routineStart.setVisibility(View.INVISIBLE);
         categoryView.setText(this.category);
 
         for (String exercise : routine.split(" -> "))

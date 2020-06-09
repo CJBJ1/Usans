@@ -1,6 +1,9 @@
 package com.example.usans.Activity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import com.example.usans.R;
 import com.example.usans.SceneFragment.RoutineFragment;
@@ -14,5 +17,6 @@ public class RoutineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_routine);
         routineFragment = new RoutineFragment(getIntent().getStringExtra("machines"));
         getSupportFragmentManager().beginTransaction().add(R.id.routine_frame, routineFragment).commit();
+        getSupportActionBar().setTitle("루틴추천");
     }
 }

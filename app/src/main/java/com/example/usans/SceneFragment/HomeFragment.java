@@ -243,7 +243,7 @@ public class HomeFragment extends Fragment {
         public void parseJS(JSONArray jsonArray, int index){
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(index);
-                if(Integer.parseInt(jsonObject.getString("id"))>=10013) {
+                if(Integer.parseInt(jsonObject.getString("id"))>=10026) {
                     Facility facility = new Facility();
                     facility.setId(jsonObject.getString("id"));
                     facility.setName(jsonObject.getString("name"));
@@ -254,7 +254,7 @@ public class HomeFragment extends Fragment {
                     facility.setDistance(getDistance(userLocation,
                             new LatLng(Double.parseDouble(jsonObject.getString("lat")),
                                     Double.parseDouble(jsonObject.getString("lon")))));
-                    if(!jsonObject.getString("info").equals("Default_info") &&jsonObject.getString("info").equals("") ){
+                    if(!jsonObject.getString("info").equals("Default_info") &&!jsonObject.getString("info").equals("") ){
                         facility.setMachines(jsonObject.getString("info"));
                     }
                     facilityList.getArrayList().add(facility);

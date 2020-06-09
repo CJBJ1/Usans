@@ -58,8 +58,18 @@ public class FacilityItemView extends LinearLayout {
     public void setItemMachines(String machines) { machinesView.setText(machines); }
     public void setItemMachineList(ArrayList<String> machineList) {
         int surplus = machineList.size()-2;
-        String lists = machineList.get(0) + " " + machineList.get(1)+" "+ "외 " + surplus  + "종";
+        String lists;
+        if(surplus>=1) {
+            lists = machineList.get(0) + " " + machineList.get(1) + " " + "외 " + surplus + "종";
+        }
+        else if(surplus == 0){
+                lists = machineList.get(0) + " " + machineList.get(1);
+        }
+        else{
+            lists = machineList.get(0);
+        }
         machinesView.setText(lists);
+
     }
     public void setItemRating(float userRating) { ratingBar.setRating(userRating); }
     public void setItemDistance(double distance){distanceView.setText(String.valueOf((Math.round(distance)/1000.0))+ "km");}

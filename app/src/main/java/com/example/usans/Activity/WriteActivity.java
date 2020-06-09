@@ -76,7 +76,7 @@ public class WriteActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.wa_add:{
-                /*Log.i("추가", "글쓰기 추가");
+                Log.i("추가", "글쓰기 추가");
 //                contentValues.put("authorname", facilityList.getUser().getName());
                 contentValues.put("title", waTitle.getText().toString());
                 contentValues.put("board", getIntent().getIntExtra("boardNumber", 0));
@@ -86,8 +86,8 @@ public class WriteActivity extends AppCompatActivity {
                 networkTask.execute();
 
                 Intent intent = new Intent();
-                setResult(22, null);*/
-                new ImageUploadTask().execute(AppHelper.Write, imagePath);
+                setResult(22, null);
+                //new ImageUploadTask().execute(AppHelper.Write, imagePath);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -120,7 +120,8 @@ public class WriteActivity extends AppCompatActivity {
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageURI(mImageCaptureUri);
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(mImageCaptureUri, filePathColumn, null, null, null);
+                Cursor cursor = getContentResolver().query(mImageCaptureUri, filePathColumn,
+                        null, null, null);
 
                 if (cursor != null) {
                     cursor.moveToFirst();
@@ -130,14 +131,22 @@ public class WriteActivity extends AppCompatActivity {
             }
         }
     }
-
     public class NetworkTask extends AsyncTask<Void, Void, String> {
         private String url;
         private ContentValues values;
+        ProgressDialog progressDialog; // API 26에서 deprecated
 
         public NetworkTask(String url, ContentValues values) {
             this.url = url;
             this.values = values;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(WriteActivity.this);
+            progressDialog.setMessage("게시글 업로드중....");
+            progressDialog.show();
         }
 
         @Override
@@ -151,6 +160,10 @@ public class WriteActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (progressDialog != null)
+                progressDialog.dismiss();
+
+            finish();
         }
     }
 
@@ -161,13 +174,11 @@ public class WriteActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(WriteActivity.this);
-            progressDialog.setMessage("게시글 업로드중....");
+            progressDialog.setMessage("이미지 업로드");
             progressDialog.show();
         }
-
         @Override
         protected Boolean doInBackground(String... params) {
-
             try {
                 JSONObject jsonObject = JSONParser.uploadImage(params[0],params[1],facilityList);
                 if (jsonObject != null){
@@ -180,7 +191,6 @@ public class WriteActivity extends AppCompatActivity {
             }
             return false;
         }
-
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);

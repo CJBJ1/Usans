@@ -162,12 +162,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void moveToBoard(int boardNumber,int goToComment, int author) {
         Intent intent = new Intent(this, BoardActivity.class);
-        if (author != 0) intent.putExtra("author", author);
+        if (author != 0) {
+            intent.putExtra("author", author);
+            intent.putExtra("boardNumber", boardNumber);
+            intent.putExtra("goToComment", goToComment);
+            startActivityForResult(intent,10003);
+        }
         else {
             intent.putExtra("boardNumber", boardNumber);
             intent.putExtra("goToComment", goToComment);
+            startActivityForResult(intent,10002);
         }
-        startActivityForResult(intent,10002);
     }
 
     public void moveToAddSans(TMapPoint centerPoint) {
@@ -226,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 regLayout.setBackgroundColor(Color.WHITE);
                 mypageLayout.setBackgroundColor(Color.WHITE);
                 heartLayout.setBackgroundColor(Color.WHITE);
+                getSupportActionBar().setTitle("usans");
                 break;
             case 1:
                 homeLayout.setBackgroundColor(Color.WHITE);
@@ -233,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 regLayout.setBackgroundColor(Color.WHITE);
                 mypageLayout.setBackgroundColor(Color.WHITE);
                 heartLayout.setBackgroundColor(Color.WHITE);
+                getSupportActionBar().setTitle("usans");
                 break;
             case 2:
                 homeLayout.setBackgroundColor(Color.WHITE);
@@ -240,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 regLayout.setBackgroundColor(Color.LTGRAY);
                 mypageLayout.setBackgroundColor(Color.WHITE);
                 heartLayout.setBackgroundColor(Color.WHITE);
+                getSupportActionBar().setTitle("게시판");
                 break;
             case 3:
                 homeLayout.setBackgroundColor(Color.WHITE);
@@ -247,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 regLayout.setBackgroundColor(Color.WHITE);
                 mypageLayout.setBackgroundColor(Color.LTGRAY);
                 heartLayout.setBackgroundColor(Color.WHITE);
+                getSupportActionBar().setTitle("마이페이지");
                 break;
             case 4:
                 homeLayout.setBackgroundColor(Color.WHITE);
@@ -541,7 +550,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
-        else if (requestCode ==10002){ // 게시판
+        else if (requestCode ==10002 ){ // 게시판
             if(resultCode == 10002 || resultCode == 10003) {
                 setBackground(3);
                 setFrag(3);
@@ -603,7 +612,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 facility.setDistance(homeFragment.getDistance(userLocation,
                         new LatLng(Double.parseDouble(jsonObject.getString("lat")),
                                 Double.parseDouble(jsonObject.getString("lon")))));
-                if(!jsonObject.getString("info").equals("Default_info") &&jsonObject.getString("info").equals("")){
+                if(!jsonObject.getString("info").equals("Default_info") && !jsonObject.getString("info").equals("")){
                     facility.setMachines(jsonObject.getString("info"));
                 }
 

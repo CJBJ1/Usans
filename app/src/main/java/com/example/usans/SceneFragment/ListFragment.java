@@ -70,6 +70,10 @@ public class ListFragment extends Fragment {
 
             Collections.sort(sortedList, comparator);
 
+        //adapter.addItem(new Facility(sortedList.get(0)));
+        //adapter.addItem(new Facility(sortedList.get(1)));
+        //adapter.addItem(new Facility(sortedList.get(2)));
+        //adapter.addItem(new Facility(sortedList.get(3)));
 
         sansListView.setAdapter(adapter);
         sansListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -51,7 +51,6 @@ public class RegFragment extends Fragment {
                 showBoard(5);
             }
         });
-
         return view;
     }
 

@@ -35,10 +35,8 @@
         <Button
             android:id="@+id/routine_start"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="10dp"
-            android:text="시작"
             android:background="@drawable/green_corner"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

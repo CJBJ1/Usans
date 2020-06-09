@@ -24,12 +24,21 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
+        int boardNumber = getIntent().getIntExtra("boardNumber", 0);
+        if(boardNumber==3)
+            getSupportActionBar().setTitle("HOT 게시판");
+        else if(boardNumber==4)
+        getSupportActionBar().setTitle("BEST 게시판");
+        else if(boardNumber==2)
+        getSupportActionBar().setTitle("자유 게시판");
+        else if(boardNumber==5)
+        getSupportActionBar().setTitle("추천 게시판");
         int userId = getIntent().getIntExtra("author", 0);
         if (userId != 0)
             boardFragment = new BoardFragment(userId);
         else {
             goToComment = getIntent().getIntExtra("goToComment", 0);
-            boardFragment = new BoardFragment(getIntent().getIntExtra("boardNumber", 0), goToComment);
+            boardFragment = new BoardFragment(boardNumber, goToComment);
         }
         getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
     }

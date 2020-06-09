@@ -180,8 +180,10 @@ public class AddSansAcitivity extends AppCompatActivity {
             contentValues.put("lat", centerPoint.getLatitude());
             contentValues.put("lon", centerPoint.getLongitude());
             contentValues.put("rating", sansRatingBar.getRating());
+            contentValues.put("info",sansMachines.getText().toString());
             String sansuzang = "http://3.34.18.171.nip.io:8000/ssz/write/?name="+sansName.getText().toString()+"&address="+sansAddress.getText().toString()+
-                    "&lat="+centerPoint.getLatitude()+"&lon="+centerPoint.getLongitude() +"&info="+sansAddMachine.getText();
+                    "&lat="+centerPoint.getLatitude()+"&lon="+centerPoint.getLongitude() +"&info="+ sansMachines.getText().toString();
+            Log.d("머신",sansMachines.getText().toString());
             NetworkTask networkTask = new NetworkTask(sansuzang, contentValues);
             networkTask.execute();
 
@@ -199,11 +201,13 @@ public class AddSansAcitivity extends AppCompatActivity {
     public class NetworkTask extends AsyncTask<Void, Void, String> {
         private String url;
         private ContentValues values;
+        ProgressDialog progressDialog; // API 26에서 deprecated
 
         public NetworkTask(String url, ContentValues values) {
             this.url = url;
             this.values = values;
         }
+
 
         @Override
         protected String doInBackground(Void... params) {
@@ -214,6 +218,7 @@ public class AddSansAcitivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
         }
     }
 

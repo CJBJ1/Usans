@@ -72,7 +72,6 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
         userName2.setText("이메일");
         userImage = (ImageView)view.findViewById(R.id.user_image);
         facilityList = (FacilityList) getActivity().getApplication();
-
         validateServerClientID();
         //OAuth serverClientId
         updateUI();
@@ -93,7 +92,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 public void onClick(View v) {
                     MainActivity main = (MainActivity) getActivity();
 //                    System.out.println("id 확인 : " + facilityList.getUser().getId());
-                    main.moveToBoard(0, 0, 11);
+                    main.moveToBoard(0, 0, Integer.parseInt(facilityList.getUser().getId()));
                 }
             });
 //        }

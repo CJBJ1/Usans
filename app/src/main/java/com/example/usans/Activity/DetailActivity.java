@@ -78,6 +78,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().setTitle("상세정보");
         String url = "http://3.34.18.171.nip.io:8000/api/Review";
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
