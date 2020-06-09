@@ -87,16 +87,16 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
         Button my_title_button = view.findViewById(R.id.my_title_button);
-        if (facilityList.getUser() != null) {
+//        if (facilityList.getUser() != null) {
             my_title_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MainActivity main = (MainActivity) getActivity();
-                    System.out.println("id 확인 : " + facilityList.getUser().getId());
-                    main.moveToBoard(0, 0, Integer.parseInt(facilityList.getUser().getId()));
+//                    System.out.println("id 확인 : " + facilityList.getUser().getId());
+                    main.moveToBoard(0, 0, 11);
                 }
             });
-        }
+//        }
 
         return view;
     }
