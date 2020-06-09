@@ -80,8 +80,13 @@ public class BoardDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (facilityList.getUser() != null) {
-                    String url = "http://3.34.18.171:8000/reply/?post=" + titleId + "&user=" + facilityList.getUser().getId() + "&text=" + contentEditText.getText().toString();
-                    CommentNetworkTask commentNetworkTask = new CommentNetworkTask(url, null);
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("post",titleId);
+                    contentValues.put("user", facilityList.getUser().getId());
+                    contentValues.put("text", contentEditText.getText().toString());
+                    String url = "http://3.34.18.171:8000/reply/";
+                    CommentNetworkTask commentNetworkTask = new CommentNetworkTask(url, contentValues);
                     commentNetworkTask.execute();
                     contentEditText.setText("");
 

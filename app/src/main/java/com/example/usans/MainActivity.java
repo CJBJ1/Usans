@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +48,7 @@ import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
+import com.skt.Tmap.TMapGpsManager;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.json.JSONArray;
@@ -214,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 
     public void setBackground(int n) {
         switch (n) {
