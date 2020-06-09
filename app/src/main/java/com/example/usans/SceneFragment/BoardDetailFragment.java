@@ -178,13 +178,13 @@ public class BoardDetailFragment extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONArray jsArr = jsonObject.getJSONArray("reply");
-                int index = jsArr.length() - 1;
+                int index = 0;
                 adapter = new TitleCommentAdapter();
 
-                while (index != -1) {
+                while (index != jsArr.length()) {
                     JSONObject titlejson = jsArr.getJSONObject(index);
-                    adapter.addItem(new TitleItem(titlejson.getString("username"), titlejson.getString("text"), titlejson.getString("time")));
-                    index--;
+                    adapter.addItem(new TitleItem(titlejson.getString("username"), titlejson.getString("text"), titlejson.getString("time").substring(0,19)));
+                    index++;
                 }
 
                 listView.setAdapter(adapter);
