@@ -1,13 +1,18 @@
 package com.example.usans.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,9 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.usans.Data.FacilityList;
 import com.example.usans.GpsTracker;
+import com.example.usans.JSONParser;
+import com.example.usans.MainActivity;
 import com.example.usans.R;
 import com.example.usans.RequestHttpURLConnection;
 import com.skt.Tmap.TMapPoint;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -44,6 +56,7 @@ public class AddSansAcitivity extends AppCompatActivity {
 
     private FacilityList facilityList;
     private TMapPoint centerPoint;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +85,13 @@ public class AddSansAcitivity extends AppCompatActivity {
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doTakeAlbumAction();
+                getGallery();
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doTakeAlbumAction();
+                getGallery();
             }
         });
         sansAddMachineButton.setOnClickListener(new View.OnClickListener() {
@@ -92,15 +105,20 @@ public class AddSansAcitivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save();
+                String ImageUploadURL = "http://192.168.0.100/upload/upload.php";
+                new ImageUploadTask().execute(ImageUploadURL, imagePath);
             }
         });
     }
 
-    public void doTakeAlbumAction() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, PICK_FROM_ALBUM);
+    private void getGallery() {
+        // File System.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_PICK);
+
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Image");
+        startActivityForResult(chooserIntent, PICK_FROM_ALBUM);
     }
 
     @Override
@@ -114,6 +132,14 @@ public class AddSansAcitivity extends AppCompatActivity {
                 addImageButton.setVisibility(View.INVISIBLE);
                 mImageCaptureUri = data.getData();
                 imageView.setImageURI(mImageCaptureUri);
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(mImageCaptureUri, filePathColumn, null, null, null);
+
+                if (cursor != null) {
+                    cursor.moveToFirst();
+                    imagePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
+
+                }
             }
         }
     }
@@ -188,6 +214,54 @@ public class AddSansAcitivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+        }
+    }
+
+    private  class ImageUploadTask extends AsyncTask<String, Integer, Boolean> {
+        ProgressDialog progressDialog; // API 26에서 deprecated
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(AddSansAcitivity.this);
+            progressDialog.setMessage("이미지 업로드중....");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            try {
+                JSONObject jsonObject = JSONParser.uploadImage(params[0],params[1],facilityList);
+                if (jsonObject != null){
+                    return jsonObject.getString("result").equals("success");
+                }
+            } catch (JSONException e) {
+                Log.i("TAG", "Error : " + e.getLocalizedMessage());
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (progressDialog != null)
+                progressDialog.dismiss();
+
+            if (aBoolean){
+                Toast.makeText(getApplicationContext(), "파일 업로드 성공", Toast.LENGTH_LONG).show();
+            }  else{
+                Toast.makeText(getApplicationContext(), "파일 업로드 실패", Toast.LENGTH_LONG).show();
+            }
+
+            if(mImageCaptureUri != null){
+                File file = new File(mImageCaptureUri.getPath());
+                if(file.exists()) {
+                    file.delete();
+                }
+                mImageCaptureUri = null;
+            }
+            imagePath = "";
         }
     }
 

@@ -35,7 +35,6 @@ public class RoutineDetailFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_routine_detail, container, false);
 
         HowToMachine howToMachine = new HowToMachine();
-        howToMachine.setPullUp();
         TextView categoryView = view.findViewById(R.id.category_view);
         listView = view.findViewById(R.id.listView);
         adapter = new RoutineDetailAdapter();
@@ -107,6 +106,9 @@ public class RoutineDetailFragment extends Fragment {
                 howToMachine.setArmCurl();
                 adapter.addItem(new RoutineDetailItem(i,list.get(i),howToMachine.getThumbnail1(),howToMachine.getTitle1(),howToMachine.getUrl1(),
                         howToMachine.getThumbnail2(),howToMachine.getTitle2(),howToMachine.getUrl2()));
+            }
+            else{
+
             }
 
         }

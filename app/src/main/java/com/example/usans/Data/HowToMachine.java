@@ -1,12 +1,12 @@
 package com.example.usans.Data;
 
 public class HowToMachine {
-    private String title1;
-    private String title2;
-    private String thumbnail1;
-    private String thumbnail2;
-    private String url1;
-    private String url2;
+    private String title1 = "";
+    private String title2 = "";
+    private String thumbnail1 = "http://i.ytimg.com/vi/xRbPAVnqtcs123/0.jpg";
+    private String thumbnail2 = "http://i.ytimg.com/vi/xRbPAVnqtcs123/0.jpg";
+    private String url1= "";
+    private String url2= "";
 
     public void setPullUp(){
         title1 = "턱걸이(풀업) 정말 간단합니다. 이대로 한번만 따라해보세요";
