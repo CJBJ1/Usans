@@ -157,10 +157,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    public void moveToBoard(int boardNumber,int goToComment) {
+    public void moveToBoard(int boardNumber,int goToComment, int author) {
         Intent intent = new Intent(this, BoardActivity.class);
-        intent.putExtra("boardNumber", boardNumber);
-        intent.putExtra("goToComment",goToComment);
+        if (author != 0) intent.putExtra("author", author);
+        else {
+            intent.putExtra("boardNumber", boardNumber);
+            intent.putExtra("goToComment", goToComment);
+        }
         startActivityForResult(intent,10002);
     }
 

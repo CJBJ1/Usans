@@ -24,8 +24,13 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        goToComment = getIntent().getIntExtra("goToComment",0);
-        boardFragment = new BoardFragment(getIntent().getIntExtra("boardNumber", 0),goToComment);
+        int userId = getIntent().getIntExtra("author", 0);
+        if (userId != 0)
+            boardFragment = new BoardFragment(userId);
+        else {
+            goToComment = getIntent().getIntExtra("goToComment", 0);
+            boardFragment = new BoardFragment(getIntent().getIntExtra("boardNumber", 0), goToComment);
+        }
         getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
     }
 

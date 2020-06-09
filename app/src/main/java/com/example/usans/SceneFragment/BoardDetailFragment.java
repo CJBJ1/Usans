@@ -80,6 +80,10 @@ public class BoardDetailFragment extends Fragment {
                     CommentNetworkTask commentNetworkTask = new CommentNetworkTask(url, null);
                     commentNetworkTask.execute();
                     contentEditText.setText("");
+
+                    String url2 = "http://3.34.18.171:8000/arti/read/?id=";
+                    NetworkTask networkTask = new NetworkTask(url2+titleId, null);
+                    networkTask.execute();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setTitle("로그인이 필요합니다.");
@@ -88,7 +92,7 @@ public class BoardDetailFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent();
                             facilityList.setGoToBoardComment(boardNumber);
-                            facilityList.setGoToTitleItem(new TitleItem(titleId,userId,passTime,title,contents));
+                            facilityList.setGoToTitleItem(new TitleItem(titleId,userId,passTime,title,contents, boardNumber));
                             getActivity().setResult(10003,intent);
                             getActivity().finish();
                         }
