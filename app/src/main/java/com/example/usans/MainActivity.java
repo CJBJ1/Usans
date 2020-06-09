@@ -536,6 +536,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setBackground(3);
                 setFrag(3);
             }
+            else{
+                setBackground(2);
+                setFrag(2);
+                setBarMode(2);
+                invalidateOptionsMenu();
+            }
         }
     }
 

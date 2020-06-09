@@ -12,4 +12,5 @@ public class AppHelper {
     public static String Routine = "http://3.34.18.171:8000/api/Routine/";
     public static String Reply = "http://3.34.18.171:8000/reply/";
     public static String BoardWrite = "http://3.34.18.171:8000/arti/write/";
+    public static String Test = "http://3.34.18.171.nip.io:8000/ssz/add/?loc=10015";
 }

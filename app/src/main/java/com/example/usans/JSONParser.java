@@ -29,12 +29,12 @@ public class JSONParser {
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("image", filename, RequestBody.create(MEDIA_TYPE_PNG, sourceFile))
-                    .addFormDataPart("result", "photo_image")
-                    .addFormDataPart("authorname", facilityList.getUser().getName())
-                    .addFormDataPart("title", "test")
-                    .addFormDataPart("board", "2")
-                    .addFormDataPart("author", facilityList.getUser().getId())
-                    .addFormDataPart("text", "이미지")
+                    //.addFormDataPart("result", "photo_image")
+                    //.addFormDataPart("authorname", facilityList.getUser().getName())
+                    //.addFormDataPart("title", "test")
+                    //.addFormDataPart("board", "2")
+                    //.addFormDataPart("author", facilityList.getUser().getId())
+                    //.addFormDataPart("text", "이미지")
                     .build();
 
             Request request = new Request.Builder()

@@ -109,7 +109,7 @@ public class MountainPathDrawer {
                     loadGpxData(xmlPullParser, in);
                 }
                 else{
-                    loadGpxData2(xmlPullParser,in);
+                    //loadGpxData2(xmlPullParser,in);
                 }
             } catch (IOException | XmlPullParserException e) {
                 e.printStackTrace();

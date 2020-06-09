@@ -87,7 +87,7 @@ public class WriteActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 setResult(22, null);*/
-                new ImageUploadTask().execute(AppHelper.Write, imagePath);
+                new ImageUploadTask().execute(AppHelper.Test, imagePath);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -171,11 +171,10 @@ public class WriteActivity extends AppCompatActivity {
             try {
                 JSONObject jsonObject = JSONParser.uploadImage(params[0],params[1],facilityList);
                 if (jsonObject != null){
-                    return true;
-                    //return jsonObject.getString("result").equals("success");
+                    return jsonObject.getString("result").equals("success");
                 }
-           // } catch (JSONException e) {
-             //   Log.i("TAG", "Error : " + e.getLocalizedMessage());
+            } catch (JSONException e) {
+               Log.i("TAG", "Error : " + e.getLocalizedMessage());
             } catch (Exception e) {
                 e.printStackTrace();
             }

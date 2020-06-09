@@ -138,7 +138,7 @@ public class MarkerOverlay extends TMapMarkerItem2 {
                 transaction.addToBackStack(null);
             }
             else{
-               fm.popBackStack();
+                fm.popBackStack();
                 Facility facility = facilityList.getMountainList().get(Integer.parseInt(getID())-90000);
                 tMapView.setCenterPoint(126.952264 , 37.503149,true);
                 MainActivity mainActivity = facilityList.getMainActivity();
