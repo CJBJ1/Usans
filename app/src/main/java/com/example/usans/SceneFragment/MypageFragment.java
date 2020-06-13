@@ -113,7 +113,7 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 updateUI();
                 userName.setText("이름");
                 userName2.setText("이메일");
-                userImage.setImageResource(R.mipmap.ic_launcher);
+                userImage.setImageResource(R.drawable.mainic);
                 facilityList.setUser(null);
             }
         });

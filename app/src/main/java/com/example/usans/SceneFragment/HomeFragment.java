@@ -110,6 +110,7 @@ public class HomeFragment extends Fragment {
         zoomLayout.setVisibility(View.VISIBLE);
 
         gpsButton = view.findViewById(R.id.gps_button);
+        gpsButton.setVisibility(View.INVISIBLE);
 
         gpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
