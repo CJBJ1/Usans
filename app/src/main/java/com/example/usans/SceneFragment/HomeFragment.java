@@ -1,12 +1,16 @@
 package com.example.usans.SceneFragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +63,7 @@ public class HomeFragment extends Fragment {
     private FacilityList facilityList;
     private JSONArray jsArr;
     private LatLng userLocation;
+    private TMapMarkerItem person;
 
     public ImageView addMarker;
     public LinearLayout zoomLayout;
@@ -72,6 +77,7 @@ public class HomeFragment extends Fragment {
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
+    @SuppressLint("MissingPermission")
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -79,6 +85,7 @@ public class HomeFragment extends Fragment {
         userLocation = new LatLng(37.503149, 126.952264);
         facilityList = (FacilityList)getActivity().getApplicationContext();
         fm = getFragmentManager();
+        final LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         LinearLayout linearLayoutTmap = (LinearLayout)view.findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(getActivity().getApplicationContext());
@@ -110,7 +117,16 @@ public class HomeFragment extends Fragment {
         zoomLayout.setVisibility(View.VISIBLE);
 
         gpsButton = view.findViewById(R.id.gps_button);
-        gpsButton.setVisibility(View.INVISIBLE);
+
+        person = new TMapMarkerItem();
+        TMapPoint tMapPoint1 = new TMapPoint(37.503149, 126.952264);
+        person.setTMapPoint( tMapPoint1 );
+        person.setID("person");
+        Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.person);
+        person.setIcon(bitmap);
+        person.setIcon(resizeBitmap(bitmap, 150));
+        person.setPosition(0.5f, 0.8f);
+        tMapView.addMarkerItem(person.getID(), person);
 
         gpsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,15 +136,59 @@ public class HomeFragment extends Fragment {
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
 
-                String address = getCurrentAddress(latitude, longitude);
+
                 Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
                 tMapView.setCenterPoint(longitude,latitude,true);
             }
         });
 
+
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
+                100, // 통지사이의 최소 시간간격 (miliSecond)
+                1, // 통지사이의 최소 변경거리 (m)
+                mLocationListener);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자
+                100, // 통지사이의 최소 시간간격 (miliSecond)
+                1, // 통지사이의 최소 변경거리 (m)
+                mLocationListener);
+
+
         facilityList.setFm(fm);
+
         return view;
     }
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+
+            Log.d("test", "onLocationChanged, location:" + location);
+            double longitude = location.getLongitude(); //경도
+            double latitude = location.getLatitude();   //위도
+
+            tMapView.removeAllMarkerItem();
+            person = new TMapMarkerItem();
+            TMapPoint tMapPoint1 = new TMapPoint(latitude, longitude);
+            person.setTMapPoint( tMapPoint1 );
+            person.setID("person");
+            Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.person);
+            person.setIcon(bitmap);
+            person.setIcon(resizeBitmap(bitmap, 150));
+            person.setPosition(0.5f, 0.8f);
+            tMapView.addMarkerItem(person.getID(), person);
+
+        }
+        public void onProviderDisabled(String provider) {
+            Log.d("test", "onProviderDisabled, provider:" + provider);
+        }
+
+        public void onProviderEnabled(String provider) {
+            Log.d("test", "onProviderEnabled, provider:" + provider);
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.d("test", "onStatusChanged, provider:" + provider + ", status:" + status + " ,Bundle:" + extras);
+        }
+    };
 
     public boolean showAddMarkerButton(){
         if (addMarker.getVisibility()==View.INVISIBLE) {
