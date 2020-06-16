@@ -183,7 +183,6 @@ public class AddSansAcitivity extends AppCompatActivity {
             contentValues.put("info",sansMachines.getText().toString());
             String sansuzang = "http://3.34.18.171.nip.io:8000/ssz/write/?name="+sansName.getText().toString()+"&address="+sansAddress.getText().toString()+
                     "&lat="+centerPoint.getLatitude()+"&lon="+centerPoint.getLongitude() +"&info="+ sansMachines.getText().toString();
-            Log.d("머신",sansMachines.getText().toString());
             NetworkTask networkTask = new NetworkTask(sansuzang, contentValues);
             networkTask.execute();
 

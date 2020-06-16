@@ -124,7 +124,6 @@ public class MarkerOverlay extends TMapMarkerItem2 {
     public boolean onSingleTapUp(PointF point, TMapView mapView) {
         if(!getID().equals("temp")) {
             if(Integer.parseInt(getID())<90000) {
-                Log.d("클릭", point.x + " " + point.y);
                 fm.popBackStack();
                 Facility facility;
 

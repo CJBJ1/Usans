@@ -487,7 +487,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-            Log.e("시발", "클릭");
             tMapView = facilityList.gettMapView();
             double range = 0;
             switch (position) {

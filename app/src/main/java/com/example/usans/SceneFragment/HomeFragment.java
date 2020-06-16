@@ -161,7 +161,6 @@ public class HomeFragment extends Fragment {
     private final LocationListener mLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
 
-            Log.d("test", "onLocationChanged, location:" + location);
             double longitude = location.getLongitude(); //경도
             double latitude = location.getLatitude();   //위도
 
@@ -237,7 +236,6 @@ public class HomeFragment extends Fragment {
         tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
             @Override
             public void onCalloutMarker2ClickEvent(String s, TMapMarkerItem2 tMapMarkerItem2) {
-                Log.d("클릭","클릭");
             }
         });
         tMapView.setOnDisableScrollWithZoomLevelListener(new TMapView.OnDisableScrollWithZoomLevelCallback() {
@@ -249,7 +247,6 @@ public class HomeFragment extends Fragment {
         tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> arrayList, ArrayList<TMapPOIItem> arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                Log.d("좌표", tMapPoint.getLatitude() + " " + tMapPoint.getLongitude());
                 return false;
             }
             @Override

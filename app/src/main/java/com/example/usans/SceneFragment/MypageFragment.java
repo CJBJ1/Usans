@@ -221,7 +221,6 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject = new JSONObject(s);
                 String imageUrl = jsonObject.getString("picture");
                 Glide.with(getActivity()).load(imageUrl).into(userImage);
-                Log.d("로그인",s);
 
                 userName.setText(jsonObject.getString("name"));
                 userName2.setText(jsonObject.getString("email"));
