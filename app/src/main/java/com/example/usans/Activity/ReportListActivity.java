@@ -78,7 +78,7 @@ public class ReportListActivity extends AppCompatActivity {
                 adapter = new CommentAdapter();
                 while (index != -1) {
                     JSONObject jsonObject = jsArr.getJSONObject(index);
-                        adapter.addItem(new CommentItem(jsonObject.getString("username"), Integer.parseInt(jsonObject.getString("loc_id")), -1, jsonObject.getString("text"),  "벤치프레스"));
+                        adapter.addItem(new CommentItem(jsonObject.getString("username"), Integer.parseInt(jsonObject.getString("loc_id")), -1, jsonObject.getString("text"),  jsonObject.getString("mach")));
                     index--;
                 }
 

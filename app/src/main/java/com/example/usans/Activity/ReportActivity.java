@@ -80,11 +80,9 @@ public class ReportActivity extends AppCompatActivity {
             contentValues.put("loc", facilityID);
             contentValues.put("rating", -1);
             contentValues.put("text", contents);
-            contentValues.put("mach", "testmachine");
-            contentValues.put("stat", picked);
+            contentValues.put("mach", picked);
 
-            String url = "http://3.34.18.171.nip.io:8000/review/?user="+userID+"&loc="+facilityID+"&rating=-1&text="+contents+"&mach=testmachine"+
-                    "&stat="+picked;
+            String url = "http://3.34.18.171.nip.io:8000/review/?user="+userID+"&loc="+facilityID+"&rating=-1&text="+contents+"&mach=" + picked;
             NetworkTask networkTask = new NetworkTask(url, null);
             networkTask.execute();
             setResult(101, intent);
