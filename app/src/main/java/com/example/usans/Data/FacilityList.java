@@ -4,6 +4,7 @@ import android.app.Application;
 import com.example.usans.CustomLayout.Info;
 import com.example.usans.Data.Facility;
 import com.example.usans.MainActivity;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
@@ -16,6 +17,7 @@ public class FacilityList extends Application {
     private ArrayList<Facility> faArrayList = new ArrayList<>(100);
     private ArrayList<Facility> mountainList = new ArrayList<>(10);
     private User user;
+    private LatLng userLocation;
     private TMapPolyLine polyline;
     private TMapView tMapView;
     private FragmentManager fm;
@@ -118,5 +120,13 @@ public class FacilityList extends Application {
 
     public void setIsList(int isList) {
         this.isList = isList;
+    }
+
+    public void setUserLocation(LatLng userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public LatLng getUserLocation() {
+        return userLocation;
     }
 }

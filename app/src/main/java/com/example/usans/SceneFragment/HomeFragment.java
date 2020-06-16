@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        userLocation = new LatLng(37.503149, 126.952264);
+
         facilityList = (FacilityList)getActivity().getApplicationContext();
         fm = getFragmentManager();
         final LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -117,9 +117,10 @@ public class HomeFragment extends Fragment {
         zoomLayout.setVisibility(View.VISIBLE);
 
         gpsButton = view.findViewById(R.id.gps_button);
+        userLocation = facilityList.getUserLocation();
 
         person = new TMapMarkerItem();
-        TMapPoint tMapPoint1 = new TMapPoint(37.503149, 126.952264);
+        TMapPoint tMapPoint1 = new TMapPoint(userLocation.latitude,userLocation.longitude);
         person.setTMapPoint( tMapPoint1 );
         person.setID("person");
         Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(), R.drawable.person);
@@ -136,8 +137,7 @@ public class HomeFragment extends Fragment {
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
 
-
-                Toast.makeText(getActivity().getApplicationContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+                facilityList.setUserLocation(new LatLng(latitude,longitude));
                 tMapView.setCenterPoint(longitude,latitude,true);
             }
         });
@@ -175,6 +175,8 @@ public class HomeFragment extends Fragment {
             person.setIcon(resizeBitmap(bitmap, 150));
             person.setPosition(0.5f, 0.8f);
             tMapView.addMarkerItem(person.getID(), person);
+            userLocation = new LatLng(latitude,longitude);
+            facilityList.setUserLocation(userLocation);
 
         }
         public void onProviderDisabled(String provider) {

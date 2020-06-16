@@ -102,10 +102,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         1);
             }
         }
+        GpsTracker gpsTracker = new GpsTracker(getApplicationContext());
+        double latitude = gpsTracker.getLatitude();
+        double longitude = gpsTracker.getLongitude();
         facilityList = (FacilityList) getApplication();
         Intent intent = new Intent(this, SplashActivity.class);
         startActivity(intent);
-        userLocation = new LatLng(37.503149, 126.952264);
+        facilityList.setUserLocation(new LatLng(latitude, longitude));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
