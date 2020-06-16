@@ -140,7 +140,7 @@ public class MarkerOverlay extends TMapMarkerItem2 {
             else{
                 fm.popBackStack();
                 Facility facility = facilityList.getMountainList().get(Integer.parseInt(getID())-90000);
-                tMapView.setCenterPoint(126.952264 , 37.503149,true);
+                tMapView.setCenterPoint(facilityList.getUserLocation().longitude,facilityList.getUserLocation().latitude,true);
                 MainActivity mainActivity = facilityList.getMainActivity();
                 mainActivity.setSelectedFacility(facility);
                 mainActivity.invalidRoute(0);
