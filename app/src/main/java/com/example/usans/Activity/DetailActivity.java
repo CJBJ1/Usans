@@ -92,11 +92,16 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void moveToReport() {
-        if (facilityList.getUser()!=null) {
+        Intent intent = new Intent(this, ReportListActivity.class);
+        intent.putExtra("machines", facility.getMachines());
+        intent.putExtra("facilityID", facility.getId());
+        //intent.putExtra("userID", facilityList.getUser().getId());
+        startActivityForResult(intent, 100);
+        /*if (facilityList.getUser()!=null) {
             Intent intent = new Intent(this, ReportListActivity.class);
             intent.putExtra("machines", facility.getMachines());
             intent.putExtra("facilityID", facility.getId());
-            intent.putExtra("userID", facilityList.getUser().getId());
+            //intent.putExtra("userID", facilityList.getUser().getId());
             startActivityForResult(intent, 100);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
@@ -117,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-        }
+        }*/
     }
 
     public void moveToWrite() {

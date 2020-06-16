@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -44,7 +45,7 @@ public class ReportListActivity extends AppCompatActivity {
             }
         });
 
-        String url = "http://3.34.18.171.nip.io:8000/api/Review";
+        String url = "http://3.34.18.171.nip.io:8000/reportlist/?locid="+facilityID;
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
     }
@@ -71,14 +72,13 @@ public class ReportListActivity extends AppCompatActivity {
             super.onPostExecute(s);
             try {
                 JSONArray jsArr = new JSONArray(s);
+                Log.d("헤이헤이",jsArr + "");
                 int index = jsArr.length() - 1;
 
                 adapter = new CommentAdapter();
                 while (index != -1) {
                     JSONObject jsonObject = jsArr.getJSONObject(index);
-                    if (jsonObject.getString("loc").equals(facilityID) && Float.parseFloat(jsonObject.getString("rating")) < 0) {
-                        adapter.addItem(new CommentItem(jsonObject.getString("username"), 0, -1, jsonObject.getString("text"),  jsonObject.getString("machinestate")));
-                    }
+                        adapter.addItem(new CommentItem(jsonObject.getString("username"), Integer.parseInt(jsonObject.getString("loc_id")), -1, jsonObject.getString("text"),  "벤치프레스"));
                     index--;
                 }
 
