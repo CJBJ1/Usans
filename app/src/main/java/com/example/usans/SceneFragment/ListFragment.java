@@ -52,13 +52,21 @@ public class ListFragment extends Fragment {
     }
 
     public void updateAdapter(){
+        HomeFragment homeFragment = new HomeFragment();
         FacilityAdapter adapter = new FacilityAdapter();
+        int size = facilityList.getArrayList().size();
+        for(int i=0;i<size;i++){
+            Facility facility = facilityList.getArrayList().get(i);
+            facility.setDistance(homeFragment.getDistance(facilityList.getUserLocation(),
+                new LatLng(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng()))));
+        }
+
         sortedList = new ArrayList<>(facilityList.getArrayList());
 
-        adapter.addItem(new Facility(sortedList.get(2)));
-        adapter.addItem(new Facility(sortedList.get(1)));
-        adapter.addItem(new Facility(sortedList.get(3)));
-        adapter.addItem(new Facility(sortedList.get(0)));
+        //adapter.addItem(new Facility(sortedList.get(2)));
+        //adapter.addItem(new Facility(sortedList.get(1)));
+        //adapter.addItem(new Facility(sortedList.get(3)));
+        //adapter.addItem(new Facility(sortedList.get(0)));
 
             Comparator<Facility> comparator = new Comparator<Facility>() {
                 @Override
@@ -70,10 +78,10 @@ public class ListFragment extends Fragment {
 
             Collections.sort(sortedList, comparator);
 
-        //adapter.addItem(new Facility(sortedList.get(0)));
-        //adapter.addItem(new Facility(sortedList.get(1)));
-        //adapter.addItem(new Facility(sortedList.get(2)));
-        //adapter.addItem(new Facility(sortedList.get(3)));
+        adapter.addItem(new Facility(sortedList.get(0)));
+        adapter.addItem(new Facility(sortedList.get(1)));
+        adapter.addItem(new Facility(sortedList.get(2)));
+        adapter.addItem(new Facility(sortedList.get(3)));
 
         sansListView.setAdapter(adapter);
         sansListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

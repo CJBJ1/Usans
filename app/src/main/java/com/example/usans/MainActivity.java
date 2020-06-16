@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int goToWrite=0;
     private Menu menu;
 
-    private String[] navItems = {"500m", "1km", "2km", "5km", "10km"};
+    private String[] navItems = {"500m", "1km", "2km", "5km", "10km","전체"};
     ListView navView;
 
     @Override
@@ -476,9 +476,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void invalidRoute(int isCar) {
-        getPath(new TMapPoint(37.503149, 126.952264),
+        getPath(new TMapPoint(facilityList.getUserLocation().latitude, facilityList.getUserLocation().longitude),
                 new TMapPoint(Double.parseDouble(selectedFacility.getLat()), Double.parseDouble(selectedFacility.getLng())), isCar);
-        getPathDocument(new TMapPoint(37.503149, 126.952264),
+        getPathDocument(new TMapPoint(facilityList.getUserLocation().latitude, facilityList.getUserLocation().longitude),
                 new TMapPoint(Double.parseDouble(selectedFacility.getLat()), Double.parseDouble(selectedFacility.getLng())), isCar);
         setBarMode(1);
         invalidateOptionsMenu();
@@ -506,8 +506,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case 4:
                     range = 10000;
                     break;
+                case 5:
+                    range = 9999999;
+                    break;
             }
             for (Facility facility : facilityList.getArrayList()) {
+                facility.setDistance(homeFragment.getDistance(facilityList.getUserLocation(),
+                        new LatLng(Double.parseDouble(facility.getLat()),Double.parseDouble(facility.getLng()))));
                 if (facility.getDistance() <= range)
                     tMapView.addMarkerItem2(facility.getMarker().getID(), facility.getMarker());
                 else
@@ -612,7 +617,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 facility.setAddress(jsonObject.getString("address"));
                 facility.setLat(jsonObject.getString("lat"));
                 facility.setLng(jsonObject.getString("lon"));
-                facility.setDistance(homeFragment.getDistance(userLocation,
+                facility.setDistance(homeFragment.getDistance(facilityList.getUserLocation(),
                         new LatLng(Double.parseDouble(jsonObject.getString("lat")),
                                 Double.parseDouble(jsonObject.getString("lon")))));
                 if(!jsonObject.getString("info").equals("Default_info") && !jsonObject.getString("info").equals("")){
