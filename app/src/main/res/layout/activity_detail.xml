@@ -172,7 +172,7 @@
         android:text="지도에서 보기"
         app:layout_constraintBottom_toTopOf="@+id/sans_machines"
         app:layout_constraintStart_toEndOf="@+id/report_button"
-        app:layout_constraintTop_toBottomOf="@+id/sans_address"
-        app:layout_constraintVertical_bias="0.42000002" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.81" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
