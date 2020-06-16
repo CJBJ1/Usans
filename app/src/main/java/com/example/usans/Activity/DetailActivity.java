@@ -95,7 +95,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ReportListActivity.class);
         intent.putExtra("machines", facility.getMachines());
         intent.putExtra("facilityID", facility.getId());
-        //intent.putExtra("userID", facilityList.getUser().getId());
+        intent.putExtra("userID", facilityList.getUser().getId());
         startActivityForResult(intent, 100);
         /*if (facilityList.getUser()!=null) {
             Intent intent = new Intent(this, ReportListActivity.class);

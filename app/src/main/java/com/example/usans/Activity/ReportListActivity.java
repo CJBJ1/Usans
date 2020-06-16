@@ -41,6 +41,7 @@ public class ReportListActivity extends AppCompatActivity {
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 moveToReport();
             }
         });
