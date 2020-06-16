@@ -76,50 +76,65 @@ public class BoardDetailFragment extends Fragment {
 
         final EditText contentEditText = view.findViewById(R.id.editText);
         Button writeCommentButton = view.findViewById(R.id.save_button);
-        writeCommentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (facilityList.getUser() != null) {
 
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("post",titleId);
-                    contentValues.put("user", facilityList.getUser().getId());
-                    contentValues.put("text", contentEditText.getText().toString());
-                    String url = "http://3.34.18.171:8000/reply/";
-                    CommentNetworkTask commentNetworkTask = new CommentNetworkTask(url, contentValues);
-                    commentNetworkTask.execute();
-                    contentEditText.setText("");
+        if (boardNumber != -1) {
+            writeCommentButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (facilityList.getUser() != null) {
 
-                    String url2 = "http://3.34.18.171:8000/arti/read/?id=";
-                    NetworkTask networkTask = new NetworkTask(url2 + titleId, null);
-                    networkTask.execute();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("로그인이 필요합니다.");
-                    builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent();
-                            facilityList.setGoToBoardComment(boardNumber);
-                            facilityList.setGoToTitleItem(new TitleItem(titleId, userId, passTime, title, contents, boardNumber));
-                            getActivity().setResult(10003, intent);
-                            getActivity().finish();
-                        }
-                    });
-                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put("post", titleId);
+                        contentValues.put("user", facilityList.getUser().getId());
+                        contentValues.put("text", contentEditText.getText().toString());
+                        String url = "http://3.34.18.171:8000/reply/";
+                        CommentNetworkTask commentNetworkTask = new CommentNetworkTask(url, contentValues);
+                        commentNetworkTask.execute();
+                        contentEditText.setText("");
+
+                        String url2 = "http://3.34.18.171:8000/arti/read/?id=";
+                        NetworkTask networkTask = new NetworkTask(url2 + titleId, null);
+                        networkTask.execute();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("로그인이 필요합니다.");
+                        builder.setPositiveButton("로그인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent();
+                                facilityList.setGoToBoardComment(boardNumber);
+                                facilityList.setGoToTitleItem(new TitleItem(titleId, userId, passTime, title, contents, boardNumber));
+                                getActivity().setResult(10003, intent);
+                                getActivity().finish();
+                            }
+                        });
+                        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
                 }
-            }
-        });
+            });
 
-        String url = "http://3.34.18.171:8000/arti/read/?id=";
-        NetworkTask networkTask = new NetworkTask(url + titleId, null);
-        networkTask.execute();
+            String url = "http://3.34.18.171:8000/arti/read/?id=";
+            NetworkTask networkTask = new NetworkTask(url + titleId, null);
+            networkTask.execute();
+        } else {
+            contentEditText.setVisibility(View.INVISIBLE);
+            writeCommentButton.setVisibility(View.INVISIBLE);
+
+            String url = "http://3.34.18.171.nip.io:8000/mypage/?id=";
+            NetworkTask networkTask;
+            if (facilityList.getUser() != null)
+                networkTask = new NetworkTask(url + facilityList.getUser().getId(), null);
+            else
+                networkTask = new NetworkTask(url + 11, null);
+
+            networkTask.execute();
+        }
         return view;
     }
 
@@ -176,14 +191,19 @@ public class BoardDetailFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
-                JSONObject jsonObject = new JSONObject(s);
-                JSONArray jsArr = jsonObject.getJSONArray("reply");
+                JSONArray jsArr;
+                if (boardNumber != -1) {
+                    JSONObject jsonObject = new JSONObject(s);
+                    jsArr = jsonObject.getJSONArray("reply");
+                } else {
+                    jsArr = new JSONArray(s);
+                }
                 int index = 0;
                 adapter = new TitleCommentAdapter();
 
                 while (index != jsArr.length()) {
                     JSONObject titlejson = jsArr.getJSONObject(index);
-                    adapter.addItem(new TitleItem(titlejson.getString("username"), titlejson.getString("text"), titlejson.getString("time").substring(0,19)));
+                    adapter.addItem(new TitleItem(titlejson.getString("username"), titlejson.getString("text"), titlejson.getString("time").substring(0, 19)));
                     index++;
                 }
 

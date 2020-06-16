@@ -175,7 +175,7 @@ public class BoardFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
+            } else if (userId != -1){
                 try {
                     JSONArray jsArr = new JSONArray(s);
                     int index = jsArr.length() - 1;
@@ -193,6 +193,8 @@ public class BoardFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else {
+
             }
         }
     }

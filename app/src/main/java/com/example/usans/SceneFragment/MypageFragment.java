@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.usans.Data.Facility;
@@ -91,11 +93,24 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onClick(View v) {
                     MainActivity main = (MainActivity) getActivity();
-//                    System.out.println("id 확인 : " + facilityList.getUser().getId());
-                    main.moveToBoard(0, 0, Integer.parseInt(facilityList.getUser().getId()));
+                    try {
+                        main.moveToBoard(0, 0, Integer.parseInt(facilityList.getUser().getId()));
+                    } catch(Error e) {
+                        e.printStackTrace();
+                        main.moveToBoard(0, 0, 11);
+                    }
                 }
             });
 //        }
+
+        Button myTitleCommentButton = view.findViewById(R.id.my_title_comment_button);
+        myTitleCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity main = (MainActivity) getActivity();
+                main.moveToBoard(-1, 0, 11);
+            }
+        });
 
         return view;
     }

@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.usans.Data.TitleItem;
 import com.example.usans.R;
+import com.example.usans.SceneFragment.BoardDetailFragment;
 import com.example.usans.SceneFragment.BoardFragment;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,19 +32,26 @@ public class BoardActivity extends AppCompatActivity {
         if(boardNumber==3)
             getSupportActionBar().setTitle("HOT 게시판");
         else if(boardNumber==4)
-        getSupportActionBar().setTitle("BEST 게시판");
+            getSupportActionBar().setTitle("BEST 게시판");
         else if(boardNumber==2)
-        getSupportActionBar().setTitle("자유 게시판");
+            getSupportActionBar().setTitle("자유 게시판");
         else if(boardNumber==5)
-        getSupportActionBar().setTitle("추천 게시판");
+            getSupportActionBar().setTitle("추천 게시판");
+
         int userId = getIntent().getIntExtra("author", 0);
-        if (userId != 0)
-            boardFragment = new BoardFragment(userId);
-        else {
-            goToComment = getIntent().getIntExtra("goToComment", 0);
-            boardFragment = new BoardFragment(boardNumber, goToComment);
+
+        if (boardNumber == -1) {
+            BoardDetailFragment detail = new BoardDetailFragment(0, "","","내가 쓴 댓글","", -1);
+            getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, detail).commit();
+        } else {
+            if (userId != 0)
+                boardFragment = new BoardFragment(userId);
+            else {
+                goToComment = getIntent().getIntExtra("goToComment", 0);
+                boardFragment = new BoardFragment(boardNumber, goToComment);
+            }
+            getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
         }
-        getSupportFragmentManager().beginTransaction().add(R.id.board_frameLayout, boardFragment).commit();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
