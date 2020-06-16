@@ -91,7 +91,7 @@ public class Info extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tMapView.setCenterPoint(126.952264 , 37.503149,true);
+                tMapView.setCenterPoint(facilityList.getUserLocation().longitude , facilityList.getUserLocation().latitude,true);
                 main.onBackPressed();
                 main.setSelectedFacility(facility);
                 main.invalidRoute(0);
