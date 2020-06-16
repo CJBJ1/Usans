@@ -243,7 +243,12 @@ public class MypageFragment extends Fragment implements View.OnClickListener {
                         if(Integer.parseInt(fl.get(i).getId())==facilityList.getGoToComment()){
                             facility = fl.get(i);
                             MainActivity ma = (MainActivity) getActivity();
-                            ma.moveToDetail(facility);
+                            if(facilityList.getIsList()==0) {
+                                ma.moveToDetail(facility);
+                            }
+                            else{
+                                ma.moveToDetail2(facility);
+                            }
                             facilityList.setGoToComment(-1);
                             break;
                         }

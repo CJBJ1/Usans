@@ -33,7 +33,7 @@ public class DetailActivity extends AppCompatActivity {
     Facility facility;
     FacilityList facilityList;
 
-    Button writeCommentButton, reportButton;
+    Button writeCommentButton, reportButton, toMapButton;
     ListView commentListView;
 
     CommentAdapter adapter;
@@ -55,6 +55,15 @@ public class DetailActivity extends AppCompatActivity {
         machinesView = findViewById(R.id.sans_machines);
         ratingBar = findViewById(R.id.sans_ratingBar);
 
+        toMapButton = findViewById(R.id.map_button);
+        toMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveToMap();
+            }
+        });if(intent.getExtras().getInt("mode")==0){
+            toMapButton.setVisibility(View.INVISIBLE);
+        }
         reportButton = findViewById(R.id.report_button);
         reportButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +92,12 @@ public class DetailActivity extends AppCompatActivity {
         NetworkTask networkTask = new NetworkTask(url, null);
         networkTask.execute();
         layout();
+    }
+
+    public void moveToMap(){
+        Intent intent = new Intent();
+        setResult(10011,intent);
+        finish();
     }
 
     public void moveToImage(String[] photos) {

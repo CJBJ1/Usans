@@ -92,6 +92,8 @@ public class HomeFragment extends Fragment {
         tMapView.setSKTMapApiKey( "l7xxa365f1c5c3254bc19fd5f6b6442b15e5" );
         linearLayoutTmap.addView( tMapView );
 
+        facilityList.settMapView(tMapView);
+
         NetworkTask networkTask = new NetworkTask(AppHelper.Sansuzang, null);
         networkTask.execute();
 

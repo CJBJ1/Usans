@@ -89,7 +89,7 @@ public class ListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 facility = (Facility)adapterView.getItemAtPosition(i) ;
                 MainActivity main = (MainActivity) getActivity();
-                main.moveToDetail(facility);
+                main.moveToDetail2(facility);
                 facilityList.setIsList(1);
             }
         });

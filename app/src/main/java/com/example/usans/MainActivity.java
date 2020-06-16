@@ -34,6 +34,7 @@ import com.example.usans.Activity.ImageActivity;
 import com.example.usans.Activity.RoutineActivity;
 import com.example.usans.Adapter.RouteAdapter;
 import com.example.usans.CustomLayout.CustomActionBar;
+import com.example.usans.CustomLayout.Info;
 import com.example.usans.CustomLayout.Route;
 import com.example.usans.Data.Facility;
 import com.example.usans.Data.FacilityList;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int barMode = 0;
     private FacilityList facilityList;
     private Facility selectedFacility;
+    private Facility resultFacility;
     private DrawerLayout mDrawerLayout;
     private TMapView tMapView;
     private LatLng userLocation;
@@ -188,6 +190,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void moveToDetail(Facility facility) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("facility", facility);
+        intent.putExtra("mode",0);
+        startActivityForResult(intent,10001);
+    }
+
+    public void moveToDetail2(Facility facility) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("facility", facility);
+        intent.putExtra("mode",1);
+        resultFacility = facility;
         startActivityForResult(intent,10001);
     }
 
@@ -196,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         facilityList.setGoToComment(-1);
         facilityList.setGoToBoard(-1);
         facilityList.setGoToBoardComment(-1);
+        facilityList.setIsList(0);
         switch (v.getId()) {
             case R.id.homebutton:
                 setBackground(0);
@@ -540,6 +552,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 setBackground(3);
                 setFrag(3);
             }
+            else if (resultCode == 10011){
+                setBackground(0);
+                setFrag(0);
+                setBarMode(0);
+                invalidateOptionsMenu();
+                facilityList.setIsList(0);
+                facilityList.gettMapView().setCenterPoint(Double.parseDouble
+                        (resultFacility.getLng()),Double.parseDouble(resultFacility.getLat()),true);
+
+                facilityList.getFm().popBackStack();
+                Fragment inf = new Info(resultFacility, facilityList.gettMapView());
+                FragmentTransaction transaction = facilityList.getFm().beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_bottom, R.anim.enter_to_bottom, R.anim.enter_from_bottom, R.anim.enter_to_bottom);
+                transaction.add(R.id.info, inf);
+                transaction.commit();
+                transaction.addToBackStack(null);
+            }
             else{
                 if(facilityList.getIsList()==0) {
                     setBackground(0);
@@ -556,6 +585,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     facilityList.setIsList(0);
                 }
             }
+
+            resultFacility = null;
         }
         else if (requestCode ==10002 ){ // 게시판
             if(resultCode == 10002 || resultCode == 10003) {

@@ -162,4 +162,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/sans_image_view"
         app:layout_constraintStart_toStartOf="@+id/sans_name" />
 
+    <Button
+        android:id="@+id/map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/green_corner"
+        android:padding="5dp"
+        android:text="지도에서 보기"
+        app:layout_constraintBottom_toTopOf="@+id/sans_machines"
+        app:layout_constraintStart_toEndOf="@+id/report_button"
+        app:layout_constraintTop_toBottomOf="@+id/sans_address"
+        app:layout_constraintVertical_bias="0.42000002" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
